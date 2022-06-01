@@ -1,4 +1,9 @@
-.container-fluid {
+header.container-fluid {
+    background-color: aqua;
+    height: 50px;
+}
+
+body.container-fluid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(305px, 1fr));
     grid-gap: 1.5rem;
@@ -14,8 +19,14 @@
     border: 0;
     border-radius: 0;
     width: 300px;
-    height: 170px;
-    opacity: 90%;
+    height: 150px;
+    opacity: 85%;
+    transition-duration: .2s;
+}
+
+.card:hover {
+    opacity: 100%;
+    transition-duration: .2s;
 }
 
 .card-body {
@@ -44,11 +55,11 @@
     height: 8rem;
     overflow: hidden;
     background-color: rgb(136, 204, 9);
-    background-image: url(https://howlongtobeat.com/games/hyper_light_drifter.jpg);
+    background-image: url(https://howlongtobeat.com/games/250px-Half-Life_Blue_Shift_box.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100% auto;
-    filter: blur(5px) brightness(30%);
+    filter: blur(2px) brightness(30%);
 }
 
 .img-box::after {
@@ -59,7 +70,7 @@
     height: 8rem;
     left: 0%;
     top: -100%;
-    background-image: url(https://howlongtobeat.com/games/hyper_light_drifter.jpg);
+    background-image: url(https://howlongtobeat.com/games/250px-Half-Life_Blue_Shift_box.jpg);
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -69,4 +80,17 @@
 .img-box:hover::after {
     transform: scale(1.5);
     transition-duration: .3s;
+}
+
+.card::after {
+    display: block;
+    position: absolute;
+    top: 7.5rem;
+    left: .2rem;
+    z-index: 1;
+    content: "";
+    width: 25px;
+    height: 25px;
+    background-image: url(https://media.steampowered.com/steamcommunity/public/images/apps/130/b06fdee488b3220362c11704be4edad82abeed08.jpg);
+    background-size: contain;
 }
