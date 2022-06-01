@@ -1,0 +1,72 @@
+.container-fluid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(305px, 1fr));
+    grid-gap: 1.5rem;
+    justify-items: center;
+    padding: 0;
+    width: 90%;
+    background-color: #d9d9d9;
+}
+
+.card {
+    cursor: pointer;
+    background-color: #7e7c7c;
+    border: 0;
+    border-radius: 0;
+    width: 300px;
+    height: 170px;
+    opacity: 90%;
+}
+
+.card-body {
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    color: #d9d9d9
+}
+
+.card-body * {
+    margin: 0;
+    padding: 0;
+}
+
+.img-box {
+    overflow: hidden;
+    width: 9rem;
+    height: 8rem;
+}
+
+.img {
+    width: 8rem;
+    height: 8rem;
+    overflow: hidden;
+    background-color: rgb(136, 204, 9);
+    background-image: url(https://howlongtobeat.com/games/hyper_light_drifter.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    filter: blur(5px) brightness(30%);
+}
+
+.img-box::after {
+    display: block;
+    position: relative;
+    content: "";
+    width: 8rem;
+    height: 8rem;
+    left: 0%;
+    top: -100%;
+    background-image: url(https://howlongtobeat.com/games/hyper_light_drifter.jpg);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition-duration: .3s;
+}
+
+.img-box:hover::after {
+    transform: scale(1.5);
+    transition-duration: .3s;
+}
