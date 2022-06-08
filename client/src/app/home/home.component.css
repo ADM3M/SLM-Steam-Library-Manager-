@@ -1,0 +1,8 @@
+main.container-fluid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(305px, 1fr));
+    grid-gap: 1.5rem;
+    justify-items: center;
+    padding: 0;
+    width: 90%;
+}
