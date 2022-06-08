@@ -1,0 +1,77 @@
+.card {
+    cursor: pointer;
+    background: linear-gradient(hsla(0, 0%, 75%, 0.585), hsla(0, 0%, 87%, 0.585));
+    border: 0;
+    border-radius: 0;
+    width: 300px;
+    height: 150px;
+    opacity: 85%;
+    transition-duration: .2s;
+}
+
+.card:hover {
+    opacity: 100%;
+    /* background: linear-gradient(to right hsla(0, 0%, 75%, 0.585), hsla(0, 0%, 87%, 0.585)); */
+    background: linear-gradient(hsla(0, 100%, 50%, 0.585)rgba(215, 215, 8, 0.585));
+
+    transition-duration: .2s;
+}
+
+.card-body {
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+}
+
+.card-body * {
+    margin: 0;
+    padding: 0;
+}
+
+.img-box {
+    overflow: hidden;
+    width: 8rem;
+    height: 8rem;
+}
+
+.img-container {
+    position: absolute;
+    overflow: hidden;
+    width: 8rem;
+    height: 8rem;
+}
+
+.img {
+    position: absolute;
+    width: 8rem;
+    height: 8rem;
+    z-index: 1;
+    transition-duration: .3s;
+}
+
+.img:hover {
+    transform: scale(1.5);
+}
+
+.img-blr {
+    width: 8rem;
+    height: 8rem;
+    overflow: hidden;
+    filter: blur(2px) brightness(30%);
+}
+
+.thumbnail {
+    position: absolute;
+    top: 7.5rem;
+    left: .2rem;
+    width: 25px;
+    height: 25px;
+    z-index: 2;
+}
+
+.card div .d-flex {
+    width: 140px;
+}

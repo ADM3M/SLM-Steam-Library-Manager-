@@ -1,0 +1,32 @@
+header {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(hsl(0, 0%, 90%), hsl(0, 0%, 90%));
+}
+
+header.container-fluid {
+    height: 50px;
+}
+
+header .left button {
+    border: 0;
+    width: 150px;
+    height: 30px;
+    margin-left: 3rem;
+    background-color: white;
+}
+
+header .left input {
+    width: 250px;
+    height: 30px;
+    border: 0;
+    background-color: white;
+}
+
+header .left input:focus-visible {
+    outline: none;
+}
+
+header .right {
+    cursor: pointer;
+}
