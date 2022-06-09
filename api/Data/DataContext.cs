@@ -5,12 +5,16 @@ namespace api.Data;
 
 public class DataContext : DbContext
 {
+    public DataContext() {}
+    
     public DataContext(DbContextOptions options) : base(options) {}
 
-    public DbSet<User> Type { get; set; }
+    public DbSet<User> User { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        
     }
 }
