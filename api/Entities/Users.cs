@@ -1,6 +1,6 @@
 namespace api.Entities;
 
-public class User
+public class Users
 {
     public int Id { get; set; }
 
@@ -8,5 +8,5 @@ public class User
 
     public string PhotoUrl { get; set; }
 
-    public ICollection<GameInfo> Games { get; set; }
+    public ICollection<UserGames> Colection { get; set; }
 }
