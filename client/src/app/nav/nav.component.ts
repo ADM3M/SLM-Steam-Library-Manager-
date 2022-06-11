@@ -10,7 +10,7 @@ import { AccountService } from '../services/account.service';
 })
 export class NavComponent implements OnInit {
 
-  constructor(public accService: AccountService) { }
+  constructor(public readonly accService: AccountService) { }
 
   ngOnInit(): void {
   }

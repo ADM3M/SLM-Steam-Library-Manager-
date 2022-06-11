@@ -18,7 +18,7 @@ export class RegisterLoginModalComponent implements OnInit {
     "password": ["", [Validators.required, Validators.minLength(4), Validators.maxLength(32)]]
   })
 
-  constructor(public bsModalRef: BsModalRef, private accService: AccountService, private fb: FormBuilder) { }
+  constructor(public readonly bsModalRef: BsModalRef, private readonly accService: AccountService, private readonly fb: FormBuilder) { }
 
   ngOnInit() {
   }

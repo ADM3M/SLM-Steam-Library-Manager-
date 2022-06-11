@@ -12,7 +12,7 @@ import { AccountService } from './services/account.service';
 export class AppComponent implements OnInit {
   title = 'client';
 
-  constructor(private modalService: BsModalService, public accService: AccountService) {}
+  constructor(public readonly accService: AccountService) {}
   
   ngOnInit(): void {
     const userJson = localStorage.getItem('user');  

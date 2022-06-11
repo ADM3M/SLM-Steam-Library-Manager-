@@ -18,7 +18,7 @@ export class AccountService {
   
   private registerModal?: BsModalRef;
 
-  constructor(private http: HttpClient, private modalService: BsModalService) { }
+  constructor(private readonly http: HttpClient, private readonly modalService: BsModalService) { }
 
   public login(model: any): Observable<void> {
     return this.http.post<IUser>(this.baseUrl + "Account/login", model).pipe(
@@ -51,11 +51,11 @@ export class AccountService {
     localStorage.removeItem('user');
   }
 
-  getDecodedToken(token: any) {
+  public getDecodedToken(token: any): IUser {
     return JSON.parse(atob(token.split(".")[1]))
   }
 
-  showLoginModal() {
+  public showLoginModal(): void {
     const config: ModalOptions = {
       initialState: {
         title: 'Login',
