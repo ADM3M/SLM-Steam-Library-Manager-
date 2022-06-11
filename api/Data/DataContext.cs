@@ -9,7 +9,7 @@ public class DataContext : DbContext
     
     public DataContext(DbContextOptions options) : base(options) {}
 
-    public DbSet<Users> User { get; set; }
+    public DbSet<Users> Users { get; set; }
 
     public DbSet<Games> Games { get; set; }
 
@@ -23,7 +23,7 @@ public class DataContext : DbContext
 
         modelBuilder.Entity<UserGames>()
             .HasOne(ug => ug.User)
-            .WithMany(u => u.Colection)
+            .WithMany(u => u.Collection)
             .HasForeignKey(f => f.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 

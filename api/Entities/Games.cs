@@ -6,9 +6,9 @@ public class Games
 
     public string Name { get; set; }
 
-    public string ImageUrl { get; set; }
+    public string? ImageUrl { get; set; }
 
-    public string IconUrl { get; set; }
+    public string? IconUrl { get; set; }
 
-    public ICollection<UserGames> collection { get; set; }
+    public ICollection<UserGames>? collection { get; set; }
 }

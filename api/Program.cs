@@ -19,6 +19,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddAutoMapper(typeof(AutomapperProfile).Assembly);
 
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
