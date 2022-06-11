@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { IUser } from '../models/user';
 
 @Injectable({
@@ -12,6 +12,7 @@ export class AccountService {
   private baseUrl?: string;
   private currentUserSource = new ReplaySubject<IUser>(1);
   public currentUser$ = this.currentUserSource.asObservable();
+  public userLogged = false;
 
   constructor(private http: HttpClient) { }
 
@@ -38,11 +39,13 @@ export class AccountService {
   public setCurrentUser(user: IUser): void {
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
+    this.userLogged = true;
   }
 
   public logout(): void {
     this.currentUserSource.next(undefined);
     localStorage.removeItem('user');
+    this.userLogged = false;
   }
 
   getDecodedToken(token: any) {
