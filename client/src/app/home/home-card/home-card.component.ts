@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { IGameObj } from 'src/app/models/gameObj';
 import { GameState } from '../../enums/gameState';
-import { IGameObj } from '../models/gameObj';
 
 @Component({
   selector: 'app-home-card',
