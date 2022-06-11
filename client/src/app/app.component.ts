@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import { RegisterLoginModalComponent } from './modals/register-login-modal/register-login-modal.component';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { IUser } from './models/user';
 import { AccountService } from './services/account.service';
 
 @Component({
@@ -11,26 +11,19 @@ import { AccountService } from './services/account.service';
 })
 export class AppComponent implements OnInit {
   title = 'client';
-  private bsModalRef?: BsModalRef;
 
   constructor(private modalService: BsModalService, public accService: AccountService) {}
   
   ngOnInit(): void {
-    if (!this.accService.userLogged) {
-      this.showModal();
+    const userJson = localStorage.getItem('user');  
+    
+    if (userJson) {
+      const user: IUser = JSON.parse(userJson);
+      this.accService.setCurrentUser(user);
+      return;
     }
+    
+    this.accService.showLoginModal();
   }
-  
-  showModal() {
-    const config: ModalOptions = {
-      initialState: {
-        title: 'Login',
-      },
 
-      ignoreBackdropClick: true,
-    };
-
-    this.bsModalRef = this.modalService.show(RegisterLoginModalComponent, config);
-    this.bsModalRef.content.closeBtnName = 'Close';
-  }
 }
