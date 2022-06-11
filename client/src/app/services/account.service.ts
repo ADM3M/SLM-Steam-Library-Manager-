@@ -41,7 +41,6 @@ export class AccountService {
   }
 
   public setCurrentUser(user: IUser): void {
-    console.log(user);
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
     this.registerModal?.hide();

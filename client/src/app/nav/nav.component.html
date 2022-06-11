@@ -4,8 +4,10 @@
         <button>Фильтры</button>
     </div>
 
-    <div class="right mr-3">
-        <span>"someNick"</span>
-        <img [src]="'./assets/unknownImg.jpg'" alt="steamAv">
-    </div>
+    <ng-container *ngIf="(accService.currentUser$ | async) as user">
+        <div class="right mr-3">
+            <span>{{(user?.userName | uppercase) || "user"}}</span>
+            <img [src]="user.photoUrl || './assets/unknownImg.jpg'" alt="steamAv">
+        </div>
+    </ng-container>
 </header>
