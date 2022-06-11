@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { RegisterLoginModalComponent } from './modals/register-login-modal/register-login-modal.component';
+import { AccountService } from './services/account.service';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +13,12 @@ export class AppComponent implements OnInit {
   title = 'client';
   private bsModalRef?: BsModalRef;
 
-  constructor(private modalService: BsModalService) {}
+  constructor(private modalService: BsModalService, public accService: AccountService) {}
   
   ngOnInit(): void {
-    this.showModal();
+    if (!this.accService.userLogged) {
+      this.showModal();
+    }
   }
   
   showModal() {

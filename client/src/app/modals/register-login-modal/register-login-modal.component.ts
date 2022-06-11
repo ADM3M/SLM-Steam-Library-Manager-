@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-register-login-modal',
@@ -9,12 +10,17 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   encapsulation: ViewEncapsulation.None
 })
 export class RegisterLoginModalComponent implements OnInit {
-  title?: string;
-  closeBtnName?: string;
-  list: any[] = [];
+  public title?: string;
+  public login = "";
+  public password = "";
+
  
-  constructor(public bsModalRef: BsModalRef) {}
+  constructor(public bsModalRef: BsModalRef, accService: AccountService) {}
  
   ngOnInit() {
+  }
+
+  public logIn(model: any) {
+
   }
 }

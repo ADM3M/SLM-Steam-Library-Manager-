@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -18,11 +19,12 @@ import { NavComponent } from './nav/nav.component';
     NavComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     CommonModule,
-    FormsModule
+    ModalModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
