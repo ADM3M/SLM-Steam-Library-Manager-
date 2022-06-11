@@ -29,7 +29,7 @@ public class AccountController : BaseController
         return await _userRepository.CreateUserAsync(userBaseDataDto);
     }
 
-    [HttpGet("login")]
+    [HttpPost("login")]
     public ActionResult<UserDTO> Login([FromBody] UserBaseDataDTO userBaseDataDto)
     {
         var user = _userRepository.LoginUser(userBaseDataDto);
