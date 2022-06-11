@@ -1,0 +1,18 @@
+.modal-dialog {
+    width: 24rem;
+    user-select: none;
+}
+
+#login .form-group {
+    width: 90%;
+}
+
+#login .form-control {
+    width: 100%;
+    margin-bottom: .5rem;
+}
+
+#login span:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
