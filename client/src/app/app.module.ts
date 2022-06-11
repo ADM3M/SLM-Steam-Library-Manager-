@@ -10,13 +10,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
 import { HomeCardComponent } from './home/home-card/home-card.component';
 import { NavComponent } from './nav/nav.component';
+import { RegisterLoginModalComponent } from './modals/register-login-modal/register-login-modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     HomeCardComponent,
-    NavComponent
+    NavComponent,
+    RegisterLoginModalComponent
   ],
   imports: [
     FormsModule,

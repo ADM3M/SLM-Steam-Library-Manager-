@@ -7,11 +7,13 @@
 
 <div id="login" class="modal-body">
     <div class="form-group mx-auto">
-        <input type="text" placeholder="Username" class="form-control mx-auto">
-        <input type="password" placeholder="Password" class="form-control mx-auto">
-        <span class="float-right mt-1">don't have an account?</span>
-        <div class="buttons">
-            <button class="btn btn-primary">Sign in</button>
-        </div>
+        <form (ngSubmit)="loginUser()">
+            <input name="name" [(ngModel)]="model.username" type="text" placeholder="Username" class="form-control mx-auto">
+            <input name="pwd" type="password" [(ngModel)]="model.password" placeholder="Password" class="form-control mx-auto">
+            <span class="float-right mt-1">don't have an account?</span>
+            <div class="buttons">
+                <button class="btn btn-primary">Sign in</button>
+            </div>
+        </form>
     </div>
 </div>

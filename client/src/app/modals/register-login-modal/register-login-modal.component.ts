@@ -11,16 +11,17 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class RegisterLoginModalComponent implements OnInit {
   public title?: string;
-  public login = "";
-  public password = "";
+  public model = {
+    username : "",
+    password : ""
+  }
 
- 
-  constructor(public bsModalRef: BsModalRef, accService: AccountService) {}
+  constructor(public bsModalRef: BsModalRef, private accService: AccountService) {}
  
   ngOnInit() {
   }
 
-  public logIn(model: any) {
-
+  public loginUser(): void {
+    this.accService.login(this.model).subscribe();
   }
 }
