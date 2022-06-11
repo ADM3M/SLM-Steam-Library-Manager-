@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{loginMode ? "Sign in" : "Sign up"}}</h4>
+</div>
+
+<div id="login" class="modal-body">
+    <div class="form-group mx-auto">
+        <form [formGroup]="reactiveForm" (ngSubmit)="loginMode ? loginUser() : registerUser()">
+
+            <input type="text" [class.is-invalid]="reactiveForm.get('username')?.errors
+                    && reactiveForm.get('username')?.touched" placeholder="Username" formControlName="username"
+                class="form-control mx-auto">
+
+            <div *ngIf="reactiveForm.get('username')?.errors?.required"
+                class="invalid-feedback">Enter the username</div>
+            <div *ngIf="reactiveForm.get('username')?.errors?.minlength"
+                class="invalid-feedback">username must be at least 3 symbols length</div>
+            <div *ngIf="reactiveForm.get('username')?.errors?.maxlength"
+                class="invalid-feedback">username too long</div>
+
+            <input type="text" [class.is-invalid]="reactiveForm.get('password')?.errors
+                && reactiveForm.get('password')?.touched" placeholder="Password" formControlName="password"
+                class="form-control mx-auto">
+
+            <div *ngIf="reactiveForm.get('password')?.errors?.required"
+                class="invalid-feedback">Enter the password</div>
+            <div *ngIf="reactiveForm.get('password')?.errors?.minlength"
+                class="invalid-feedback">username must be at least 4 symbols length</div>
+            <div *ngIf="reactiveForm.get('password')?.errors?.maxlength"
+                class="invalid-feedback">password too long</div>
+
+            <div class="buttons">
+                <span (click)="loginMode = !loginMode" class="float-right mt-1">{{loginMode ? "don't have an account?" : "already have account?"}}</span>
+
+                <button [disabled]="!reactiveForm.valid" class="btn btn-primary">{{loginMode ? "Sign in" : "Sign up"}}</button>
+            </div>
+        </form>
+    </div>
+</div>
