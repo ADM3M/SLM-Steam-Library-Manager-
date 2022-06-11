@@ -30,3 +30,9 @@ header .left input:focus-visible {
 header .right {
     cursor: pointer;
 }
+
+img {
+    height: 2.5rem;
+    margin-left: .5rem;
+    border-radius: 20px;
+}
