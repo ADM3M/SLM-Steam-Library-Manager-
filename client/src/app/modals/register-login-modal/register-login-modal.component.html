@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title pull-left">{{title}}</h4>
+    <h4 class="modal-title pull-left">{{loginMode ? "Sign in" : "Sign up"}}</h4>
     <!-- <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
         <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button> -->
@@ -7,13 +7,38 @@
 
 <div id="login" class="modal-body">
     <div class="form-group mx-auto">
-        <form (ngSubmit)="loginUser()">
-            <input name="name" [(ngModel)]="model.username" type="text" placeholder="Username" class="form-control mx-auto">
-            <input name="pwd" type="password" [(ngModel)]="model.password" placeholder="Password" class="form-control mx-auto">
-            <span class="float-right mt-1">don't have an account?</span>
+        <form [formGroup]="reactiveForm" (ngSubmit)="loginMode ? loginUser() : registerUser()">
+
+            <input type="text" [class.is-invalid]="reactiveForm.get('username')?.errors
+                    && reactiveForm.get('username')?.touched" placeholder="Username" formControlName="username"
+                class="form-control mx-auto">
+
+            <div *ngIf="reactiveForm.get('username')?.errors?.required"
+                class="invalid-feedback">Enter the username</div>
+            <div *ngIf="reactiveForm.get('username')?.errors?.minlength"
+                class="invalid-feedback">username must be at least 3 symbols length</div>
+            <div *ngIf="reactiveForm.get('username')?.errors?.maxlength"
+                class="invalid-feedback">username too long</div>
+
+            <input type="text" [class.is-invalid]="reactiveForm.get('password')?.errors
+                && reactiveForm.get('password')?.touched" placeholder="Password" formControlName="password"
+                class="form-control mx-auto">
+
+            <div *ngIf="reactiveForm.get('password')?.errors?.required"
+                class="invalid-feedback">Enter the password</div>
+            <div *ngIf="reactiveForm.get('password')?.errors?.minlength"
+                class="invalid-feedback">username must be at least 4 symbols length</div>
+            <div *ngIf="reactiveForm.get('password')?.errors?.maxlength"
+                class="invalid-feedback">password too long</div>
+
             <div class="buttons">
-                <button class="btn btn-primary">Sign in</button>
+                <span (click)="loginMode = !loginMode" class="float-right mt-1">{{loginMode ? "don't have an account?" : "already have account?"}}</span>
+
+                <button [disabled]="!reactiveForm.valid" class="btn btn-primary">{{loginMode ? "Sign in" : "Sign up"}}</button>
             </div>
         </form>
     </div>
+    <!-- 
+    <p>form value: {{reactiveForm.value | json}}</p>
+    <p>form status: {{reactiveForm.valid | json}}</p> -->
 </div>

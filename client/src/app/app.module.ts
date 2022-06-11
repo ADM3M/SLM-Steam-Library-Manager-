@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,7 +19,7 @@ import { RegisterLoginModalComponent } from './modals/register-login-modal/regis
     HomeComponent,
     HomeCardComponent,
     NavComponent,
-    RegisterLoginModalComponent
+    RegisterLoginModalComponent,
   ],
   imports: [
     FormsModule,
@@ -27,6 +28,7 @@ import { RegisterLoginModalComponent } from './modals/register-login-modal/regis
     HttpClientModule,
     CommonModule,
     ModalModule.forRoot(),
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

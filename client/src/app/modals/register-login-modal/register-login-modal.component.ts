@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AccountService } from 'src/app/services/account.service';
 
@@ -10,18 +11,23 @@ import { AccountService } from 'src/app/services/account.service';
   encapsulation: ViewEncapsulation.None
 })
 export class RegisterLoginModalComponent implements OnInit {
+  public loginMode = true;
   public title?: string;
-  public model = {
-    username : "",
-    password : ""
-  }
+  public reactiveForm: FormGroup = this.fb.group({
+    "username": ["", [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
+    "password": ["", [Validators.required, Validators.minLength(4), Validators.maxLength(32)]]
+  })
 
-  constructor(public bsModalRef: BsModalRef, private accService: AccountService) {}
- 
+  constructor(public bsModalRef: BsModalRef, private accService: AccountService, private fb: FormBuilder) { }
+
   ngOnInit() {
   }
 
   public loginUser(): void {
-    this.accService.login(this.model).subscribe();
+    this.accService.login(this.reactiveForm?.value).subscribe();
+  }
+
+  public registerUser(): void {
+    this.accService.register(this.reactiveForm?.value).subscribe();
   }
 }

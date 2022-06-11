@@ -3,16 +3,28 @@
     user-select: none;
 }
 
+#login.modal-body {
+    padding-top: .2rem;
+}
+
 #login .form-group {
     width: 90%;
 }
 
 #login .form-control {
+    margin-top: .5rem;
     width: 100%;
-    margin-bottom: .5rem;
+}
+
+#login .buttons {
+    margin-top: .5rem;
 }
 
 #login span:hover {
     cursor: pointer;
     text-decoration: underline;
+}
+
+#login .invalid-feedback {
+    margin-bottom: .5rem;
 }
