@@ -4,7 +4,7 @@ public class Users
 {
     public int Id { get; set; }
 
-    public long? SteamId { get; set; }
+    public string? SteamId { get; set; }
     
     public string UserName { get; set; }
 
