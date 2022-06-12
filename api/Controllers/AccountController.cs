@@ -9,12 +9,12 @@ namespace api.Controllers;
 
 public class AccountController : BaseController
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IAccountRepository _accountRepository;
     private readonly DataContext _context;
 
-    public AccountController(ITokenService tokenService, IMapper mapper, IUserRepository userRepository, DataContext context)
+    public AccountController(ITokenService tokenService, IMapper mapper, IAccountRepository accountRepository, DataContext context)
     {
-        _userRepository = userRepository;
+        _accountRepository = accountRepository;
         _context = context;
     }
 
@@ -26,13 +26,13 @@ public class AccountController : BaseController
             return BadRequest("username is taken");
         }
         
-        return await _userRepository.CreateUserAsync(userBaseDataDto);
+        return await _accountRepository.CreateUserAsync(userBaseDataDto);
     }
 
     [HttpPost("login")]
     public ActionResult<UserDTO> Login([FromBody] UserBaseDataDTO userBaseDataDto)
     {
-        var user = _userRepository.LoginUser(userBaseDataDto);
+        var user = _accountRepository.LoginUser(userBaseDataDto);
 
         if (user is null)
         {

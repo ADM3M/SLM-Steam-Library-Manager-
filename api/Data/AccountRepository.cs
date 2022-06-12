@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.Data;
 
-public class UserRepository : IUserRepository
+public class AccountRepository : IAccountRepository
 {
     private readonly DataContext _context;
     private readonly IMapper _mapper;
     private readonly ITokenService _tokenService;
 
-    public UserRepository(DataContext context, IMapper mapper, ITokenService tokenService)
+    public AccountRepository(DataContext context, IMapper mapper, ITokenService tokenService)
     {
         _context = context;
         _mapper = mapper;

@@ -2,7 +2,7 @@ using api.DTO;
 
 namespace api.Interfaces;
 
-public interface IUserRepository
+public interface IAccountRepository
 {
     Task<UserDTO> CreateUserAsync(UserBaseDataDTO userBaseDataDto);
 
