@@ -30,9 +30,9 @@ public class AccountController : BaseController
     }
 
     [HttpPost("login")]
-    public ActionResult<UserDTO> Login([FromBody] UserBaseDataDTO userBaseDataDto)
+    public async Task<ActionResult<UserDTO>> Login([FromBody] UserBaseDataDTO userBaseDataDto)
     {
-        var user = _accountRepository.LoginUser(userBaseDataDto);
+        var user = await _accountRepository.LoginUser(userBaseDataDto);
 
         if (user is null)
         {
@@ -40,6 +40,6 @@ public class AccountController : BaseController
         }
 
         
-        return user;
+        return Ok(user);
     }
 }

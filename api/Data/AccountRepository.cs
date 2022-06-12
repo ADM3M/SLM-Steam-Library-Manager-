@@ -35,15 +35,10 @@ public class AccountRepository : IAccountRepository
         return userDto;
     }
 
-    public UserDTO LoginUser(UserBaseDataDTO userBaseDataDto)
+    public async Task<UserDTO> LoginUser(UserBaseDataDTO userBaseDataDto)
     {
-        var user = _context.Users.FirstOrDefault(u =>
-            u.UserName == userBaseDataDto.UserName && u.Password == userBaseDataDto.Password);
-
-        if (user is null)
-        {
-            return null;
-        }
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userBaseDataDto.UserName
+            && u.Password == userBaseDataDto.Password);
 
         var userDto = _mapper.Map<UserDTO>(user);
         userDto.Token = _tokenService.CreateToken(user);
