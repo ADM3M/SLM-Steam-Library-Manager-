@@ -1,4 +1,5 @@
 using api.DTO;
+using api.Entities;
 using api.Extensions;
 using api.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -20,10 +21,13 @@ public class UserController : BaseController
     [HttpGet]
     public async Task<ActionResult<List<UserGameDTO>>> GetUserGames()
     {
-        return await _userRepository.GetUserGames(User.GetUserId());
+        return Ok(await _userRepository.GetUserGames(User.GetUserId()));
     }
-    
-    // [HttpPost]
-    // public async Task AddGames(List<UserGameDTO>)
+
+    [HttpPost("addGames")]
+    public async Task<ActionResult<List<UserGames>>> AddGames(List<SteamGameDTO> steamGames)
+    {
+        return Ok(await _userRepository.AddGames(User.GetUserId(), steamGames));
+    }
 
 }

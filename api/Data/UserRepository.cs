@@ -1,7 +1,9 @@
 using api.DTO;
 using api.Entities;
+using api.Enums;
 using api.Interfaces;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Data;
@@ -10,11 +12,13 @@ public class UserRepository : IUserRepository
 {
     private readonly DataContext _context;
     private readonly IMapper _mapper;
+    private readonly IGamesRepository _gameRepository;
 
-    public UserRepository(DataContext context, IMapper mapper)
+    public UserRepository(DataContext context, IMapper mapper, IGamesRepository gameRepository)
     {
         _context = context;
         _mapper = mapper;
+        _gameRepository = gameRepository;
     }
 
     public async Task<Users> GetUserById(int userId)
@@ -25,8 +29,8 @@ public class UserRepository : IUserRepository
     public async Task<List<UserGameDTO>> GetUserGames(int userId)
     {
         return await _context.UserGames
-            .Where(ug => ug.UserId == userId)
-            .Select(game => _mapper.Map<UserGameDTO>(game))
+            .Where(u => u.UserId == userId)
+            .ProjectTo<UserGameDTO>(_mapper.ConfigurationProvider)
             .ToListAsync();
     }
 
@@ -41,16 +45,36 @@ public class UserRepository : IUserRepository
         return user;
     }
     
-
-    public async Task<UserGameDTO> AddGames(int userId, List<SteamGameDTO> list)
+    // Returns List with items that are new for bd.
+    private List<SteamGameDTO> GetNewGames(List<SteamGameDTO> gamesList)
     {
-        var user = await GetUserById(userId);
+        var noDbGames = gamesList
+            .Where(sg => !_context.Games.Any(g => g.AppId == sg.Appid))
+            .ToList();
         
-        foreach (SteamGameDTO item in list)
+        return noDbGames;
+    }
+    
+    public async Task<List<UserGameDTO>> AddGames(int userId, List<SteamGameDTO> steamGames)
+    {
+        var userEnt = await GetUserById(userId);
+
+        var noDbGames = GetNewGames(steamGames);
+        if (noDbGames.Any())
         {
-            
+            await _gameRepository.AddGamesAsync(noDbGames);
         }
 
-        throw new NotImplementedException();
+        var gamesEnt = steamGames.Select(g =>
+        {
+            Games game = _context.Games.FirstOrDefault(d => d.AppId == g.Appid);
+            return new UserGames(userEnt, game, g.Playtime_forever, GameStatus.NotSet);
+        }).ToList();
+
+        await _context.UserGames.AddRangeAsync(gamesEnt);
+
+        await _context.SaveChangesAsync();
+
+        return _mapper.Map<List<UserGameDTO>>(gamesEnt);
     }
 }

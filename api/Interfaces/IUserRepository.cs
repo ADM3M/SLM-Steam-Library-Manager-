@@ -11,5 +11,5 @@ public interface IUserRepository
 
     Task<Users> UpdateUserSteamId(int userId, UserDTO userDTO);
 
-    Task<UserGameDTO> AddGames(int userId, List<UserGameDTO> list);
+    Task<List<UserGameDTO>> AddGames(int userId, List<SteamGameDTO> steamGames);
 }
