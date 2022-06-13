@@ -19,7 +19,7 @@ public class AccountController : BaseController
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<UserDTO>> Register([FromBody]UserAuthDataDTO userAuthDataDto)
+    public async Task<ActionResult<AccountDTO>> Register([FromBody]UserAuthDataDTO userAuthDataDto)
     {
         if (await _context.Users.AnyAsync(u => u.UserName == userAuthDataDto.UserName))
         {
@@ -30,7 +30,7 @@ public class AccountController : BaseController
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<UserDTO>> Login([FromBody] UserAuthDataDTO userAuthDataDto)
+    public async Task<ActionResult<AccountDTO>> Login([FromBody] UserAuthDataDTO userAuthDataDto)
     {
         var user = await _accountRepository.LoginUser(userAuthDataDto);
 

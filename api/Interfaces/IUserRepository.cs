@@ -9,7 +9,7 @@ public interface IUserRepository
     
     Task<List<UserGameDTO>> GetUserGames(int userId);
 
-    Task<Users> UpdateUserSteamId(int userId, UserDTO userDTO);
+    Task<Users> UpdateUserSteamId(int userId, AccountDTO accountDto);
 
     Task<List<UserGameDTO>> AddGames(int userId, List<SteamGameDTO> steamGames);
 }

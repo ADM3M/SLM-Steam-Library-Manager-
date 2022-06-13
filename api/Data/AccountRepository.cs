@@ -19,7 +19,7 @@ public class AccountRepository : IAccountRepository
         _tokenService = tokenService;
     }
     
-    public async Task<UserDTO> CreateUserAsync(UserAuthDataDTO userAuthDataDto)
+    public async Task<AccountDTO> CreateUserAsync(UserAuthDataDTO userAuthDataDto)
     {
         var newUser = _mapper.Map<Users>(userAuthDataDto);
 
@@ -29,18 +29,18 @@ public class AccountRepository : IAccountRepository
 
         var token = _tokenService.CreateToken(newUser);
 
-        var userDto = _mapper.Map<UserDTO>(userAuthDataDto);
+        var userDto = _mapper.Map<AccountDTO>(userAuthDataDto);
         userDto.Token = token;
 
         return userDto;
     }
 
-    public async Task<UserDTO> LoginUser(UserAuthDataDTO userAuthDataDto)
+    public async Task<AccountDTO> LoginUser(UserAuthDataDTO userAuthDataDto)
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userAuthDataDto.UserName
             && u.Password == userAuthDataDto.Password);
 
-        var userDto = _mapper.Map<UserDTO>(user);
+        var userDto = _mapper.Map<AccountDTO>(user);
         userDto.Token = _tokenService.CreateToken(user);
 
         return userDto;

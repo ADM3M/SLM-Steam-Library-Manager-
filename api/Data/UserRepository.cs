@@ -34,12 +34,12 @@ public class UserRepository : IUserRepository
             .ToListAsync();
     }
 
-    public async Task<Users> UpdateUserSteamId(int userId, UserDTO userDto)
+    public async Task<Users> UpdateUserSteamId(int userId, AccountDTO accountDto)
     {
         var user = await GetUserById(userId);
 
-        user.SteamId = userDto.SteamId;
-        user.PhotoUrl = userDto.PhotoUrl;
+        user.SteamId = accountDto.SteamId;
+        user.PhotoUrl = accountDto.PhotoUrl;
         await _context.SaveChangesAsync();
 
         return user;

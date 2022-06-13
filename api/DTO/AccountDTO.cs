@@ -1,6 +1,6 @@
 namespace api.DTO;
 
-public class UserDTO
+public class AccountDTO
 {
     public string SteamId { get; set; }
     

@@ -8,11 +8,11 @@ public class AutomapperProfile : Profile
 {
     public AutomapperProfile()
     {
-        CreateMap<UserAuthDataDTO, UserDTO>();
+        CreateMap<UserAuthDataDTO, AccountDTO>();
         
         CreateMap<UserAuthDataDTO, Users>();
 
-        CreateMap<Users, UserDTO>();
+        CreateMap<Users, AccountDTO>();
 
         CreateMap<UserGames, UserGameDTO>()
             .ForMember(dest => dest.AppId, opt => opt.MapFrom(src => src.Game.AppId))
