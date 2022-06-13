@@ -8,9 +8,9 @@ public class AutomapperProfile : Profile
 {
     public AutomapperProfile()
     {
-        CreateMap<UserBaseDataDTO, UserDTO>();
+        CreateMap<UserAuthDataDTO, UserDTO>();
         
-        CreateMap<UserBaseDataDTO, Users>();
+        CreateMap<UserAuthDataDTO, Users>();
 
         CreateMap<Users, UserDTO>();
 

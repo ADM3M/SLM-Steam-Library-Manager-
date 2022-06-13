@@ -19,20 +19,20 @@ public class AccountController : BaseController
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<UserDTO>> Register([FromBody]UserBaseDataDTO userBaseDataDto)
+    public async Task<ActionResult<UserDTO>> Register([FromBody]UserAuthDataDTO userAuthDataDto)
     {
-        if (await _context.Users.AnyAsync(u => u.UserName == userBaseDataDto.UserName))
+        if (await _context.Users.AnyAsync(u => u.UserName == userAuthDataDto.UserName))
         {
             return BadRequest("username is taken");
         }
         
-        return await _accountRepository.CreateUserAsync(userBaseDataDto);
+        return await _accountRepository.CreateUserAsync(userAuthDataDto);
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<UserDTO>> Login([FromBody] UserBaseDataDTO userBaseDataDto)
+    public async Task<ActionResult<UserDTO>> Login([FromBody] UserAuthDataDTO userAuthDataDto)
     {
-        var user = await _accountRepository.LoginUser(userBaseDataDto);
+        var user = await _accountRepository.LoginUser(userAuthDataDto);
 
         if (user is null)
         {

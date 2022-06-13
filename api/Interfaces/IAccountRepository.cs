@@ -4,9 +4,9 @@ namespace api.Interfaces;
 
 public interface IAccountRepository
 {
-    Task<UserDTO> CreateUserAsync(UserBaseDataDTO userBaseDataDto);
+    Task<UserDTO> CreateUserAsync(UserAuthDataDTO userAuthDataDto);
 
-    Task<UserDTO> LoginUser(UserBaseDataDTO userBaseDataDto);
+    Task<UserDTO> LoginUser(UserAuthDataDTO userAuthDataDto);
 
     Task<int> DeleteUserAsync(int userId);
 }
