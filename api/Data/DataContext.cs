@@ -27,7 +27,7 @@ public class DataContext : DbContext
             .HasForeignKey(f => f.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<Games>().HasIndex(c => c.AppId);
+        modelBuilder.Entity<Games>().HasAlternateKey(key => key.AppId);
 
         modelBuilder.Entity<UserGames>()
             .HasOne(ug => ug.Game)
