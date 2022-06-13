@@ -20,5 +20,8 @@ public class AutomapperProfile : Profile
             .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Game.ImageUrl))
             .ForMember(dest => dest.IconUrl, opt => opt.MapFrom(src => src.Game.IconUrl));
 
+        CreateMap<SteamGameDTO, Games>()
+            .ForMember(dest => dest.IconUrl, opt => opt.MapFrom(src => src.Img_icon_url));
+
     }
 }

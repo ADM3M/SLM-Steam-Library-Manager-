@@ -6,10 +6,10 @@ public class UserGames
 {
     public UserGames() {}
     
-    public UserGames(int userId, int gameId, double playTime, GameStatus status)
+    public UserGames(Users user, Games game, double playTime, GameStatus status)
     {
-        UserId = userId;
-        GameId = gameId;
+        User = user;
+        Game = game;
         UserPlayTime = playTime;
         Status = status;
     }
