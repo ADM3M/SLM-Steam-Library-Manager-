@@ -30,4 +30,10 @@ public class UserController : BaseController
         return Ok(await _userRepository.AddGames(User.GetUserId(), steamGames));
     }
 
+    [HttpPost("updateSteamId")]
+    public async Task<ActionResult<Users>> UpdateSteamId(string steamId, string? photoUrl)
+    {
+        return await _userRepository.UpdateUserSteamId(User.GetUserId(), new AccountDTO{SteamId = steamId, PhotoUrl = photoUrl});
+    }
+
 }

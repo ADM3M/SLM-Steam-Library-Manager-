@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace api.Entities;
 
 public class Users
@@ -12,5 +14,6 @@ public class Users
 
     public string? PhotoUrl { get; set; }
 
+    [JsonIgnore]
     public ICollection<UserGames>? Collection { get; set; }
 }
