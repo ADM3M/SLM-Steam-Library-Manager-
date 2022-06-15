@@ -1,6 +1,7 @@
 html {
     background: linear-gradient(hsl(0, 0%, 90%), hsl(0, 0%, 100%));
     background-repeat: no-repeat;
+    background-attachment: fixed;
     height: 100vh;
 }
 

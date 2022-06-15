@@ -17,3 +17,7 @@ span.profile:hover {
     transition: .2s ease-in-out;
     color: gray;
 }
+
+.empty_space {
+    height: 2rem;
+}
