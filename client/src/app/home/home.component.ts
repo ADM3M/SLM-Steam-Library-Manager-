@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { pipe } from 'rxjs';
 import { take } from 'rxjs/operators';
