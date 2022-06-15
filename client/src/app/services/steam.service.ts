@@ -30,7 +30,11 @@ export class SteamService {
     }).pipe(map((r: any) => {
       const games: ISteamGame[] = [];
       r?.response?.games?.map((game: ISteamGame) => {
-        game.img_icon_url = `http://media.steampowered.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`;
+
+        game.img_icon_url = game.img_icon_url ?
+          `http://media.steampowered.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`
+            : "./assets/unknownIcon.png";
+
         game.playtime_forever = Math.round((game.playtime_forever / 60) * 100) / 100;
         games.push(game);
       });
