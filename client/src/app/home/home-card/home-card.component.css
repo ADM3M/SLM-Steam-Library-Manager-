@@ -6,14 +6,24 @@
     width: 300px;
     height: 150px;
     opacity: 85%;
-    transition-duration: .2s;
+    animation: cardAppear .3s ease-in-out;
+    transition: .2s;
+}
+
+@keyframes cardAppear {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .card:hover {
     opacity: 100%;
     /* background: linear-gradient(to right hsla(0, 0%, 75%, 0.585), hsla(0, 0%, 87%, 0.585)); */
     background: linear-gradient(hsla(0, 100%, 50%, 0.585)rgba(215, 215, 8, 0.585));
-
+    transform: scale(105%);
     transition-duration: .2s;
 }
 
@@ -53,7 +63,7 @@
 }
 
 .img:hover {
-    transform: scale(1.5);
+    transform: scale(1.2);
 }
 
 .img-blr {
