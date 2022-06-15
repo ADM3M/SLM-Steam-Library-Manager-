@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  baseUrl: "https://localhost:7242/api/"
+  baseUrl: "https://localhost:7242/api/",
+  steamApiKey: "C951841E15AFCA64B1BE54D43F9A15A9",
+  baseSteam: "http://api.steampowered.com/"
 };
 
 /*
