@@ -6,6 +6,7 @@
 
     <ng-container *ngIf="(accService.currentUser$ | async) as user">
         <div class="right mr-3">
+            <button class="mr-2" *ngIf="user.steamId" (click)="fetchSteamGames(user.steamId)">fetch steam games</button>
             <span>{{(user?.userName | uppercase) || "user"}}</span>
             <img [src]="user.photoUrl || './assets/unknownImg.jpg'" alt="steamAv">
         </div>
