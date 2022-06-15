@@ -34,7 +34,7 @@ export class MemberService {
   }
 
   public updateSteamUserData(steamData: ISteamUser): Observable<IUser> {
-    return this.http.post<IUser>(this.baseUrl + "user/updateSteamId", null, {
+    return this.http.put<IUser>(this.baseUrl + "user/updateSteamId", null, {
       params: {
         "steamId": steamData.steamid,
         "photoUrl": steamData.avatarmedium
@@ -44,5 +44,9 @@ export class MemberService {
 
   public addGames(steamGames: ISteamGame[]): Observable<IGameObj[]> {
     return this.http.post<IGameObj[]>(this.baseUrl + "user/addgames", steamGames);
+  }
+
+  public updateGameStatus(gameData: IGameObj): Observable<IGameObj> {
+    return this.http.put<IGameObj>(this.baseUrl + "user/updateGameStatus", gameData);
   }
 }
