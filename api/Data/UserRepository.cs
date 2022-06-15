@@ -30,6 +30,7 @@ public class UserRepository : IUserRepository
     {
         return await _context.UserGames
             .Where(u => u.UserId == userId)
+            .OrderByDescending(g => g.UserPlayTime)
             .ProjectTo<UserGameDTO>(_mapper.ConfigurationProvider)
             .ToListAsync();
     }
@@ -72,7 +73,7 @@ public class UserRepository : IUserRepository
         }).ToList();
 
         await _context.UserGames.AddRangeAsync(gamesEnt);
-
+        
         await _context.SaveChangesAsync();
 
         return _mapper.Map<List<UserGameDTO>>(gamesEnt);

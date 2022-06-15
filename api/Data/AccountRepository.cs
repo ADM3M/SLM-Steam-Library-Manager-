@@ -40,6 +40,11 @@ public class AccountRepository : IAccountRepository
         var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userAuthDataDto.UserName
             && u.Password == userAuthDataDto.Password);
 
+        if (user is null)
+        {
+            return null;
+        }
+        
         var userDto = _mapper.Map<AccountDTO>(user);
         userDto.Token = _tokenService.CreateToken(user);
 

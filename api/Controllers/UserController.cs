@@ -25,7 +25,7 @@ public class UserController : BaseController
     }
 
     [HttpPost("addGames")]
-    public async Task<ActionResult<List<UserGames>>> AddGames(List<SteamGameDTO> steamGames)
+    public async Task<ActionResult<List<UserGameDTO>>> AddGames(List<SteamGameDTO> steamGames)
     {
         return Ok(await _userRepository.AddGames(User.GetUserId(), steamGames));
     }
