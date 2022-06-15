@@ -5,7 +5,6 @@ namespace api.DTO;
 public class UserGameDTO
 {
     public int GameId { get; set; } = -1;
-
     public int AppId { get; set; }
     
     public double UserPlayTime { get; set; }
