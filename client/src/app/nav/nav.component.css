@@ -1,7 +1,7 @@
 header {
     margin: 0;
     padding: 0;
-    background: linear-gradient(hsl(0, 0%, 90%), hsl(0, 0%, 90%));
+    background: linear-gradient(hsl(0, 0%, 90%), hsl(0, 0%, 89%));
 }
 
 header.container-fluid {
