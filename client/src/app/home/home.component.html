@@ -1,9 +1,9 @@
 <main class="container-fluid mx-auto mt-5">
-    <!-- <app-home-card *ngFor="let card of cards" [gameData]="card"></app-home-card> -->
-    <app-home-card></app-home-card>
-    <app-home-card></app-home-card>
-    <app-home-card></app-home-card>
-    <app-home-card></app-home-card>
-    <app-home-card></app-home-card>
-    <app-home-card></app-home-card>
+    <ng-container *ngIf="!(accService.currentUser$ | async)?.steamId">
+        <h3 >Nothing to display. Specify your steam id in your <span class="profile">profile</span></h3>
+    </ng-container>
+    
+    <ng-container *ngIf="(memberService.games | async) as games">
+        <app-home-card *ngFor="let game of games" [gameData]="game"></app-home-card>
+    </ng-container>
 </main>
