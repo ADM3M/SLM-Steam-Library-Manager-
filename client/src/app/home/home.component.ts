@@ -56,10 +56,6 @@ export class HomeComponent implements OnInit {
         }
 
         this.memberService.addGames(gamesToAdd).subscribe((newGames) => {
-          console.log("games lst");
-          console.log(newGames.forEach(element => {
-            element.iconUrl;
-          }))
           this.memberService.userGamesSource.next(dbGames.concat(newGames));
         });
       })
