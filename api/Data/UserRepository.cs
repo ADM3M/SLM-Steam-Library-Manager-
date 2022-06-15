@@ -78,4 +78,16 @@ public class UserRepository : IUserRepository
 
         return _mapper.Map<List<UserGameDTO>>(gamesEnt);
     }
+
+    public async Task<UserGameDTO> UpdateGameStatus(int userId, UserGameDTO gameData)
+    {
+        var userGameEntry = await _context.UserGames
+            .FirstAsync(ug => ug.GameId == gameData.GameId && ug.UserId == userId);
+
+        userGameEntry.Status = gameData.Status;
+
+        await _context.SaveChangesAsync();
+
+        return gameData;
+    }
 }
