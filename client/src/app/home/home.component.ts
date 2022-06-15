@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { ISteamGame } from '../models/steamGame';
 import { AccountService } from '../services/account.service';
@@ -8,7 +8,8 @@ import { SteamService } from '../services/steam.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
 
@@ -30,21 +31,21 @@ export class HomeComponent implements OnInit {
       this.steamService.steamGames.subscribe((steamGames: ISteamGame[]) => {
         let gamesToAdd: ISteamGame[] = [];
 
-        console.log(dbGames);
-        console.log(steamGames);
-
         if (dbGames.length == 0) {
           gamesToAdd = steamGames;
         }
         else if (dbGames.length != steamGames.length) {
 
           steamGames.forEach(sg => {
+            let isNew = true;
             dbGames.forEach(dg => {
               if (dg.appId == sg.appid) {
-                gamesToAdd.push(sg);
+                isNew = false;
                 return;
               }
             });
+
+            if (isNew) gamesToAdd.push(sg);
           });
 
         }
@@ -56,7 +57,9 @@ export class HomeComponent implements OnInit {
 
         this.memberService.addGames(gamesToAdd).subscribe((newGames) => {
           console.log("games lst");
-          console.log(dbGames);
+          console.log(newGames.forEach(element => {
+            element.iconUrl;
+          }))
           this.memberService.userGamesSource.next(dbGames.concat(newGames));
         });
       })
