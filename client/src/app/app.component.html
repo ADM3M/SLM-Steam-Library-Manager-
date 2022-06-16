@@ -1,4 +1,6 @@
 <div class="wrapper" [class.blur]="!(accService.currentUser$ | async)">
+    <ngx-spinner id="spinner"></ngx-spinner>
+
     <app-nav></app-nav>
 
     <app-home></app-home>
