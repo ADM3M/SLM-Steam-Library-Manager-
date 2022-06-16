@@ -1,6 +1,5 @@
 using api.DTO;
 using api.Entities;
-using api.Enums;
 using api.Extensions;
 using api.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -41,6 +40,12 @@ public class UserController : BaseController
     public async Task<ActionResult<UserGameDTO>> UpdateGameStatus([FromBody] UserGameDTO gameData)
     {
         return await _userRepository.UpdateGameStatus(User.GetUserId(), gameData);
+    }
+
+    [HttpGet("getGamesName")]
+    public async Task<List<string>> GetGamesName()
+    {
+        return await _userRepository.GetGameNames(User.GetUserId());
     }
 
 }

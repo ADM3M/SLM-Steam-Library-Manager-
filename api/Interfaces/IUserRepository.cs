@@ -1,6 +1,5 @@
 using api.DTO;
 using api.Entities;
-using api.Enums;
 
 namespace api.Interfaces;
 
@@ -15,4 +14,6 @@ public interface IUserRepository
     Task<List<UserGameDTO>> AddGames(int userId, List<SteamGameDTO> steamGames);
 
     Task<UserGameDTO> UpdateGameStatus(int userId, UserGameDTO gameData);
+
+    Task<List<string>> GetGameNames(int userId);
 }

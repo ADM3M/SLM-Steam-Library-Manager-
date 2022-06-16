@@ -90,4 +90,12 @@ public class UserRepository : IUserRepository
 
         return gameData;
     }
+
+    public async Task<List<string>> GetGameNames(int userId)
+    {
+        return _context.UserGames
+            .Where(ug => ug.UserId == userId)
+            .Select(e => e.Game.Name)
+            .ToList();
+    }
 }
