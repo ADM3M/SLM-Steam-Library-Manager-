@@ -50,7 +50,7 @@ public class UserRepository : IUserRepository
     private List<SteamGameDTO> GetNewGames(List<SteamGameDTO> gamesList)
     {
         var noDbGames = gamesList
-            .Where(sg => !_context.Games.Any(g => g.AppId == sg.Appid))
+            .Where(sg => !_context.Games.Any(g => g.AppId == sg.AppId))
             .ToList();
         
         return noDbGames;
@@ -68,7 +68,7 @@ public class UserRepository : IUserRepository
 
         var gamesEnt = steamGames.Select(g =>
         {
-            Games game = _context.Games.FirstOrDefault(d => d.AppId == g.Appid);
+            Games game = _context.Games.FirstOrDefault(d => d.AppId == g.AppId);
             return new UserGames(userEnt, game, g.Playtime_forever, GameStatus.NotSet);
         }).ToList();
 
