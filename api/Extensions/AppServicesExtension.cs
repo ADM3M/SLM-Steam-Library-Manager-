@@ -17,8 +17,10 @@ public static class AppServicesExtension
 
         services
             .AddScoped<ITokenService, TokenService>()
+            .AddScoped<IAccountRepository, AccountRepository>()
+            .AddAutoMapper(typeof(AutomapperProfile).Assembly)
             .AddScoped<IUserRepository, UserRepository>()
-            .AddAutoMapper(typeof(AutomapperProfile).Assembly);
+            .AddScoped<IGamesRepository, GamesRepository>();
 
         return services;
     }

@@ -1,12 +1,19 @@
 using api.DTO;
+using api.Entities;
 
 namespace api.Interfaces;
 
 public interface IUserRepository
 {
-    Task<UserDTO> CreateUserAsync(UserBaseDataDTO userBaseDataDto);
+    Task<Users> GetUserById(int userId);
+    
+    Task<List<UserGameDTO>> GetUserGames(int userId);
 
-    UserDTO LoginUser(UserBaseDataDTO userBaseDataDto);
+    Task<Users> UpdateUserSteamId(int userId, AccountDTO accountDto);
 
-    Task<int> DeleteUserAsync(int userId);
+    Task<List<UserGameDTO>> AddGames(int userId, List<SteamGameDTO> steamGames);
+
+    Task<UserGameDTO> UpdateGameStatus(int userId, UserGameDTO gameData);
+
+    Task<List<string>> GetGameNames(int userId);
 }

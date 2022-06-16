@@ -6,3 +6,14 @@ main.container-fluid {
     padding: 0;
     width: 90%;
 }
+
+span.profile{
+    text-decoration: underline;
+    cursor: pointer;
+    transition: .2s;
+}
+
+span.profile:hover {
+    transition: .2s ease-in-out;
+    color: gray;
+}

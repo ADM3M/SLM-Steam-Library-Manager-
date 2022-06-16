@@ -17,7 +17,7 @@
             <div *ngIf="reactiveForm.get('username')?.errors?.maxlength"
                 class="invalid-feedback">username too long</div>
 
-            <input type="text" [class.is-invalid]="reactiveForm.get('password')?.errors
+            <input type="password" [class.is-invalid]="reactiveForm.get('password')?.errors
                 && reactiveForm.get('password')?.touched" placeholder="Password" formControlName="password"
                 class="form-control mx-auto">
 

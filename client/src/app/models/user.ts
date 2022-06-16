@@ -1,7 +1,7 @@
 export interface IUser {
     id: number;
+    steamId: string;
     userName: string;
-    steamId: number;
     token: string;
     photoUrl: string;
 }

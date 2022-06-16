@@ -9,30 +9,30 @@ namespace api.Controllers;
 
 public class AccountController : BaseController
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IAccountRepository _accountRepository;
     private readonly DataContext _context;
 
-    public AccountController(ITokenService tokenService, IMapper mapper, IUserRepository userRepository, DataContext context)
+    public AccountController(ITokenService tokenService, IMapper mapper, IAccountRepository accountRepository, DataContext context)
     {
-        _userRepository = userRepository;
+        _accountRepository = accountRepository;
         _context = context;
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<UserDTO>> Register([FromBody]UserBaseDataDTO userBaseDataDto)
+    public async Task<ActionResult<AccountDTO>> Register([FromBody]UserAuthDataDTO userAuthDataDto)
     {
-        if (await _context.Users.AnyAsync(u => u.UserName == userBaseDataDto.UserName))
+        if (await _context.Users.AnyAsync(u => u.UserName == userAuthDataDto.UserName))
         {
             return BadRequest("username is taken");
         }
         
-        return await _userRepository.CreateUserAsync(userBaseDataDto);
+        return await _accountRepository.CreateUserAsync(userAuthDataDto);
     }
 
     [HttpPost("login")]
-    public ActionResult<UserDTO> Login([FromBody] UserBaseDataDTO userBaseDataDto)
+    public async Task<ActionResult<AccountDTO>> Login([FromBody] UserAuthDataDTO userAuthDataDto)
     {
-        var user = _userRepository.LoginUser(userBaseDataDto);
+        var user = await _accountRepository.LoginUser(userAuthDataDto);
 
         if (user is null)
         {
@@ -40,6 +40,6 @@ public class AccountController : BaseController
         }
 
         
-        return user;
+        return Ok(user);
     }
 }
