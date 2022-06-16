@@ -2,7 +2,7 @@ namespace api.DTO;
 
 public class SteamGameDTO
 {
-    public int Appid { get; set; }
+    public int AppId { get; set; }
 
     public string Name { get; set; }
 
