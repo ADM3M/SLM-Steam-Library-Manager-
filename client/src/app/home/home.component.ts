@@ -26,13 +26,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  private fetchSteamGames(): void {
+  private fetchSteamGames() {
     this.memberService.games.pipe(take(1)).subscribe(dbGames => {
       this.steamService.steamGames.pipe(take(1)).subscribe((steamGames: ISteamGame[]) => {
         let gamesToAdd: ISteamGame[] = [];
-
-        console.log(dbGames);
-        console.log(steamGames);
 
         if (dbGames.length === 0) {
           gamesToAdd = steamGames;
@@ -40,12 +37,15 @@ export class HomeComponent implements OnInit {
         else if (dbGames.length !== steamGames.length) {
 
           steamGames.forEach(sg => {
+            let isNew = true;
             dbGames.forEach(dg => {
               if (dg.appId === sg.appid) {
-                gamesToAdd.push(sg);
+                isNew = false;
                 return;
               }
             });
+
+            if (isNew) gamesToAdd.push(sg);
           });
 
         }
