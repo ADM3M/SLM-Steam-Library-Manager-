@@ -27,6 +27,10 @@ export class HomeCardComponent implements OnInit {
   ngOnInit(): void {
     this.replaceMissingPicture();
 
+    this.InitializeStyles();
+  }
+
+  private InitializeStyles(): void {
     this.imgStyles = {
       'background-image': 'url(' + this.gameData.imageUrl || "./assets/unknownImg.jpg" + ')',
       'background-size': 'contain',

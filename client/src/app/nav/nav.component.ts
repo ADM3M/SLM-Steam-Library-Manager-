@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { AccountService } from '../services/account.service';
 import { SteamService } from '../services/steam.service';
 
@@ -12,8 +13,8 @@ export class NavComponent implements OnInit {
 
   constructor(public readonly accService: AccountService, private readonly steamService: SteamService) { }
 
-  public fetchSteamGames(steamId: string) {
-    this.steamService.getUserSteamGames(steamId).subscribe(games => games);
+  public fetchSteamGames(steamId: string): void {
+    this.steamService.getUserSteamGames(steamId).pipe(take(1)).subscribe(games => games);
   }
   
   ngOnInit(): void {

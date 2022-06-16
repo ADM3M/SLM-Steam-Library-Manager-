@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { pipe } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ISteamGame } from '../models/steamGame';
 import { AccountService } from '../services/account.service';
@@ -14,33 +15,33 @@ export class HomeComponent implements OnInit {
 
   constructor(public readonly accService: AccountService, public readonly steamService: SteamService, public readonly memberService: MemberService) { }
 
-  private getGamesFromBd() {
-    this.memberService.getUserDbGames().subscribe();
+  private getGamesFromBd(): void {
+    this.memberService.getUserDbGames().pipe(take(1)).subscribe();
   }
 
   private onUserLogin(): void {
-    this.accService.currentUser$.pipe(take(1)).subscribe((acc) => {
-      let dbGames = this.getGamesFromBd();
+    this.accService.currentUser$.pipe(take(1)).subscribe(() => {
+      this.getGamesFromBd();
       this.fetchSteamGames();
     });
   }
 
-  private fetchSteamGames() {
+  private fetchSteamGames(): void {
     this.memberService.games.pipe(take(1)).subscribe(dbGames => {
-      this.steamService.steamGames.subscribe((steamGames: ISteamGame[]) => {
+      this.steamService.steamGames.pipe(take(1)).subscribe((steamGames: ISteamGame[]) => {
         let gamesToAdd: ISteamGame[] = [];
 
         console.log(dbGames);
         console.log(steamGames);
 
-        if (dbGames.length == 0) {
+        if (dbGames.length === 0) {
           gamesToAdd = steamGames;
         }
-        else if (dbGames.length != steamGames.length) {
+        else if (dbGames.length !== steamGames.length) {
 
           steamGames.forEach(sg => {
             dbGames.forEach(dg => {
-              if (dg.appId == sg.appid) {
+              if (dg.appId === sg.appid) {
                 gamesToAdd.push(sg);
                 return;
               }
@@ -54,9 +55,7 @@ export class HomeComponent implements OnInit {
           return;
         }
 
-        this.memberService.addGames(gamesToAdd).subscribe((newGames) => {
-          console.log("games lst");
-          console.log(dbGames);
+        this.memberService.addGames(gamesToAdd).pipe(take(1)).subscribe((newGames) => {
           this.memberService.userGamesSource.next(dbGames.concat(newGames));
         });
       })
