@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { pipe } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ISteamGame } from '../models/steamGame';
@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  private fetchSteamGames() {
+  private fetchSteamGames(): void {
     this.memberService.games.pipe(take(1)).subscribe(dbGames => {
       this.steamService.steamGames.pipe(take(1)).subscribe((steamGames: ISteamGame[]) => {
         let gamesToAdd: ISteamGame[] = [];
@@ -68,3 +68,4 @@ export class HomeComponent implements OnInit {
   }
 
 }
+

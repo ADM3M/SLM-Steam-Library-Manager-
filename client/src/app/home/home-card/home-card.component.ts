@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IGameObj } from 'src/app/models/gameObj';
 import { MemberService } from 'src/app/services/member.service';
 import { GameState } from '../../enums/gameState';
