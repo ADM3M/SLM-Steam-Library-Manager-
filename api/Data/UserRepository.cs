@@ -91,11 +91,11 @@ public class UserRepository : IUserRepository
         return gameData;
     }
 
-    public async Task<List<string>> GetGameNames(int userId)
+    public async Task<List<string>> GetGamesName(int userId)
     {
-        return _context.UserGames
+        return await _context.UserGames
             .Where(ug => ug.UserId == userId)
             .Select(e => e.Game.Name)
-            .ToList();
+            .ToListAsync();
     }
 }
