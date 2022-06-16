@@ -1,7 +1,10 @@
 header {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
     margin: 0;
     padding: 0;
-    background: linear-gradient(hsl(0, 0%, 90%), hsl(0, 0%, 89%));
+    background: linear-gradient(rgba(230, 230, 230, 0.8), rgb(227, 227, 227, 0.8));
 }
 
 header.container-fluid {
@@ -29,6 +32,18 @@ header .left input:focus-visible {
 
 header .right {
     cursor: pointer;
+}
+
+header .right button {
+    background: transparent;
+    transition: .3s;
+    border: .1rem solid rgba(20, 20, 20, 0.8);
+}
+
+header .right button:hover {
+    transition: .3s;
+    background-color: rgba(20, 20, 20, 0.8);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 img {
