@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { take } from 'rxjs/operators';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { forkJoin, Observable, of, Subject, zip } from 'rxjs';
+import { delay, map, take } from 'rxjs/operators';
 import { AccountService } from '../services/account.service';
+import { MemberService } from '../services/member.service';
 import { SteamService } from '../services/steam.service';
 
 @Component({
@@ -10,14 +12,53 @@ import { SteamService } from '../services/steam.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavComponent implements OnInit {
+  public isFetchNeeded = false;
 
-  constructor(public readonly accService: AccountService, private readonly steamService: SteamService) { }
+  constructor(public readonly accService: AccountService,
+    private readonly steamService: SteamService,
+    public readonly memberService: MemberService,
+    private readonly changeDetectorRef: ChangeDetectorRef) { }
+
 
   public fetchSteamGames(steamId: string): void {
-    this.steamService.getUserSteamGames(steamId).pipe(take(1)).subscribe(games => games);
+
+    if (!this.isFetchNeeded) {
+      return;
+    }
+
+    this.steamService.getUserSteamGames(steamId)
+      .pipe(take(1))
+      .subscribe(games => {
+        this.steamService.steamGamesSource.next(games);
+        this.displayFetchButton(false);
+      })
   }
-  
+
+  public getDbGamesName(): Observable<string[]> {
+    return this.memberService.getGamesName()
+  }
+
+  public IsFetchAvailiable(): void {
+    this.accService.currentUser$.pipe(take(1), map(user => user.steamId))
+      .subscribe(steamId => {
+        forkJoin([this.getDbGamesName(), this.steamService.getGamesCount(steamId)]).pipe(
+          delay(1500),
+          map(([dbGameNames, steamGamesCount]) => {
+            console.log(`dbgames: ${dbGameNames.length} | steamGames: ${steamGamesCount}`);
+            this.displayFetchButton(dbGameNames.length < steamGamesCount);
+
+          }),
+          take(1)).subscribe();
+      })
+  }
+
+  public displayFetchButton(value: boolean): void {
+    this.isFetchNeeded = value;
+    this.changeDetectorRef.detectChanges();
+  }
+
   ngOnInit(): void {
+    this.IsFetchAvailiable();
   }
 
 }
