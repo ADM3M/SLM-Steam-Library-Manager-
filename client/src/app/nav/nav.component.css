@@ -30,7 +30,7 @@ header .left input:focus-visible {
     outline: none;
 }
 
-header .right {
+header .right *:not(.right:first-child) {
     cursor: pointer;
 }
 
@@ -38,12 +38,50 @@ header .right button {
     background: transparent;
     transition: .3s;
     border: .1rem solid rgba(20, 20, 20, 0.8);
+    animation:  buttonShake 2s ease-in-out 7s 1;
 }
 
 header .right button:hover {
     transition: .3s;
     background-color: rgba(20, 20, 20, 0.8);
     color: rgba(255, 255, 255, 0.8);
+}
+
+.hide {
+    transition: .2 ease-out;
+    transform: scale(0) rotate(-5deg);
+    user-select: none;
+}
+
+@keyframes buttonAppear {
+    0% {
+        transform: scale(0) rotate(-5deg);
+    }
+    100% {
+        transform: scale(100%);
+    }
+}
+
+@keyframes buttonShake {
+    0% {
+        transform: translate(0);
+    }
+    5% {
+        transform: translate(.5rem) rotate(.5deg);
+    }
+    10% {
+        transform: translate(0) rotate(0);
+    }
+    15% {
+        transform: translate(-.5rem) rotate(.5deg);
+    }
+    20% {
+        transform: translate(0) rotate(0);
+    }
+    100% {
+
+    }
+
 }
 
 img {
