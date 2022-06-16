@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IGameObj } from 'src/app/models/gameObj';
 import { MemberService } from 'src/app/services/member.service';
 import { GameState } from '../../enums/gameState';
@@ -10,7 +10,7 @@ import { GameState } from '../../enums/gameState';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeCardComponent implements OnInit {
-  @Input() gameData: IGameObj = { appId: 0, iconUrl: "", gameId: 0, name: "", 
+  @Input() gameData: IGameObj = { appId: 0, iconUrl: "", gameId: 0, name: "",
     imageUrl: "", status: GameState.NotSet, userPlayTime: 0 }
 
   public imgStyles: any;
@@ -86,7 +86,7 @@ export class HomeCardComponent implements OnInit {
       this.menuHide = true;
       return;
     }
-    
+
     this.gameData.status = status;
     this.menuHide = true;
     this.memberService.updateGameStatus(this.gameData).subscribe();
