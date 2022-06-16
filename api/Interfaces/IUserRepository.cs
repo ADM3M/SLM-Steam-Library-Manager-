@@ -15,5 +15,5 @@ public interface IUserRepository
 
     Task<UserGameDTO> UpdateGameStatus(int userId, UserGameDTO gameData);
 
-    Task<List<string>> GetGameNames(int userId);
+    Task<List<string>> GetGamesName(int userId);
 }

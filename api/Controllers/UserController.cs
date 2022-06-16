@@ -45,7 +45,7 @@ public class UserController : BaseController
     [HttpGet("getGamesName")]
     public async Task<List<string>> GetGamesName()
     {
-        return await _userRepository.GetGameNames(User.GetUserId());
+        return await _userRepository.GetGamesName(User.GetUserId());
     }
 
 }
