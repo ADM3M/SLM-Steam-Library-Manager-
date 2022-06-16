@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
       this.steamService.steamGames.pipe(take(1)).subscribe((steamGames: ISteamGame[]) => {
         let gamesToAdd: ISteamGame[] = [];
 
-        if (dbGames.length == 0) {
+        if (dbGames.length === 0) {
           gamesToAdd = steamGames;
         }
         else if (dbGames.length !== steamGames.length) {
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
           steamGames.forEach(sg => {
             let isNew = true;
             dbGames.forEach(dg => {
-              if (dg.appId == sg.appid) {
+              if (dg.appId === sg.appid) {
                 isNew = false;
                 return;
               }
