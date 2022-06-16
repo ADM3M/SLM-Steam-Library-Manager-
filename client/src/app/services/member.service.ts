@@ -49,4 +49,8 @@ export class MemberService {
   public updateGameStatus(gameData: IGameObj): Observable<IGameObj> {
     return this.http.put<IGameObj>(this.baseUrl + "user/updateGameStatus", gameData);
   }
+
+  public getGamesName():Observable<string[]> {
+    return this.http.get<string[]>(this.baseUrl + "user/getGamesName");
+  }
 }
