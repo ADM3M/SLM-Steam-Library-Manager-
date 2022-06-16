@@ -4,4 +4,12 @@
 
 .wrapper {
     transition: .5s;
+    height: 100vh;
+}
+
+#spinner {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
 }
