@@ -30,10 +30,22 @@ public class UserController : BaseController
         return Ok(await _userRepository.AddGames(User.GetUserId(), steamGames));
     }
 
-    [HttpPost("updateSteamId")]
+    [HttpPut("updateSteamId")]
     public async Task<ActionResult<Users>> UpdateSteamId(string steamId, string? photoUrl)
     {
         return await _userRepository.UpdateUserSteamId(User.GetUserId(), new AccountDTO{SteamId = steamId, PhotoUrl = photoUrl});
+    }
+
+    [HttpPut("updateGameStatus")]
+    public async Task<ActionResult<UserGameDTO>> UpdateGameStatus([FromBody] UserGameDTO gameData)
+    {
+        return await _userRepository.UpdateGameStatus(User.GetUserId(), gameData);
+    }
+
+    [HttpGet("getGamesName")]
+    public async Task<List<string>> GetGamesName()
+    {
+        return await _userRepository.GetGameNames(User.GetUserId());
     }
 
 }
