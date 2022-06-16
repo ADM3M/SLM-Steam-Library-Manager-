@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit {
         }
 
         this.memberService.addGames(gamesToAdd).pipe(take(1)).subscribe((newGames) => {
-          this.memberService.userGamesSource.next(dbGames.concat(newGames));
+          this.memberService.userGamesSource.next(newGames.concat(dbGames));
         });
       })
     })
