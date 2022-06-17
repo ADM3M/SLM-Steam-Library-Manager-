@@ -5,7 +5,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgxSpinnerModule } from "ngx-spinner"
+import { NgxSpinnerModule } from "ngx-spinner";
+import { BsDropdownModule } from "ngx-bootstrap/dropdown"
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,6 +32,7 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
     HttpClientModule,
     CommonModule,
     ModalModule.forRoot(),
+    BsDropdownModule,
     ReactiveFormsModule,
     NgxSpinnerModule
   ],
