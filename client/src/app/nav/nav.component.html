@@ -9,15 +9,21 @@
         <div class="right mr-3">
 
             <ng-container *ngIf="true">
-                <button [class.hide]="!isFetchNeeded"
-                    (click)="fetchSteamGames(user.steamId)"
-                    [ngStyle]="{'animation-play-state': isFetchNeeded? 'running' : 'paused'}"
-                    class="mr-3"
-                    >fetch steamgames</button>
+                <button [class.hide]="!isFetchNeeded" (click)="fetchSteamGames(user.steamId)"
+                    [ngStyle]="{'animation-play-state': isFetchNeeded? 'running' : 'paused'}" class="mr-3">fetch
+                    steamgames</button>
             </ng-container>
 
-            <span (click)="isFetchNeeded = !isFetchNeeded">{{(user?.userName | uppercase) || "user"}}</span>
-            <img [src]="user?.photoUrl || './assets/unknownImg.jpg'" alt="steamAv">
+            <div class="dropdown" dropdown>
+                <div class="user_info" dropdownToggle>
+                    <span>{{(user?.userName | uppercase) || "user"}}</span>
+                    <img [src]="user?.photoUrl || './assets/unknownImg.jpg'" alt="steamAv">
+                </div>
+                <div class="dropdown-menu" *dropdownMenu>
+                    <a class="dropdown-item">Edit profile</a>
+                    <a (click)="logOut()" class="dropdown-item">Logout</a>
+                </div>
+            </div>
         </div>
     </ng-container>
 </header>

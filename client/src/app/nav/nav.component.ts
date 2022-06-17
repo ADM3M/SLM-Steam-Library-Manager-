@@ -46,7 +46,6 @@ export class NavComponent implements OnInit {
           map(([dbGameNames, steamGamesCount]) => {
             console.log(`dbgames: ${dbGameNames.length} | steamGames: ${steamGamesCount}`);
             this.displayFetchButton(dbGameNames.length < steamGamesCount);
-
           }),
           take(1)).subscribe();
       })
@@ -55,6 +54,10 @@ export class NavComponent implements OnInit {
   public displayFetchButton(value: boolean): void {
     this.isFetchNeeded = value;
     this.changeDetectorRef.detectChanges();
+  }
+
+  public logOut() {
+    this.accService.logout();
   }
 
   ngOnInit(): void {

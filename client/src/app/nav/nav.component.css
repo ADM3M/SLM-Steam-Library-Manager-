@@ -30,12 +30,19 @@ header .left input:focus-visible {
     outline: none;
 }
 
+header .right {
+    display: flex;
+}
+
 header .right *:not(.right:first-child) {
     cursor: pointer;
 }
 
 header .right button {
     background: transparent;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 77%;
     transition: .3s;
     border: .1rem solid rgba(20, 20, 20, 0.8);
     animation:  buttonShake 2s ease-in-out 7s 1;
@@ -79,13 +86,44 @@ header .right button:hover {
         transform: translate(0) rotate(0);
     }
     100% {
-
     }
-
 }
 
 img {
     height: 2.5rem;
     margin-left: .5rem;
     border-radius: 20px;
+}
+
+.user-info {
+    display: inline-block;
+}
+
+.custom_dropdown {
+    position: fixed;
+    width: 7rem;
+    top: 50px;
+    right: 0;
+    inset: .2rem;
+}
+
+.dropdown-menu {
+    min-width: 2rem;
+    width: 6.2rem;
+}
+
+.dropdown-item {
+    padding: .3rem;
+    padding-left: .5rem;
+}
+
+.dropdown-item:hover {
+    transition: .3s;
+}
+
+.dropdown-item:active {
+    transition: .3s;
+    color: #fff;
+    text-decoration: none;
+    background-color: rgba(20, 20, 20, 0.8);
 }
