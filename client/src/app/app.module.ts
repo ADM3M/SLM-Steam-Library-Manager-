@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown"
+import { TooltipModule } from 'ngx-bootstrap/tooltip'
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -32,13 +34,15 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
     HttpClientModule,
     CommonModule,
     ModalModule.forRoot(),
+    TooltipModule.forRoot(),
+    TypeaheadModule.forRoot(),
     BsDropdownModule,
     ReactiveFormsModule,
     NgxSpinnerModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

@@ -11,12 +11,37 @@ header.container-fluid {
     height: 50px;
 }
 
-header .left button {
-    border: 0;
-    width: 150px;
-    height: 30px;
-    margin-left: 3rem;
-    background-color: white;
+header .left  {
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
+.left .sorting p {
+    width: 6.5rem;
+    cursor: pointer
+}
+
+#filter-dropdown {
+    background: linear-gradient(rgba(230, 230, 230), rgb(227, 227, 227));
+    padding: .4rem
+}
+
+#filter-dropdown .activeFilter {
+    color: rgb(13, 136, 207);
+}
+
+#filter-dropdown span {
+    font-weight: 500;
+}
+
+#filter-dropdown i {
+    margin-left: .7rem;
+    cursor: pointer;
+}
+
+#filter-dropdown p {
+    margin-bottom: .1rem;
 }
 
 header .left input {
@@ -99,15 +124,7 @@ img {
     display: inline-block;
 }
 
-.custom_dropdown {
-    position: fixed;
-    width: 7rem;
-    top: 50px;
-    right: 0;
-    inset: .2rem;
-}
-
-.dropdown-menu {
+.right .dropdown-menu {
     min-width: 2rem;
     width: 6.2rem;
 }
