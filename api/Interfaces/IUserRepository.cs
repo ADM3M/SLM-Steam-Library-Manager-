@@ -8,7 +8,7 @@ public interface IUserRepository
 {
     Task<Users> GetUserById(int userId);
     
-    Task<PagedList<UserGameDTO>> GetUserGames(int userId, PaginationParams pag);
+    Task<PagedList<UserGameDTO>> GetUserGames(int userId, DisplayParams dp);
 
     Task<Users> UpdateUserSteamId(int userId, AccountDTO accountDto);
 
