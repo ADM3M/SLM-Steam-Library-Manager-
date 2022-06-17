@@ -1,5 +1,6 @@
 using api.DTO;
 using api.Entities;
+using api.Helpers;
 
 namespace api.Interfaces;
 
@@ -7,7 +8,7 @@ public interface IUserRepository
 {
     Task<Users> GetUserById(int userId);
     
-    Task<List<UserGameDTO>> GetUserGames(int userId);
+    Task<PagedList<UserGameDTO>> GetUserGames(int userId, PaginationParams pag);
 
     Task<Users> UpdateUserSteamId(int userId, AccountDTO accountDto);
 

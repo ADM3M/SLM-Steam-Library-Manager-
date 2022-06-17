@@ -1,6 +1,7 @@
 using api.DTO;
 using api.Entities;
 using api.Extensions;
+using api.Helpers;
 using api.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,9 @@ public class UserController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<UserGameDTO>>> GetUserGames()
+    public async Task<ActionResult<List<UserGameDTO>>> GetUserGames([FromQuery] PaginationParams pag)
     {
-        return Ok(await _userRepository.GetUserGames(User.GetUserId()));
+        return Ok(await _userRepository.GetUserGames(User.GetUserId(), pag));
     }
 
     [HttpPost("addGames")]
