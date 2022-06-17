@@ -1,8 +1,46 @@
 <header class="container-fluid d-flex align-items-center justify-content-between">
 
     <div class="left ml-5">
-        <input type="text">
-        <button>filters</button>
+        <form>
+            <input name="s" placeholder="Search games" type="text" [ngModel]="this.memberService.search"
+                [typeahead]="this.memberService?.names" [typeaheadScrollable]="true"
+                [typeaheadMultipleSearch]="true" [typeaheadSingleWords]="true">
+        </form>
+        <div class="dropdown" dropdown [insideClick]="true">
+            <i dropdownToggle class="ml-2 fas fa-sort-alpha-down"></i>
+            <div id="filter-dropdown" class="mt-2 dropdown-menu" *dropdownMenu>
+
+                <div class="filters">
+                    <span>filters:</span>
+                    <i (click)="turnFilter('notSet')" [class.activeFilter]="getFilterVal('notSet')"
+                        class="fas fa-question-circle" tooltip="not set" [delay]="500"></i>
+
+                    <i (click)="turnFilter('inProgress')" [class.activeFilter]="getFilterVal('inProgress')"
+                        class="fas fa-running" tooltip="in progress" [delay]="500"></i>
+
+                    <i (click)="turnFilter('completed')" [class.activeFilter]="getFilterVal('completed')"
+                        class="fas fa-check" tooltip="completed" [delay]="500"></i>
+                </div>
+
+                <div class="sorting">
+                    <span>sort by:</span>
+                    <p (click)="turnSort(0)">name<i class="fas"
+                            [ngStyle]="{'display' : getSortValue(0).value ? 'inline' : 'none'}"
+                            [class.fa-caret-down]="getSortValue(0).reverse"
+                            [class.fa-caret-up]="!getSortValue(0).reverse"></i></p>
+
+                    <p (click)="turnSort(1)">status<i class="fas"
+                            [ngStyle]="{'display' : getSortValue(1).value ? 'inline' : 'none'}"
+                            [class.fa-caret-down]="getSortValue(1).reverse"
+                            [class.fa-caret-up]="!getSortValue(1).reverse"></i></p>
+
+                    <p (click)="turnSort(2)">time played<i class="fas"
+                            [ngStyle]="{'display' : getSortValue(2).value ? 'inline' : 'none'}"
+                            [class.fa-caret-down]="getSortValue(2).reverse"
+                            [class.fa-caret-up]="!getSortValue(2).reverse"></i></p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <ng-container *ngIf="(accService.currentUser$ | async) as user">
