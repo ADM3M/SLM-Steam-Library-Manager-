@@ -20,9 +20,15 @@ public class UserController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<UserGameDTO>>> GetUserGames([FromQuery] PaginationParams pag)
+    public async Task<ActionResult<List<UserGameDTO>>> GetUserGames([FromQuery] DisplayParams dp)
     {
-        return Ok(await _userRepository.GetUserGames(User.GetUserId(), pag));
+        var games = await _userRepository.GetUserGames(User.GetUserId(), dp);
+
+        Response.AddPaginationHeader(games.CurrentPage, games.PageSize, games.TotalCount, games.TotalPages);
+        
+        var filteredGames = games.Where(g => dp.StatusesToShow.Contains( ((int) g.Status).ToString() ));
+        
+        return Ok(filteredGames);
     }
 
     [HttpPost("addGames")]
