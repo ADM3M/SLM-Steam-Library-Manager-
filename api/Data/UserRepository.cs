@@ -1,6 +1,7 @@
 using api.DTO;
 using api.Entities;
 using api.Enums;
+using api.Helpers;
 using api.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -26,13 +27,18 @@ public class UserRepository : IUserRepository
         return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
     }
     
-    public async Task<List<UserGameDTO>> GetUserGames(int userId)
+    public async Task<PagedList<UserGameDTO>> GetUserGames(int userId, PaginationParams pag)
     {
-        return await _context.UserGames
+        var query = _context.UserGames
             .Where(u => u.UserId == userId)
             .OrderByDescending(g => g.UserPlayTime)
+            .AsQueryable();
+
+        return await PagedList<UserGameDTO>.CreateAsync(
+            query
             .ProjectTo<UserGameDTO>(_mapper.ConfigurationProvider)
-            .ToListAsync();
+                .AsNoTracking(), 
+            pag.PageNumber, pag.PageSize);
     }
 
     public async Task<Users> UpdateUserSteamId(int userId, AccountDTO accountDto)
