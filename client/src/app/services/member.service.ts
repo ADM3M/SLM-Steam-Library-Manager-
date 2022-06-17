@@ -20,10 +20,9 @@ export class MemberService {
 
   constructor(private readonly http: HttpClient, private readonly accService: AccountService) { }
 
-  public getUserDbGames(): Observable<IGameObj[]> {
-    return this.http.get<IGameObj[]>(this.baseUrl + "user").pipe(
+  public getUserDbGames(pageNumber: number = -1): Observable<IGameObj[]> {
+    return this.http.get<IGameObj[]>(this.baseUrl + "user", {params: {"pageNumber":  pageNumber}}).pipe(
       map(games => {
-        this.userGamesSource.next(games);
         return games;
       })
     )
