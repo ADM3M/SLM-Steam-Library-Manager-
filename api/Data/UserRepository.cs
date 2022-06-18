@@ -7,6 +7,7 @@ using api.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace api.Data;
 
@@ -33,6 +34,11 @@ public class UserRepository : IUserRepository
             .Where(u => u.UserId == userId)
             .AsQueryable()
             .OrderSwitch(dp); //Extension method
+
+        if (dp.Search is not null && dp.Search.Length > 0)
+        {
+            query = query.Where(g => EF.Functions.Like(g.Game.Name, $"%{dp.Search}%"));
+        }
 
         return await PagedList<UserGameDTO>.CreateAsync(
             query.ProjectTo<UserGameDTO>(_mapper.ConfigurationProvider)
