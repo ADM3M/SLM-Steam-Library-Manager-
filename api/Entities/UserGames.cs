@@ -25,4 +25,9 @@ public class UserGames
     public Users User { get; set; }
 
     public Games Game { get; set; }
+    
+    public string GetStatus()
+    {
+        return Status.ToString();
+    }
 }

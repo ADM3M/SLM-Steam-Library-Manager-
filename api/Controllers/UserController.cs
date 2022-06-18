@@ -26,9 +26,7 @@ public class UserController : BaseController
 
         Response.AddPaginationHeader(games.CurrentPage, games.PageSize, games.TotalCount, games.TotalPages);
         
-        var filteredGames = games.Where(g => dp.StatusesToShow.Contains( ((int) g.Status).ToString() ));
-        
-        return Ok(filteredGames);
+        return Ok(games);
     }
 
     [HttpPost("addGames")]
