@@ -5,4 +5,5 @@ public enum GameStatus
     NotSet,
     InProgress,
     Completed,
+    Backlog
 }
