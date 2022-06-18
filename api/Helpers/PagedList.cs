@@ -1,10 +1,10 @@
-using Microsoft.EntityFrameworkCore;
+using api.DTO;
 
 namespace api.Helpers;
 
-public class PagedList<T> : List<T>
+public class PagedList : List<UserGameDTO>
 {
-    public PagedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
+    public PagedList(IEnumerable<UserGameDTO> items, int count, int pageNumber, int pageSize)
     {
         CurrentPage = pageNumber;
         TotalPages = (int) Math.Ceiling((double) count / (double) pageSize);
@@ -21,17 +21,20 @@ public class PagedList<T> : List<T>
 
     public int TotalCount { get; set; }
     
-    public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)
+    public static PagedList Create(IEnumerable<UserGameDTO> source, DisplayParams dp)
     {
-        var count = await source.CountAsync();
+        var count = source.Count();
 
-        if (pageNumber == -1)
+        if (dp.PageNumber == -1)
         {
-            return new PagedList<T>(source, count, -1, count);
+            return new PagedList(source, count, -1, count);
         }
-        
-        var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
 
-        return new PagedList<T>(items, count, pageNumber, pageSize);
+        source = source
+            .Where(u => dp.StatusesToShow.Contains(((int)u.Status).ToString()))
+            .Skip((dp.PageNumber - 1) * dp.PageSize).Take(dp.PageSize);
+            
+
+        return new PagedList(source, count, dp.PageNumber, dp.PageSize);
     }
 }

@@ -7,7 +7,6 @@ using api.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace api.Data;
 
@@ -28,22 +27,21 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
     }
-    public async Task<PagedList<UserGameDTO>> GetUserGames(int userId, DisplayParams dp)
+    public async Task<PagedList> GetUserGames(int userId, DisplayParams dp)
     {
         var query = _context.UserGames
             .Where(u => u.UserId == userId)
-            .AsQueryable()
-            .OrderSwitch(dp); //Extension method
+            .AsQueryable();
 
         if (dp.Search is not null && dp.Search.Length > 0)
         {
             query = query.Where(g => EF.Functions.Like(g.Game.Name, $"%{dp.Search}%"));
         }
+        
+        query = query.OrderSwitch(dp); //Extension method
 
-        return await PagedList<UserGameDTO>.CreateAsync(
-            query.ProjectTo<UserGameDTO>(_mapper.ConfigurationProvider)
-                .AsNoTracking(), 
-            dp.PageNumber, dp.PageSize);
+        return PagedList.Create(
+            query.ProjectTo<UserGameDTO>(_mapper.ConfigurationProvider).AsNoTracking().ToList(), dp);
     }
 
     public async Task<Users> UpdateUserSteamId(int userId, AccountDTO accountDto)
