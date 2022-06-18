@@ -30,8 +30,15 @@ public class PagedList : List<UserGameDTO>
             return new PagedList(source, count, -1, count);
         }
 
+        int collectionLength = 0;
+
+        if (dp.StatusesToShow is null)
+        {
+            dp.StatusesToShow = "0123";
+        }
+
         source = source.Where(u => dp.StatusesToShow.Contains(((int) u.Status).ToString()));
-        var collectionLength = source.Count();
+        collectionLength = source.Count();
         
         var pagedSource = source.Skip((dp.PageNumber - 1) * dp.PageSize).Take(dp.PageSize);
         

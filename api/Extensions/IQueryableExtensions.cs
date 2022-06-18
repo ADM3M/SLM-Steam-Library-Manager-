@@ -9,8 +9,8 @@ public static class IQueryableExtensions
     {
         return dp.OrderBy switch
         {
-            "name" => query.OrderBy(ug => ug.Game.Name),
-            "nameReverse" => query.OrderByDescending(ug => ug.Game.Name),
+            "name" => query.OrderBy(ug => ug.Game.Name.ToLower()),
+            "nameReverse" => query.OrderByDescending(ug => ug.Game.Name.ToLower()),
             "timePlayedReverse" => query.OrderByDescending(ug => ug.UserPlayTime),
             "status" => query.OrderBy(ug => ug.Status),
             "statusReverse" => query.OrderByDescending(ug => ug.Status),
