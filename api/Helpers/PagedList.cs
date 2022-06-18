@@ -23,18 +23,18 @@ public class PagedList : List<UserGameDTO>
     
     public static PagedList Create(IEnumerable<UserGameDTO> source, DisplayParams dp)
     {
-        var count = source.Count();
 
         if (dp.PageNumber == -1)
         {
+            var count = source.Count();
             return new PagedList(source, count, -1, count);
         }
 
-        source = source
-            .Where(u => dp.StatusesToShow.Contains(((int)u.Status).ToString()))
-            .Skip((dp.PageNumber - 1) * dp.PageSize).Take(dp.PageSize);
-            
-
-        return new PagedList(source, count, dp.PageNumber, dp.PageSize);
+        source = source.Where(u => dp.StatusesToShow.Contains(((int) u.Status).ToString()));
+        var collectionLength = source.Count();
+        
+        var pagedSource = source.Skip((dp.PageNumber - 1) * dp.PageSize).Take(dp.PageSize);
+        
+        return new PagedList(pagedSource, collectionLength, dp.PageNumber, dp.PageSize);
     }
 }
