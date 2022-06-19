@@ -74,14 +74,14 @@ export class HomeCardComponent implements OnInit {
         break;
 
       case 3:
-        result = "forgotten";
+        result = "backlog";
         break;
     }
 
     return result;
   }
 
-  public ChangeStatus(status: number) {
+  public ChangeStatus(status: number): void {
     if (this.gameData.status == status) {
       this.menuHide = true;
       return;

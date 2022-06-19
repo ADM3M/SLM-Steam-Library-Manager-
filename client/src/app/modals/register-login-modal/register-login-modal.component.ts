@@ -32,7 +32,6 @@ export class RegisterLoginModalComponent implements OnInit {
 
   public loginUser(): void {
     this.accService.login(this.reactiveForm?.value).subscribe(user => {
-      console.log(user);  
       this.fetchSteamImage(user);
     });
   }
@@ -46,8 +45,6 @@ export class RegisterLoginModalComponent implements OnInit {
   fetchSteamImage(user: IUser): void {
     
     if(user.photoUrl || !user.steamId) {
-      console.log("exiting from fetchSteamImage");
-      console.log(user);
       return;
     }
     
