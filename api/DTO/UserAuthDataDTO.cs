@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace api.DTO;
 
-public class UserBaseDataDTO
+public class UserAuthDataDTO
 {
     [MinLength(3)]
     [MaxLength(15)]

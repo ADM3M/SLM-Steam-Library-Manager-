@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { Observable, ReplaySubject } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { RegisterLoginModalComponent } from '../modals/register-login-modal/register-login-modal.component';
 import { IUser } from '../models/user';
@@ -20,22 +20,28 @@ export class AccountService {
 
   constructor(private readonly http: HttpClient, private readonly modalService: BsModalService) { }
 
-  public login(model: any): Observable<void> {
+  public login(model: any): Observable<IUser> {
     return this.http.post<IUser>(this.baseUrl + "Account/login", model).pipe(
       map(user => {
         if (user) {
           this.setCurrentUser(user);
+          this.hideLoginModal();
         }
+
+        return user;
       })
     )
   }
 
-  public register(model: any): Observable<void> {
+  public register(model: any): Observable<IUser> {
     return this.http.post<IUser>(this.baseUrl + "account/register", model).pipe(
       map(user => {
         if (user) {
           this.setCurrentUser(user);
+          this.hideLoginModal();
         }
+
+        return user;
       })
     )
   }
@@ -43,7 +49,6 @@ export class AccountService {
   public setCurrentUser(user: IUser): void {
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
-    this.registerModal?.hide();
   }
 
   public logout(): void {
@@ -65,5 +70,9 @@ export class AccountService {
     };
 
     this.registerModal = this.modalService.show(RegisterLoginModalComponent, config);
+  }
+
+  public hideLoginModal(): void {
+    this.registerModal?.hide();
   }
 }

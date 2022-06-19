@@ -1,7 +1,9 @@
 using api.DTO;
 using api.Entities;
+using api.Enums;
 using api.Interfaces;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Data;
@@ -10,52 +12,90 @@ public class UserRepository : IUserRepository
 {
     private readonly DataContext _context;
     private readonly IMapper _mapper;
-    private readonly ITokenService _tokenService;
+    private readonly IGamesRepository _gameRepository;
 
-    public UserRepository(DataContext context, IMapper mapper, ITokenService tokenService)
+    public UserRepository(DataContext context, IMapper mapper, IGamesRepository gameRepository)
     {
         _context = context;
         _mapper = mapper;
-        _tokenService = tokenService;
+        _gameRepository = gameRepository;
+    }
+
+    public async Task<Users> GetUserById(int userId)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
     }
     
-    public async Task<UserDTO> CreateUserAsync(UserBaseDataDTO userBaseDataDto)
+    public async Task<List<UserGameDTO>> GetUserGames(int userId)
     {
-        var newUser = _mapper.Map<Users>(userBaseDataDto);
+        return await _context.UserGames
+            .Where(u => u.UserId == userId)
+            .OrderByDescending(g => g.UserPlayTime)
+            .ProjectTo<UserGameDTO>(_mapper.ConfigurationProvider)
+            .ToListAsync();
+    }
 
-        await _context.Users.AddAsync(newUser);
+    public async Task<Users> UpdateUserSteamId(int userId, AccountDTO accountDto)
+    {
+        var user = await GetUserById(userId);
+
+        user.SteamId = accountDto.SteamId;
+        user.PhotoUrl = accountDto.PhotoUrl;
+        await _context.SaveChangesAsync();
+
+        return user;
+    }
+    
+    // Returns List with items that are new for bd.
+    private List<SteamGameDTO> GetNewGames(List<SteamGameDTO> gamesList)
+    {
+        var noDbGames = gamesList
+            .Where(sg => !_context.Games.Any(g => g.AppId == sg.AppId))
+            .ToList();
+        
+        return noDbGames;
+    }
+    
+    public async Task<List<UserGameDTO>> AddGames(int userId, List<SteamGameDTO> steamGames)
+    {
+        var userEnt = await GetUserById(userId);
+
+        var noDbGames = GetNewGames(steamGames);
+        if (noDbGames.Any())
+        {
+            await _gameRepository.AddGamesAsync(noDbGames);
+        }
+
+        var gamesEnt = steamGames.Select(g =>
+        {
+            Games game = _context.Games.FirstOrDefault(d => d.AppId == g.AppId);
+            return new UserGames(userEnt, game, g.Playtime_forever, GameStatus.NotSet);
+        }).ToList();
+
+        await _context.UserGames.AddRangeAsync(gamesEnt);
+        
+        await _context.SaveChangesAsync();
+
+        return _mapper.Map<List<UserGameDTO>>(gamesEnt);
+    }
+
+    public async Task<UserGameDTO> UpdateGameStatus(int userId, UserGameDTO gameData)
+    {
+        var userGameEntry = await _context.UserGames
+            .FirstAsync(ug => ug.GameId == gameData.GameId && ug.UserId == userId);
+
+        userGameEntry.Status = gameData.Status;
 
         await _context.SaveChangesAsync();
 
-        var token = _tokenService.CreateToken(newUser);
-
-        var userDto = _mapper.Map<UserDTO>(userBaseDataDto);
-        userDto.Token = token;
-
-        return userDto;
+        return gameData;
     }
 
-    public UserDTO LoginUser(UserBaseDataDTO userBaseDataDto)
+    public async Task<List<string>> GetGameNames(int userId)
     {
-        var user = _context.Users.FirstOrDefault(u =>
-            u.UserName == userBaseDataDto.UserName && u.Password == userBaseDataDto.Password);
-
-        if (user is null)
-        {
-            return null;
-        }
-
-        var userDto = _mapper.Map<UserDTO>(user);
-        userDto.Token = _tokenService.CreateToken(user);
-
-        return userDto;
-    }
-
-    public async Task<int> DeleteUserAsync(int userId)
-    {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-        
-        _context.Users.Remove(user);
-        return await _context.SaveChangesAsync();
+        return _context.UserGames
+            .Where(ug => ug.UserId == userId)
+            .Select(e => e.Game.Name)
+            .ToList();
     }
 }

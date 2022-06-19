@@ -1,5 +1,6 @@
 export enum GameState {
-    notSet = "not set",
-    forgotten = "forgotten",
-    completed = "completed"
+    NotSet = 0,
+    InProgress = 1,
+    Completed = 2,
+    Forgotten = 3
 }
