@@ -6,7 +6,6 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { RegisterLoginModalComponent } from '../modals/register-login-modal/register-login-modal.component';
 import { IUser } from '../models/user';
-import { MemberService } from './member.service';
 
 @Injectable({
   providedIn: 'root'
