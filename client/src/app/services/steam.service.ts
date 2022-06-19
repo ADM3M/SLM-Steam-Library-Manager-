@@ -12,7 +12,7 @@ import { ISteamUser } from '../models/steamUser';
 export class SteamService {
 
   public steamGamesSource = new ReplaySubject<ISteamGame[]>(1);
-  public steamGames = this.steamGamesSource.asObservable();
+  public steamGames$ = this.steamGamesSource.asObservable();
   
   private steamBaseUrl = environment.baseSteam;
 
@@ -67,5 +67,4 @@ export class SteamService {
       return playerData[0];
     }))
   }
-
 }
