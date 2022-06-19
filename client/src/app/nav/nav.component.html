@@ -1,17 +1,19 @@
 <header class="container-fluid d-flex align-items-center justify-content-between">
 
     <div class="left ml-5">
-        <form>
-            <input name="s" placeholder="Search games" type="text" [ngModel]="this.memberService.search"
-                [typeahead]="this.memberService?.names" [typeaheadScrollable]="true"
-                [typeaheadMultipleSearch]="true" [typeaheadSingleWords]="true">
+        <form (submit)="fetchDbGamesWithParams(1)">
+            <input name="s" placeholder="Search games" type="text" [typeahead]="this.gamesName"
+                [typeaheadScrollable]="true" [typeaheadMultipleSearch]="true" [typeaheadSingleWords]="true"
+                [(ngModel)]="this.memberService.displayModel.search" [typeaheadSelectFirstItem]="false">
+            <i (click)="resetInput()" class="fas fa-times" tooltip="reset input" [tooltipPopupDelay]="500"></i>
         </form>
         <div class="dropdown" dropdown [insideClick]="true">
-            <i dropdownToggle class="ml-2 fas fa-sort-alpha-down"></i>
+            <i dropdownToggle class="ml-2 fas fa-sort-alpha-down" tooltip="filters"
+                [tooltipPopupDelay]="500"></i>
             <div id="filter-dropdown" class="mt-2 dropdown-menu" *dropdownMenu>
 
                 <div class="filters">
-                    <span>filters:</span>
+                    <span>filters:</span><br>
                     <i (click)="turnFilter('notSet')" [class.activeFilter]="getFilterVal('notSet')"
                         class="fas fa-question-circle" tooltip="not set" [delay]="500"></i>
 
@@ -20,6 +22,9 @@
 
                     <i (click)="turnFilter('completed')" [class.activeFilter]="getFilterVal('completed')"
                         class="fas fa-check" tooltip="completed" [delay]="500"></i>
+
+                    <i (click)="turnFilter('backlog')" [class.activeFilter]="getFilterVal('backlog')" class="fas fa-box"
+                        tooltip="backlog" [delay]="500"></i>
                 </div>
 
                 <div class="sorting">
@@ -48,8 +53,8 @@
 
             <ng-container *ngIf="true">
                 <button [class.hide]="!isFetchNeeded" (click)="fetchSteamGames(user.steamId)"
-                    [ngStyle]="{'animation-play-state': isFetchNeeded? 'running' : 'paused'}" class="mr-3">fetch
-                    steamgames</button>
+                    [ngStyle]="{'animation-play-state': isFetchNeeded? 'running' : 'paused'}" class="mr-3"
+                    tooltip="fetch games from steam" [tooltipAnimation]="true" [tooltipPopupDelay]="500">Fetch</button>
             </ng-container>
 
             <div class="dropdown" dropdown>
