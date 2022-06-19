@@ -11,6 +11,15 @@ header.container-fluid {
     height: 50px;
 }
 
+form {
+    margin-right: -7px;
+}
+
+form i {
+    position: relative;
+    right: 20px;
+}
+
 header .left  {
     display: flex;
     align-items: center;
@@ -22,8 +31,12 @@ header .left  {
     cursor: pointer
 }
 
+.left i {
+    cursor: pointer;
+}
+
 #filter-dropdown {
-    background: linear-gradient(rgba(230, 230, 230), rgb(227, 227, 227));
+    background: linear-gradient(rgba(230, 230, 230, 0.9), rgb(227, 227, 227, 0.9));
     padding: .4rem
 }
 
@@ -37,7 +50,6 @@ header .left  {
 
 #filter-dropdown i {
     margin-left: .7rem;
-    cursor: pointer;
 }
 
 #filter-dropdown p {
@@ -45,7 +57,7 @@ header .left  {
 }
 
 header .left input {
-    width: 250px;
+    width: 230px;
     height: 30px;
     border: 0;
     background-color: white;
@@ -127,6 +139,7 @@ img {
 .right .dropdown-menu {
     min-width: 2rem;
     width: 6.2rem;
+    background: linear-gradient(rgba(230, 230, 230, 0.7), rgb(227, 227, 227, 0.7));
 }
 
 .dropdown-item {
@@ -138,9 +151,9 @@ img {
     transition: .3s;
 }
 
-.dropdown-item:active {
+.dropdown-item:hover {
     transition: .3s;
     color: #fff;
     text-decoration: none;
-    background-color: rgba(20, 20, 20, 0.8);
+    background-color: rgba(49, 49, 49, 0.8);
 }
