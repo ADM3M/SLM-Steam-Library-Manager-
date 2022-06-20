@@ -1,7 +1,7 @@
 import { GameState } from "../enums/gameState";
 
 export interface IGameObj {
-    id: number;
+    gameId: number;
     appId: number;
     name: string;
     iconUrl: string;

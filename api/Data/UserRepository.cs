@@ -1,6 +1,8 @@
 using api.DTO;
 using api.Entities;
 using api.Enums;
+using api.Extensions;
+using api.Helpers;
 using api.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -25,14 +27,21 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
     }
-    
-    public async Task<List<UserGameDTO>> GetUserGames(int userId)
+    public async Task<PagedList> GetUserGames(int userId, DisplayParams dp)
     {
-        return await _context.UserGames
+        var query = _context.UserGames
             .Where(u => u.UserId == userId)
-            .OrderByDescending(g => g.UserPlayTime)
-            .ProjectTo<UserGameDTO>(_mapper.ConfigurationProvider)
-            .ToListAsync();
+            .AsQueryable();
+
+        if (dp.Search is not null && dp.Search.Length > 0)
+        {
+            query = query.Where(g => EF.Functions.Like(g.Game.Name, $"%{dp.Search}%"));
+        }
+        
+        query = query.OrderSwitch(dp); //Extension method
+
+        return PagedList.Create(
+            query.ProjectTo<UserGameDTO>(_mapper.ConfigurationProvider).AsNoTracking().ToList(), dp);
     }
 
     public async Task<Users> UpdateUserSteamId(int userId, AccountDTO accountDto)
@@ -91,11 +100,11 @@ public class UserRepository : IUserRepository
         return gameData;
     }
 
-    public async Task<List<string>> GetGameNames(int userId)
+    public async Task<List<string>> GetGamesName(int userId)
     {
-        return _context.UserGames
+        return await _context.UserGames
             .Where(ug => ug.UserId == userId)
             .Select(e => e.Game.Name)
-            .ToList();
+            .ToListAsync();
     }
 }

@@ -1,6 +1,6 @@
 .card {
-    cursor: pointer;
     background: linear-gradient(hsla(0, 0%, 75%, 0.585), hsla(0, 0%, 87%, 0.585));
+    overflow: hidden;
     border: 0;
     border-radius: 0;
     width: 300px;
@@ -12,7 +12,7 @@
 
 @keyframes cardAppear {
     0% {
-        transform: scale(0);
+        transform: scale(0) rotate(-10deg);
     }
     100% {
         transform: scale(1);
@@ -60,6 +60,7 @@
     height: 8rem;
     z-index: 1;
     transition-duration: .3s;
+    cursor: pointer;
 }
 
 .img:hover {
@@ -84,4 +85,67 @@
 
 .card div .d-flex {
     width: 140px;
+}
+
+.blr {
+    filter: blur(2px);
+}
+
+.info {
+    transition: .5s;
+}
+
+.info * {
+    cursor: pointer;
+}
+
+.status_select_hide{
+    transform: translate(101%);
+    transition: .5s;
+}
+
+.status_select {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 54.7%;
+    height: 100%;
+    background-color: rgba(27, 27, 27, 0.477);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 5;
+    transition: .5s;
+}
+
+.status_select i {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    transition: .3s;
+}
+
+.status_select i:hover {
+    color: white;
+    transition: .3s;
+}
+
+.status_select ul {
+    list-style: none;
+}
+
+.status_select * {
+    cursor: pointer;
+    user-select: none;
+}
+
+.status_select li {
+    color: white;
+    padding: .3rem;
+    transition: .2s;
+}
+
+.status_select li:hover {
+    transition: .2s;
+    background-color: rgba(27, 27, 27, 0.5);
 }

@@ -7,10 +7,24 @@
             </div>
             <div class="img-blr" [ngStyle]="imgBlurStyles"></div>
         </div>
+
         <div class="d-flex flex-column mr-1">
-            <h5 class="title mb-1">{{gameData?.name}}</h5>
-            <p class="status">status: {{getEnumName()}}</p>
-            <p class="playTime">played total: {{gameData?.userPlayTime}}h</p>
+            <div class="status_select" [class.status_select_hide]="menuHide">
+                <i (click)="menuHide = true" class="far fa-arrow-alt-circle-left"></i>
+                <ul>
+                    <li (click)="ChangeStatus(0)">not set</li>
+                    <li (click)="ChangeStatus(1)">in progress</li>
+                    <li (click)="ChangeStatus(2)">completed</li>
+                    <li (click)="ChangeStatus(3)">backlog</li>
+                </ul>
+            </div>
+            
+            <div class="info" [class.blr]="!menuHide">
+                <h5 [ngStyle]="{'font-size.rem' : gameData.name.length > 21? '1' : '1.2'}" class="title mb-1">
+                    {{gameData?.name}}</h5>
+                <p (click)="menuHide = !menuHide" class="status">status: {{getEnumName()}}</p>
+                <p class="playTime">played total: {{gameData?.userPlayTime}}h</p>
+            </div>
         </div>
     </div>
 </div>

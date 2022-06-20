@@ -17,3 +17,14 @@ span.profile:hover {
     transition: .2s ease-in-out;
     color: gray;
 }
+
+.empty_space {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2rem;
+}
+
+button:focus {
+    box-shadow: none;
+}

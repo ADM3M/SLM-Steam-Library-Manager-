@@ -54,6 +54,8 @@ export class AccountService {
   public logout(): void {
     this.currentUserSource.next(undefined);
     localStorage.removeItem('user');
+    this.showLoginModal();
+
   }
 
   public getDecodedToken(token: any): IUser {

@@ -1,32 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { IGameObj } from 'src/app/models/gameObj';
+import { MemberService } from 'src/app/services/member.service';
 import { GameState } from '../../enums/gameState';
 
 @Component({
   selector: 'app-home-card',
   templateUrl: './home-card.component.html',
-  styleUrls: ['./home-card.component.css']
+  styleUrls: ['./home-card.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeCardComponent implements OnInit {
-  @Input() gameData: IGameObj = {
-    appId: 0,
-    iconUrl: "",
-    id: 0,
-    name: "",
-    imageUrl: "",
-    status: GameState.NotSet,
-    userPlayTime: 0
-  }
+  @Input() gameData: IGameObj = { appId: 0, iconUrl: "", gameId: 0, name: "",
+    imageUrl: "", status: GameState.NotSet, userPlayTime: 0 }
 
   public imgStyles: any;
   public imgBlurStyles: any;
   public thumbStyles: any;
+  public menuHide = true;
 
-  constructor() { }
+  constructor(private readonly memberService: MemberService) { }
 
   ngOnInit(): void {
     this.replaceMissingPicture();
-
     this.InitializeStyles();
   }
 
@@ -79,10 +74,21 @@ export class HomeCardComponent implements OnInit {
         break;
 
       case 3:
-        result = "forgotten";
+        result = "backlog";
         break;
     }
 
     return result;
+  }
+
+  public ChangeStatus(status: number): void {
+    if (this.gameData.status == status) {
+      this.menuHide = true;
+      return;
+    }
+
+    this.gameData.status = status;
+    this.menuHide = true;
+    this.memberService.updateGameStatus(this.gameData).subscribe();
   }
 }

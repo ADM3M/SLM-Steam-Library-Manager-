@@ -1,14 +1,72 @@
 <header class="container-fluid d-flex align-items-center justify-content-between">
+
     <div class="left ml-5">
-        <input type="text">
-        <button>Фильтры</button>
+        <form (submit)="fetchDbGamesWithParams(1)">
+            <input name="s" placeholder="Search games" type="text" [typeahead]="this.gamesName"
+                [typeaheadScrollable]="true" [typeaheadMultipleSearch]="true" [typeaheadSingleWords]="true"
+                [(ngModel)]="this.memberService.displayModel.search" [typeaheadSelectFirstItem]="false">
+            <i (click)="resetInput()" class="fas fa-times" tooltip="reset input" [tooltipPopupDelay]="500"></i>
+        </form>
+        <div class="dropdown" dropdown [insideClick]="true">
+            <i dropdownToggle class="ml-2 fas fa-sort-alpha-down" tooltip="filters"
+                [tooltipPopupDelay]="500"></i>
+            <div id="filter-dropdown" class="mt-2 dropdown-menu" *dropdownMenu>
+
+                <div class="filters">
+                    <span>filters:</span><br>
+                    <i (click)="turnFilter('notSet')" [class.activeFilter]="getFilterVal('notSet')"
+                        class="fas fa-question-circle" tooltip="not set" [delay]="500"></i>
+
+                    <i (click)="turnFilter('inProgress')" [class.activeFilter]="getFilterVal('inProgress')"
+                        class="fas fa-running" tooltip="in progress" [delay]="500"></i>
+
+                    <i (click)="turnFilter('completed')" [class.activeFilter]="getFilterVal('completed')"
+                        class="fas fa-check" tooltip="completed" [delay]="500"></i>
+
+                    <i (click)="turnFilter('backlog')" [class.activeFilter]="getFilterVal('backlog')" class="fas fa-box"
+                        tooltip="backlog" [delay]="500"></i>
+                </div>
+
+                <div class="sorting">
+                    <span>sort by:</span>
+                    <p (click)="turnSort(0)">name<i class="fas"
+                            [ngStyle]="{'display' : getSortValue(0).value ? 'inline' : 'none'}"
+                            [class.fa-caret-down]="getSortValue(0).reverse"
+                            [class.fa-caret-up]="!getSortValue(0).reverse"></i></p>
+
+                    <p (click)="turnSort(1)">status<i class="fas"
+                            [ngStyle]="{'display' : getSortValue(1).value ? 'inline' : 'none'}"
+                            [class.fa-caret-down]="getSortValue(1).reverse"
+                            [class.fa-caret-up]="!getSortValue(1).reverse"></i></p>
+
+                    <p (click)="turnSort(2)">time played<i class="fas"
+                            [ngStyle]="{'display' : getSortValue(2).value ? 'inline' : 'none'}"
+                            [class.fa-caret-down]="getSortValue(2).reverse"
+                            [class.fa-caret-up]="!getSortValue(2).reverse"></i></p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <ng-container *ngIf="(accService.currentUser$ | async) as user">
         <div class="right mr-3">
-            <button class="mr-3" *ngIf="user.steamId" (click)="fetchSteamGames(user.steamId)">fetch steam games</button>
-            <span>{{(user?.userName | uppercase) || "user"}}</span>
-            <img [src]="user.photoUrl || './assets/unknownImg.jpg'" alt="steamAv">
+
+            <ng-container *ngIf="true">
+                <button [class.hide]="!isFetchNeeded" (click)="fetchSteamGames(user.steamId)"
+                    [ngStyle]="{'animation-play-state': isFetchNeeded? 'running' : 'paused'}" class="mr-3"
+                    tooltip="fetch games from steam" [tooltipAnimation]="true" [tooltipPopupDelay]="500">Fetch</button>
+            </ng-container>
+
+            <div class="dropdown" dropdown>
+                <div class="user_info" dropdownToggle>
+                    <span>{{(user?.userName | uppercase) || "user"}}</span>
+                    <img [src]="user?.photoUrl || './assets/unknownImg.jpg'" alt="steamAv">
+                </div>
+                <div class="dropdown-menu" *dropdownMenu>
+                    <a class="dropdown-item">Edit profile</a>
+                    <a (click)="logOut()" class="dropdown-item">Logout</a>
+                </div>
+            </div>
         </div>
     </ng-container>
 </header>
