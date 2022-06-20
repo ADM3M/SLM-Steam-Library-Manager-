@@ -10,8 +10,10 @@ import { GameState } from '../../enums/gameState';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeCardComponent implements OnInit {
-  @Input() gameData: IGameObj = { appId: 0, iconUrl: "", gameId: 0, name: "",
-    imageUrl: "", status: GameState.NotSet, userPlayTime: 0 }
+  @Input() gameData: IGameObj = {
+    appId: 0, iconUrl: "", gameId: 0, name: "",
+    imageUrl: "", status: GameState.NotSet, userPlayTime: 0
+  }
 
   public imgStyles: any;
   public imgBlurStyles: any;
@@ -90,5 +92,10 @@ export class HomeCardComponent implements OnInit {
     this.gameData.status = status;
     this.menuHide = true;
     this.memberService.updateGameStatus(this.gameData).subscribe();
+  }
+
+  public getFontSizeByLength(length: number): string {
+    const coef = Math.round(length / 10);
+    return `${1.2 - (coef / 10)}`;
   }
 }
