@@ -18,6 +18,8 @@ import { NavComponent } from './nav/nav.component';
 import { RegisterLoginModalComponent } from './modals/register-login-modal/register-login-modal.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
+import { ProfileComponent } from './profile/profile.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -26,8 +28,10 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
     HomeCardComponent,
     NavComponent,
     RegisterLoginModalComponent,
+    ProfileComponent,
   ],
   imports: [
+    AppRoutingModule,
     FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
