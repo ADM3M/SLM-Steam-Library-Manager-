@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { delay, map, take } from 'rxjs/operators';
 import { SortObj } from '../models/sortObj';
 import { AccountService } from '../services/account.service';
@@ -19,7 +20,8 @@ export class NavComponent implements OnInit {
   constructor(public readonly accService: AccountService,
     private readonly steamService: SteamService,
     public readonly memberService: MemberService,
-    private readonly changeDetectorRef: ChangeDetectorRef) { }
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly router: Router) { }
 
   ngOnInit(): void {
     this.getGamesName();
@@ -122,10 +124,19 @@ export class NavComponent implements OnInit {
   }
 
   public fetchDbGamesWithParams(pageNumber: number): void {
+    this.switchRoute();
     this.memberService.setDisplayParams();
     this.memberService.getPaginatedUserGames(pageNumber).pipe(take(1)).subscribe(games => {
       this.memberService.userGamesSource.next(games);
     });
+  }
+
+  private switchRoute(): void {
+    if (this.router.url !== "/profile") {
+      return;
+    }
+
+    this.router.navigateByUrl("");
   }
 
   public IsFetchAvailiable(): void {

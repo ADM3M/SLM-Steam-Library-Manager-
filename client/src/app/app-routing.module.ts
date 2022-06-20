@@ -5,7 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
-    {path: "", component: ProfileComponent},
+    {path: "", component: HomeComponent},
     {path: "profile", runGuardsAndResolvers: "always", canActivate: [AuthGuard], component: ProfileComponent},
     {path: "**", component: HomeComponent}
   ];
