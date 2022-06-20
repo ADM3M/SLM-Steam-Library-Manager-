@@ -63,7 +63,7 @@
                     <img [src]="user?.photoUrl || './assets/unknownImg.jpg'" alt="steamAv">
                 </div>
                 <div class="dropdown-menu" *dropdownMenu>
-                    <a class="dropdown-item">Edit profile</a>
+                    <a routerLink="/profile" class="dropdown-item">Edit profile</a>
                     <a (click)="logOut()" class="dropdown-item">Logout</a>
                 </div>
             </div>
