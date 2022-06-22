@@ -142,6 +142,9 @@ export class NavComponent implements OnInit {
   public IsFetchAvailiable(): void {
     this.accService.currentUser$.pipe(take(1), map(user => user.steamId))
       .subscribe(steamId => {
+        
+        if (!steamId) return;
+
         this.steamService.getGamesCount(steamId).pipe(delay(1500),
           map((steamGamesCount) => {
             console.log(`dbgames: ${this.gamesName.length} | steamGames: ${steamGamesCount}`);
