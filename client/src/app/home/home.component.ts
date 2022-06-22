@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ISteamGame } from '../models/steamGame';
+import { IUser } from '../models/user';
 import { AccountService } from '../services/account.service';
 import { MemberService } from '../services/member.service';
 import { SteamService } from '../services/steam.service';
@@ -12,12 +13,16 @@ import { SteamService } from '../services/steam.service';
   styleUrls: ['./home.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(public readonly accService: AccountService,
     public readonly steamService: SteamService,
     public readonly memberService: MemberService,
     private readonly changeDetectorRef: ChangeDetectorRef) { }
+
+  ngOnDestroy(): void {
+    console.log("home component destroyed");
+  }
 
   ngOnInit(): void {
     this.onUserLogin();
@@ -45,12 +50,14 @@ export class HomeComponent implements OnInit {
   }
 
   private onUserLogin(): void {
-    this.accService.currentUser$.pipe(take(1)).subscribe(() => {
+    this.accService.currentUser$.pipe(take(1)).subscribe((user) => {
       this.memberService.getPaginatedUserGames(1).pipe(take(1)).subscribe(games => {
         this.memberService.userGamesSource.next(games);
       })
 
-      this.fetchSteamGames();
+      if (user.steamId) {
+        this.fetchSteamGames();
+      }
     });
   }
 

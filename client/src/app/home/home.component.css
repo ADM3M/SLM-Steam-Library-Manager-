@@ -28,3 +28,8 @@ span.profile:hover {
 button:focus {
     box-shadow: none;
 }
+
+.profile_link {
+    cursor: pointer;
+    text-decoration: underline;
+}
