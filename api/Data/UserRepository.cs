@@ -81,7 +81,7 @@ public class UserRepository : IUserRepository
         var gamesEnt = steamGames.Select(g =>
         {
             Games game = _context.Games.FirstOrDefault(d => d.AppId == g.AppId);
-            return new UserGames(userEnt, game, g.Playtime_forever, GameStatus.NotSet);
+            return new UserGames(userEnt, game, g.Playtime_forever, g.Playtime_forever > 0 ? GameStatus.InProgress : GameStatus.NotSet );
         }).ToList();
 
         await _context.UserGames.AddRangeAsync(gamesEnt);
