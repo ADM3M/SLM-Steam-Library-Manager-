@@ -23,6 +23,7 @@ export class MemberService {
   public userGamesSource = new ReplaySubject<IGameObj[]>(1);
   public pagination: IPagination = { currentPage: 0, itemsPerPage: 0, totalItems: 0, totalPages: 0 }
   public games$ = this.userGamesSource.asObservable();
+  public isFetchNeeded = false;
 
   public displayModel = {
     filters: {

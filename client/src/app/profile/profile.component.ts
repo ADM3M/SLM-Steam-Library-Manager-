@@ -96,6 +96,7 @@ export class ProfileComponent implements OnInit {
             this.memberService.updateSteamUserData(<ISteamUser> {steamid: steamId, avatarmedium: updatedUser.photoUrl}).subscribe(() => {
               acc.photoUrl = updatedUser.photoUrl;
               this.accService.setCurrentUser(acc);
+              this.memberService.isFetchNeeded = true;
             })
           })
         ).subscribe();

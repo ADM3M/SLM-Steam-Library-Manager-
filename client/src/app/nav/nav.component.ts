@@ -13,7 +13,7 @@ import { SteamService } from '../services/steam.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavComponent implements OnInit {
-  public isFetchNeeded = false;
+  
   public sort = this.memberService.displayModel.sortBy;
   public gamesName: string[] = [];
 
@@ -111,7 +111,7 @@ export class NavComponent implements OnInit {
   }
 
   public fetchSteamGames(steamId: string): void {
-    if (!this.isFetchNeeded) {
+    if (!this.memberService.isFetchNeeded) {
       return;
     }
 
@@ -155,7 +155,7 @@ export class NavComponent implements OnInit {
   }
 
   public displayFetchButton(value: boolean): void {
-    this.isFetchNeeded = value;
+    this.memberService.isFetchNeeded = value;
     this.changeDetectorRef.detectChanges();
   }
 

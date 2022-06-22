@@ -8,8 +8,7 @@
             <i (click)="resetInput()" class="fas fa-times" tooltip="reset input" [tooltipPopupDelay]="500"></i>
         </form>
         <div class="dropdown" dropdown [insideClick]="true">
-            <i dropdownToggle class="ml-2 fas fa-sort-alpha-down" tooltip="filters"
-                [tooltipPopupDelay]="500"></i>
+            <i dropdownToggle class="ml-2 fas fa-sort-alpha-down" tooltip="filters" [tooltipPopupDelay]="500"></i>
             <div id="filter-dropdown" class="mt-2 dropdown-menu" *dropdownMenu>
 
                 <div class="filters">
@@ -52,9 +51,10 @@
         <div class="right mr-3">
 
             <ng-container *ngIf="true">
-                <button [class.hide]="!isFetchNeeded" (click)="fetchSteamGames(user.steamId)"
-                    [ngStyle]="{'animation-play-state': isFetchNeeded? 'running' : 'paused'}" class="mr-3"
-                    tooltip="fetch games from steam" [tooltipAnimation]="true" [tooltipPopupDelay]="500">Fetch</button>
+                <button [class.hide]="!this.memberService.isFetchNeeded" (click)="fetchSteamGames(user.steamId)"
+                    [ngStyle]="{'animation-play-state': this.memberService.isFetchNeeded? 'running' : 'paused'}"
+                    class="mr-3" tooltip="fetch games from steam" [tooltipAnimation]="true"
+                    [tooltipPopupDelay]="500">Fetch</button>
             </ng-container>
 
             <div class="dropdown" dropdown>
