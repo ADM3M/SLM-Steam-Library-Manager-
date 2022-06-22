@@ -50,6 +50,9 @@ public class UserRepository : IUserRepository
 
         user.SteamId = accountDto.SteamId;
         user.PhotoUrl = accountDto.PhotoUrl;
+
+        var userGames = await _context.UserGames.Where(ug => ug.UserId == user.Id).ToListAsync();
+        _context.RemoveRange(userGames);
         await _context.SaveChangesAsync();
 
         return user;
