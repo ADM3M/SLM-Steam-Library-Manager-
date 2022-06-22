@@ -1,0 +1,36 @@
+.empty {
+    padding-top: 5rem !important;
+}
+
+.progress {
+    height: 2rem !important;
+    background-color: #c9c9c9;
+}
+
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 98%;
+    height: 70%;
+    background: rgba(197, 197, 197, 0.322);
+}
+
+.urlForm {
+    display: flex;
+    align-items: center;
+    width: 40%;
+}
+
+.urlForm input {
+    background-color: #eaeaea34;
+}
+
+.urlForm form {
+    width: 40%;
+}
+
+.pBar_container {
+    /* display: flex;
+    align-items: center; */
+}

@@ -9,6 +9,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown"
 import { TooltipModule } from 'ngx-bootstrap/tooltip'
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar'
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -40,6 +41,7 @@ import { AppRoutingModule } from './app-routing.module';
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     TypeaheadModule.forRoot(),
+    ProgressbarModule.forRoot(),
     BsDropdownModule,
     ReactiveFormsModule,
     NgxSpinnerModule
