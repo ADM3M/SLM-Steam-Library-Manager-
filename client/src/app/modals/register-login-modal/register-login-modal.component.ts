@@ -31,30 +31,10 @@ export class RegisterLoginModalComponent implements OnInit {
   }
 
   public loginUser(): void {
-    this.accService.login(this.reactiveForm?.value).subscribe(user => {
-      this.fetchSteamImage(user);
-    });
+    this.accService.login(this.reactiveForm?.value).subscribe();
   }
 
   public registerUser(): void {
-    this.accService.register(this.reactiveForm?.value).subscribe(user => {
-      this.fetchSteamImage(user);
-  });
-  }
-
-  fetchSteamImage(user: IUser): void {
-    
-    if(user.photoUrl || !user.steamId) {
-      return;
-    }
-    
-    this.steamService.getMemberProfileInfo(user.steamId)
-      .pipe(take(1))
-      .subscribe((steamUser: ISteamUser) => {
-        const updatedUser = user;
-        updatedUser.photoUrl = steamUser.avatarmedium;
-        this.accService.setCurrentUser(updatedUser);
-        this.memberService.updateSteamUserData(steamUser).subscribe();
-      })
+    this.accService.register(this.reactiveForm?.value).subscribe();
   }
 }
