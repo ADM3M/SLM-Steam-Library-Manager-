@@ -30,7 +30,8 @@
     width: 40%;
 }
 
-.pBar_container {
-    /* display: flex;
-    align-items: center; */
+.btn_back {
+    cursor: pointer;
+    font-weight: 400;
+    text-decoration: underline;
 }
