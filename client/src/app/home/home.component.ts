@@ -13,16 +13,12 @@ import { SteamService } from '../services/steam.service';
   styleUrls: ['./home.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
 
   constructor(public readonly accService: AccountService,
     public readonly steamService: SteamService,
     public readonly memberService: MemberService,
     private readonly changeDetectorRef: ChangeDetectorRef) { }
-
-  ngOnDestroy(): void {
-    console.log("home component destroyed");
-  }
 
   ngOnInit(): void {
     this.onUserLogin();
@@ -103,17 +99,4 @@ export class HomeComponent implements OnInit, OnDestroy {
     return pag.currentPage < pag.totalPages
       && pag.totalItems > 0;
   }
-
-  // infinite scroll
-
-  // trackScroll() {
-  //   fromEvent(window, "scroll").subscribe(() => {
-  //     if (document.documentElement.scrollHeight - window.scrollY - window.innerHeight < 0.0003 ) {
-  //       console.log(this.memberService.pagination);
-  //       if (this.memberService.pagination.currentPage < this.memberService.pagination.totalPages) {
-  //         this.getGamesFromBd(this.memberService.pagination.currentPage + 1);
-  //       }
-  //     }
-  //   })
-  // }
 }

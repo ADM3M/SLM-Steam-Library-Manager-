@@ -1,12 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { take } from 'rxjs/operators';
-import { ISteamUser } from 'src/app/models/steamUser';
-import { IUser } from 'src/app/models/user';
 import { AccountService } from 'src/app/services/account.service';
-import { MemberService } from 'src/app/services/member.service';
-import { SteamService } from 'src/app/services/steam.service';
 
 @Component({
   selector: 'app-register-login-modal',
@@ -23,9 +18,9 @@ export class RegisterLoginModalComponent implements OnInit {
     "password": ["", [Validators.required, Validators.minLength(4), Validators.maxLength(32)]]
   })
 
-  constructor(public readonly bsModalRef: BsModalRef, private readonly accService: AccountService, private readonly fb: FormBuilder,
-     private readonly steamService: SteamService,
-     private readonly memberService: MemberService) { }
+  constructor(public readonly bsModalRef: BsModalRef,
+    private readonly accService: AccountService,
+    private readonly fb: FormBuilder) { }
 
   ngOnInit() {
   }

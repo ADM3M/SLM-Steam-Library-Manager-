@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { forkJoin, Observable, of } from 'rxjs';
-import { catchError, finalize, map, take } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { ISteamUser } from '../models/steamUser';
 import { IUser } from '../models/user';
 import { IUserSummary } from '../models/userSummary';
@@ -17,6 +17,9 @@ import { SteamService } from '../services/steam.service';
 export class ProfileComponent implements OnInit {
   summary: IUserSummary;
   active: any[];
+  public reactiveForm: FormGroup = this.fb.group({
+    "steamUrl": ["", [Validators.required]]
+  })
 
   constructor(public readonly memberService: MemberService,
     private readonly changeDetection: ChangeDetectorRef,
@@ -24,9 +27,9 @@ export class ProfileComponent implements OnInit {
     private readonly accService: AccountService,
     private readonly steamService: SteamService) { }
 
-  public reactiveForm: FormGroup = this.fb.group({
-    "steamUrl": ["", [Validators.required]]
-  })
+  ngOnInit(): void {
+    this.initPlayerSummary();
+  }
 
   public initPlayerSummary(): void {
     this.memberService.getUserSummaries().pipe(
@@ -93,7 +96,7 @@ export class ProfileComponent implements OnInit {
           take(1),
           map(updatedUser => {
             console.log(updatedUser);
-            this.memberService.updateSteamUserData(<ISteamUser> {steamid: steamId, avatarmedium: updatedUser.photoUrl}).subscribe(() => {
+            this.memberService.updateSteamUserData(<ISteamUser>{ steamid: steamId, avatarmedium: updatedUser.photoUrl }).subscribe(() => {
               acc.photoUrl = updatedUser.photoUrl;
               this.accService.setCurrentUser(acc);
               this.memberService.isFetchNeeded = true;
@@ -103,9 +106,4 @@ export class ProfileComponent implements OnInit {
 
       })).subscribe();
   }
-
-  ngOnInit(): void {
-    this.initPlayerSummary();
-  }
-
 }

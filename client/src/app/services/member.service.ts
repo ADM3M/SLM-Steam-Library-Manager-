@@ -19,12 +19,12 @@ import { IUserSummary } from '../models/userSummary';
 })
 export class MemberService {
 
-  baseUrl = environment.baseUrl;
   public userGamesSource = new ReplaySubject<IGameObj[]>(1);
   public pagination: IPagination = { currentPage: 0, itemsPerPage: 0, totalItems: 0, totalPages: 0 }
   public games$ = this.userGamesSource.asObservable();
   public isFetchNeeded = false;
-
+  private baseUrl = environment.baseUrl;
+  
   public displayModel = {
     filters: {
       notSet: true,
