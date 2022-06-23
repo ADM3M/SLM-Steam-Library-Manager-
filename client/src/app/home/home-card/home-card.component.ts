@@ -52,11 +52,10 @@ export class HomeCardComponent implements OnInit {
 
     this.steamService.getGameImg(this.gameData.appId).pipe(take(1))
       .subscribe((imgUrl: string) => {
-        console.log(`new image: ${imgUrl}`);
         this.gameData.imageUrl = imgUrl;
         this.memberService.updateGame(this.gameData).subscribe();
         // TODO: toasts
-      }, err => { console.log(err) });
+      }, err => {});
   }
 
   private InitializeStyles(): void {
