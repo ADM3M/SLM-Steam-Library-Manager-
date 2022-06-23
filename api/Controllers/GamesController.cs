@@ -26,7 +26,7 @@ public class GamesController : BaseController
     }
 
     [HttpPut("update")]
-    public async Task<ActionResult<Games>> UpdateGameImages([FromBody] Games game)
+    public async Task<ActionResult<Games>> UpdateGameImages(Games game)
     {
         return await _gamesRepository.UpdateGameImages(game.AppId, game.IconUrl, game.ImageUrl);
     }
