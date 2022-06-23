@@ -1,11 +1,11 @@
 <div (dblclick)="ChangeStatus(2)" class="card">
     <div class="thumbnail" [ngStyle]="thumbStyles"></div>
     <div class="card-body mx-auto d-flex">
-        <div class="img-box">
+        <div class="img-box" (click)="imgScaled = !imgScaled">
             <div class="img-container">
-                <div class="img" [ngStyle]="imgStyles"></div>
+                <div class="img" [ngStyle]="imgStyles" [class.scaled_img]="imgScaled"></div>
             </div>
-            <div class="img-blr" [ngStyle]="imgBlurStyles"></div>
+            <div class="img-blr" [ngStyle]="imgBlurStyles" [style.opacity]="imgScaled? 0 : 100"></div>
         </div>
 
         <div class="d-flex flex-column mr-1">
@@ -18,7 +18,7 @@
                     <li (click)="ChangeStatus(3)">backlog</li>
                 </ul>
             </div>
-            
+
             <div class="info" [class.blr]="!menuHide">
                 <h5 [ngStyle]="{'font-size.rem' : getFontSizeByLength(gameData.name.length)}" class="title mb-1">
                     {{gameData?.name}}</h5>

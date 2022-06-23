@@ -21,6 +21,7 @@ export class HomeCardComponent implements OnInit {
   public imgBlurStyles: any;
   public thumbStyles: any;
   public menuHide = true;
+  public imgScaled = false;
 
   constructor(private readonly memberService: MemberService,
     private readonly steamService: SteamService) { }
@@ -29,6 +30,19 @@ export class HomeCardComponent implements OnInit {
     this.fetchGameImg();
     this.replaceMissingPicture();
     this.InitializeStyles();
+  }
+
+  public scaleImage(): void {
+    const imgContainer = document.querySelector(".img-container");
+    const img = document.querySelector(".img-container .img");
+
+    if (imgContainer?.classList.contains('ovf')) {
+      imgContainer?.classList.remove('ovf');
+    }
+    else {
+      imgContainer?.classList.add('ovf');
+      img?.classList.add('scaled_img');
+    }
   }
 
   public fetchGameImg(): void {
@@ -42,7 +56,7 @@ export class HomeCardComponent implements OnInit {
         this.gameData.imageUrl = imgUrl;
         this.memberService.updateGame(this.gameData).subscribe();
         // TODO: toasts
-      }, err => {console.log(err)});
+      }, err => { console.log(err) });
   }
 
   private InitializeStyles(): void {
