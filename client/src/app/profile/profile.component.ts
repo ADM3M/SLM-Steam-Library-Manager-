@@ -83,9 +83,7 @@ export class ProfileComponent implements OnInit {
     forkJoin([this.accService.currentUser$.pipe(take(1)),
     this.memberService.getUserIdByUrl(this.reactiveForm?.value?.steamUrl).pipe(take(1))])
       .pipe(take(1), map(([acc, steamId]) => {
-        console.log(acc.photoUrl);
         if (acc.steamId == steamId) {
-          console.log("user have the same steam id");
           return;
           // TODO: toast
         }
@@ -95,7 +93,6 @@ export class ProfileComponent implements OnInit {
         this.fetchSteamImage(acc).pipe(
           take(1),
           map(updatedUser => {
-            console.log(updatedUser);
             this.memberService.updateSteamUserData(<ISteamUser>{ steamid: steamId, avatarmedium: updatedUser.photoUrl }).subscribe(() => {
               acc.photoUrl = updatedUser.photoUrl;
               this.accService.setCurrentUser(acc);

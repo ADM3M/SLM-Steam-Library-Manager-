@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
   }
 
   private onUserLogin(): void {
-    this.accService.currentUser$.pipe(take(1)).subscribe((user) => {
+    this.accService.currentUser$.pipe(take(1)).subscribe((user: IUser) => {
       this.memberService.getPaginatedUserGames(1).pipe(take(1)).subscribe(games => {
         this.memberService.userGamesSource.next(games);
       })
