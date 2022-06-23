@@ -1,9 +1,13 @@
 using api.DTO;
+using api.Entities;
+using api.Extensions;
 using api.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers;
 
+[Authorize]
 public class GamesController : BaseController
 {
     private readonly IGamesRepository _gamesRepository;
@@ -19,5 +23,11 @@ public class GamesController : BaseController
         var entry =  await _gamesRepository.AddGamesAsync(steamGame);
         
         return Ok(steamGame);
+    }
+
+    [HttpPut("update")]
+    public async Task<ActionResult<Games>> UpdateGameImages([FromBody] Games game)
+    {
+        return await _gamesRepository.UpdateGameImages(game.AppId, game.IconUrl, game.ImageUrl);
     }
 }

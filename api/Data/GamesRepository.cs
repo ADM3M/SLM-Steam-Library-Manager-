@@ -32,24 +32,24 @@ public class GamesRepository : IGamesRepository
     {
         return await _context.Games.SingleAsync(g => g.AppId == appId);
     }
-
-    public async Task<Games> GetGameByIdAsync(int gameId)
-    {
-        return await _context.Games.SingleAsync(g => g.Id == gameId);
-    }
     
-    public async Task<Games> UpdateGameImages(int gameId, string iconUrl, string pictureUrl)
+    public async Task<Games> UpdateGameImages(int appId, string iconUrl, string imageUrl)
     {
-        var game = await GetGameByIdAsync(gameId);
+        var game = await _context.Games.FirstOrDefaultAsync(g => g.AppId == appId);
+
+        if (game is null)
+        {
+            throw new Exception("game not found");
+        }
         
-        if (iconUrl is not null)
+        if (iconUrl is not null && game.IconUrl is null)
         {
             game.IconUrl = iconUrl;
         }
 
-        if (pictureUrl is not null)
+        if (imageUrl is not null && game.ImageUrl is null)
         {
-            game.ImageUrl = pictureUrl;
+            game.ImageUrl = imageUrl;
         }
 
         await _context.SaveChangesAsync();
