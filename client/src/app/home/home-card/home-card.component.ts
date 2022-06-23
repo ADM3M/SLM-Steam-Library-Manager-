@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { IGameObj } from 'src/app/models/gameObj';
 import { MemberService } from 'src/app/services/member.service';
+import { SteamService } from 'src/app/services/steam.service';
 import { GameState } from '../../enums/gameState';
 
 @Component({
@@ -20,11 +22,27 @@ export class HomeCardComponent implements OnInit {
   public thumbStyles: any;
   public menuHide = true;
 
-  constructor(private readonly memberService: MemberService) { }
+  constructor(private readonly memberService: MemberService,
+    private readonly steamService: SteamService) { }
 
   ngOnInit(): void {
+    this.fetchGameImg();
     this.replaceMissingPicture();
     this.InitializeStyles();
+  }
+
+  public fetchGameImg(): void {
+    if (this.gameData.imageUrl && this.gameData.imageUrl !== "./assets/unknownImg.jpg") {
+      return;
+    }
+
+    this.steamService.getGameImg(this.gameData.appId).pipe(take(1))
+      .subscribe((imgUrl: string) => {
+        console.log(`new image: ${imgUrl}`);
+        this.gameData.imageUrl = imgUrl;
+        this.memberService.updateGame(this.gameData).subscribe();
+        // TODO: toasts
+      }, err => {console.log(err)});
   }
 
   private InitializeStyles(): void {
@@ -39,7 +57,7 @@ export class HomeCardComponent implements OnInit {
       'background-image': 'url(' + this.gameData.imageUrl || "./assets/unknownImg.jpg" + ')',
       'background-position': 'center',
       'background-repeat': 'no-repeat',
-      'background-size': '100% auto'
+      'background-size': 'cover'
     };
 
     this.thumbStyles = {
