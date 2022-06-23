@@ -23,6 +23,9 @@ export class JwtInterceptor implements HttpInterceptor {
           }
         });
       }
+      else {
+        setTimeout(() => {}, 200);
+      }
     })
 
 
