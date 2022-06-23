@@ -139,7 +139,7 @@ export class MemberService {
             userSum.notSet++;
             break;
 
-          case GameState.backlog:
+          case GameState.Backlog:
             userSum.backlog++;
         }
       });

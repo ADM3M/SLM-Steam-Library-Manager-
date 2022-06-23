@@ -13,7 +13,7 @@ export class SteamService {
 
   public steamGamesSource = new ReplaySubject<ISteamGame[]>(1);
   public steamGames$ = this.steamGamesSource.asObservable();
-  
+
   private steamBaseUrl = environment.baseSteam;
 
   constructor(private readonly http: HttpClient) { }
@@ -22,7 +22,7 @@ export class SteamService {
     return this.http.get(this.steamBaseUrl + "IPlayerService/GetOwnedGames/v0001/", {
       params: {
         "key": environment.steamApiKey,
-        "steamid" : id,
+        "steamid": id,
         "format": "json",
         "include_played_free_games": true,
         "include_appinfo": true
@@ -46,7 +46,7 @@ export class SteamService {
     return this.http.get(this.steamBaseUrl + "IPlayerService/GetOwnedGames/v0001/", {
       params: {
         "key": environment.steamApiKey,
-        "steamid" : id,
+        "steamid": id,
         "format": "json",
         "include_played_free_games": true,
       }
@@ -58,13 +58,31 @@ export class SteamService {
   }
 
   public getMemberProfileInfo(steamId: string): Observable<ISteamUser> {
-    return this.http.get<ISteamUser>(this.steamBaseUrl + "ISteamUser/GetPlayerSummaries/v0002/", {params: {
-      "key": environment.steamApiKey,
-      "steamids": steamId,
-      "format": "json"
-    }}).pipe(map((r: any) => {
+    return this.http.get<ISteamUser>(this.steamBaseUrl + "ISteamUser/GetPlayerSummaries/v0002/", {
+      params: {
+        "key": environment.steamApiKey,
+        "steamids": steamId,
+        "format": "json"
+      }
+    }).pipe(map((r: any) => {
       const playerData: any[] = r?.response?.players;
       return playerData[0];
     }))
+  }
+
+  public getGameImg(appId: number): Observable<string> {
+    return this.http.get("https://store.steampowered.com/api/appdetails", {
+      params: {
+        "appids": appId.toString(),
+        "key": ""
+      }
+    }).pipe(map((response: any) => {
+      if (!response[`${appId}`]?.success) {
+        throw new Error("steam success: false")
+      }
+
+      console.log(response[`${appId}`]?.data?.header_image);
+      return response[`${appId}`]?.data?.header_image;
+    }));
   }
 }
