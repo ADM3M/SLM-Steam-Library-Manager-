@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { delay, map, take } from 'rxjs/operators';
 import { SortObj } from '../models/sortObj';
 import { AccountService } from '../services/account.service';
@@ -12,14 +13,15 @@ import { SteamService } from '../services/steam.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavComponent implements OnInit {
-  public isFetchNeeded = false;
+  
   public sort = this.memberService.displayModel.sortBy;
   public gamesName: string[] = [];
 
   constructor(public readonly accService: AccountService,
     private readonly steamService: SteamService,
     public readonly memberService: MemberService,
-    private readonly changeDetectorRef: ChangeDetectorRef) { }
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly router: Router) { }
 
   ngOnInit(): void {
     this.getGamesName();
@@ -109,7 +111,7 @@ export class NavComponent implements OnInit {
   }
 
   public fetchSteamGames(steamId: string): void {
-    if (!this.isFetchNeeded) {
+    if (!this.memberService.isFetchNeeded) {
       return;
     }
 
@@ -122,15 +124,27 @@ export class NavComponent implements OnInit {
   }
 
   public fetchDbGamesWithParams(pageNumber: number): void {
+    this.switchRoute();
     this.memberService.setDisplayParams();
     this.memberService.getPaginatedUserGames(pageNumber).pipe(take(1)).subscribe(games => {
       this.memberService.userGamesSource.next(games);
     });
   }
 
+  private switchRoute(): void {
+    if (this.router.url !== "/profile") {
+      return;
+    }
+
+    this.router.navigateByUrl("");
+  }
+
   public IsFetchAvailiable(): void {
     this.accService.currentUser$.pipe(take(1), map(user => user.steamId))
       .subscribe(steamId => {
+        
+        if (!steamId) return;
+
         this.steamService.getGamesCount(steamId).pipe(delay(1500),
           map((steamGamesCount) => {
             console.log(`dbgames: ${this.gamesName.length} | steamGames: ${steamGamesCount}`);
@@ -141,7 +155,7 @@ export class NavComponent implements OnInit {
   }
 
   public displayFetchButton(value: boolean): void {
-    this.isFetchNeeded = value;
+    this.memberService.isFetchNeeded = value;
     this.changeDetectorRef.detectChanges();
   }
 

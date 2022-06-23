@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ISteamGame } from '../models/steamGame';
+import { IUser } from '../models/user';
 import { AccountService } from '../services/account.service';
 import { MemberService } from '../services/member.service';
 import { SteamService } from '../services/steam.service';
@@ -45,12 +46,14 @@ export class HomeComponent implements OnInit {
   }
 
   private onUserLogin(): void {
-    this.accService.currentUser$.pipe(take(1)).subscribe(() => {
+    this.accService.currentUser$.pipe(take(1)).subscribe((user: IUser) => {
       this.memberService.getPaginatedUserGames(1).pipe(take(1)).subscribe(games => {
         this.memberService.userGamesSource.next(games);
       })
 
-      this.fetchSteamGames();
+      if (user.steamId) {
+        this.fetchSteamGames();
+      }
     });
   }
 
@@ -96,17 +99,4 @@ export class HomeComponent implements OnInit {
     return pag.currentPage < pag.totalPages
       && pag.totalItems > 0;
   }
-
-  // infinite scroll
-
-  // trackScroll() {
-  //   fromEvent(window, "scroll").subscribe(() => {
-  //     if (document.documentElement.scrollHeight - window.scrollY - window.innerHeight < 0.0003 ) {
-  //       console.log(this.memberService.pagination);
-  //       if (this.memberService.pagination.currentPage < this.memberService.pagination.totalPages) {
-  //         this.getGamesFromBd(this.memberService.pagination.currentPage + 1);
-  //       }
-  //     }
-  //   })
-  // }
 }

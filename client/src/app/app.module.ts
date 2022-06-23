@@ -9,6 +9,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown"
 import { TooltipModule } from 'ngx-bootstrap/tooltip'
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar'
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,6 +19,8 @@ import { NavComponent } from './nav/nav.component';
 import { RegisterLoginModalComponent } from './modals/register-login-modal/register-login-modal.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
+import { ProfileComponent } from './profile/profile.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -26,8 +29,10 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
     HomeCardComponent,
     NavComponent,
     RegisterLoginModalComponent,
+    ProfileComponent,
   ],
   imports: [
+    AppRoutingModule,
     FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -36,6 +41,7 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     TypeaheadModule.forRoot(),
+    ProgressbarModule.forRoot(),
     BsDropdownModule,
     ReactiveFormsModule,
     NgxSpinnerModule

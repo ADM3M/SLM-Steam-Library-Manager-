@@ -1,0 +1,34 @@
+<div class="empty"></div>
+<span class="ml-3 btn_back" routerLink="/">back</span>
+<div class="container-fluid mt-3">
+
+
+    <div class="urlForm">
+        <span class="mr-2">steam url</span>
+        <form [formGroup]="reactiveForm">
+            <input id="inp" type="text" [class.is-invalid]="reactiveForm.get('steamUrl')?.errors
+                        && reactiveForm.get('steamUrl')?.touched" placeholder="vanity url" formControlName="steamUrl"
+                class="form-control mx-auto"
+                tooltip='The user`s vanity URL that you would like to retrieve a steam ID for, e.g. http://steamcommunity.com/id/gabelogannewell would use "gabelogannewell"'
+                [delay]="500" triggers="focus">
+        </form>
+        <button [disabled]="!reactiveForm.valid" (click)="updateSteamId()"
+            class="btn btn-outline-success ml-2">Apply</button>
+    </div>
+
+    <h4 class="mt-5">Summary</h4>
+    <p *ngIf="!summary">no user summary data found.</p>
+    <ng-container *ngIf="summary">
+        <div class="pBar_container d-flex align-items-center">
+            <span class="mr-2">{{active[0].value}}</span>
+            <progressbar style="transition: 1s ease-in-out;" [value]="active" [max]="summary.total"></progressbar>
+            <span class="ml-2">{{summary.total}}</span>
+        </div>
+        <div class="d-flex justify-content-around mt-3">
+            <button (click)="setActive('inProgress')" class="btn btn-outline-warning">In progress</button>
+            <button (click)="setActive('completed')" class="btn btn-outline-success">Completed</button>
+            <button (click)="setActive('backlog')" class="btn btn-outline-primary">Backlog</button>
+            <button (click)="setActive('notSet')" class="btn btn-outline-danger">Not set</button>
+        </div>
+    </ng-container>
+</div>

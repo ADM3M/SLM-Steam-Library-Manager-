@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DisplayParams } from '../models/displayParams';
 import { SortObj } from '../models/sortObj';
@@ -11,17 +11,20 @@ import { ISteamUser } from '../models/steamUser';
 import { IUser } from '../models/user';
 import { getPaginatedResult, getPaginationHeader } from './paginationHelper';
 import { IPagination, PaginatedResult } from '../models/pagination';
+import { GameState } from '../enums/gameState';
+import { IUserSummary } from '../models/userSummary';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MemberService {
 
-  baseUrl = environment.baseUrl;
   public userGamesSource = new ReplaySubject<IGameObj[]>(1);
   public pagination: IPagination = { currentPage: 0, itemsPerPage: 0, totalItems: 0, totalPages: 0 }
   public games$ = this.userGamesSource.asObservable();
-
+  public isFetchNeeded = false;
+  private baseUrl = environment.baseUrl;
+  
   public displayModel = {
     filters: {
       notSet: true,
@@ -99,7 +102,7 @@ export class MemberService {
     return this.http.put<IUser>(this.baseUrl + "user/updateSteamId", null, {
       params: {
         "steamId": steamData.steamid,
-        "photoUrl": steamData.avatarmedium
+        "photoUrl": steamData.avatarmedium ?? "./assets/unknownImg.jpg"
       }
     });
   }
@@ -113,8 +116,52 @@ export class MemberService {
   }
 
   public getGamesName(): Observable<string[]> {
-      return this.http.get<string[]>(this.baseUrl + "user/getGamesName").pipe(map((names: string[]) => {
+    return this.http.get<string[]>(this.baseUrl + "user/getGamesName").pipe(map((names: string[]) => {
       return names;
+    }))
+  }
+
+  public getUserSummaries(): Observable<IUserSummary> {
+    return this.getUserDbGames().pipe(take(1), map(games => {
+      const userSum = <IUserSummary>{ completed: 0, inProgress: 0, notSet: 0, backlog:0, total: 0 }
+      userSum.total = games.length;
+      games.forEach(game => {
+        switch (game.status) {
+          case GameState.Completed:
+            userSum.completed++;
+            break;
+
+          case GameState.InProgress:
+            userSum.inProgress++;
+            break;
+
+          case GameState.NotSet:
+            userSum.notSet++;
+            break;
+
+          case GameState.backlog:
+            userSum.backlog++;
+        }
+      });
+
+      return userSum;
+    }));
+  }
+
+  public getUserIdByUrl(url: string): Observable<string> {
+    return this.http.get("http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/", {
+      params: {
+        key: environment.steamApiKey,
+        vanityurl: url
+      }
+    }).pipe(take(1),
+    map((response: any) => {
+      if (response?.response?.success == "1") {
+        return response?.response?.steamid;
+      }
+
+      // TODO: toast
+      throw new Error("profile not found");
     }))
   }
 }
