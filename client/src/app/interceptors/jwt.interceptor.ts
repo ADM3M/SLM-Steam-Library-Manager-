@@ -5,9 +5,9 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AccountService } from '../services/account.service';
-import { take } from 'rxjs/operators';
+import { delay, take } from 'rxjs/operators';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -22,6 +22,9 @@ export class JwtInterceptor implements HttpInterceptor {
             Authorization: "Bearer " + user.token
           }
         });
+      }
+      else {
+        of(true).pipe(delay(200)).subscribe();
       }
     })
 

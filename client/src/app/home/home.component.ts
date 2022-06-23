@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ISteamGame } from '../models/steamGame';
@@ -88,7 +88,7 @@ export class HomeComponent implements OnInit {
           }
 
           this.memberService.addGames(gamesToAdd).pipe(take(1)).subscribe((newGames) => {
-            this.memberService.userGamesSource.next(newGames.concat(pagedGames));
+            this.getGamesFromBd();
           });
         })
       })).pipe(take(1)).subscribe();
