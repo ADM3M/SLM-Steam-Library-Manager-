@@ -4,7 +4,7 @@
         <form (submit)="fetchDbGamesWithParams(1)">
             <input name="s" placeholder="Search games" type="text" [typeahead]="this.gamesName"
                 [typeaheadScrollable]="true" [typeaheadMultipleSearch]="true" [typeaheadSingleWords]="true"
-                [(ngModel)]="this.memberService.displayModel.search" [typeaheadSelectFirstItem]="false">
+                [(ngModel)]="this.memberService.displayModel.search">
             <i (click)="resetInput()" class="fas fa-times" tooltip="reset input" [tooltipPopupDelay]="500"></i>
         </form>
         <div class="dropdown" dropdown [insideClick]="true">
