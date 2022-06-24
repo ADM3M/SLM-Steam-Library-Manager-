@@ -5,10 +5,10 @@
             <input name="s" placeholder="Search games" type="text" [typeahead]="this.gamesName"
                 [typeaheadScrollable]="true" [typeaheadMultipleSearch]="true" [typeaheadSingleWords]="true"
                 [(ngModel)]="this.memberService.displayModel.search">
-            <i (click)="resetInput()" class="fas fa-times" tooltip="reset input" [tooltipPopupDelay]="500"></i>
+            <i (click)="resetInput()" class="fas fa-times" tooltip="reset input" [delay]="500"></i>
         </form>
         <div class="dropdown" dropdown [insideClick]="true">
-            <i dropdownToggle class="ml-2 fas fa-sort-alpha-down" tooltip="filters" [tooltipPopupDelay]="500"></i>
+            <i dropdownToggle class="ml-2 fas fa-sort-alpha-down" tooltip="filters" [delay]="500"></i>
             <div id="filter-dropdown" class="mt-2 dropdown-menu" *dropdownMenu>
 
                 <div class="filters">
@@ -54,7 +54,7 @@
                 <button [class.hide]="!this.memberService.isFetchNeeded" (click)="fetchSteamGames(user.steamId)"
                     [ngStyle]="{'animation-play-state': this.memberService.isFetchNeeded? 'running' : 'paused'}"
                     class="mr-3" tooltip="fetch games from steam" [tooltipAnimation]="true"
-                    [tooltipPopupDelay]="500">Fetch</button>
+                    [delay]="500">Fetch</button>
             </ng-container>
 
             <div class="dropdown" dropdown>
