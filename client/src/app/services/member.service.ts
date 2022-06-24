@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DisplayParams } from '../models/displayParams';
@@ -24,7 +24,8 @@ export class MemberService {
   public games$ = this.userGamesSource.asObservable();
   public isFetchNeeded = false;
   private baseUrl = environment.baseUrl;
-  
+  private memberCache = new Map<string, Observable<IGameObj[]>>();
+
   public displayModel = {
     filters: {
       notSet: true,
@@ -74,6 +75,13 @@ export class MemberService {
 
   public getPaginatedUserGames(pageNumber: number): Observable<IGameObj[]> {
     const dp = this.displayParams;
+    this.pagination.currentPage = pageNumber;
+    const response = this.memberCache.get(this.displayParams.join() + "-" + Object.values(this.pagination).join("-"));
+
+    if (response) {
+      return response;
+    }
+
     let httpParams = getPaginationHeader(pageNumber)
       .append("orderBy", dp.orderBy)
       .append("statusesToShow", dp.statusesToShow)
@@ -82,6 +90,7 @@ export class MemberService {
     return getPaginatedResult<IGameObj[]>(this.baseUrl + "user", this.http, httpParams)
       .pipe(map((r: PaginatedResult<IGameObj[]>) => {
         this.pagination = r.pagination;
+        this.memberCache.set(this.displayParams.join() + "-" + Object.values(this.pagination).join("-"), of(r.result!));
         return r.result!;
       }))
   }
@@ -123,7 +132,7 @@ export class MemberService {
 
   public getUserSummaries(): Observable<IUserSummary> {
     return this.getUserDbGames().pipe(take(1), map(games => {
-      const userSum = <IUserSummary>{ completed: 0, inProgress: 0, notSet: 0, backlog:0, total: 0 }
+      const userSum = <IUserSummary>{ completed: 0, inProgress: 0, notSet: 0, backlog: 0, total: 0 }
       userSum.total = games.length;
       games.forEach(game => {
         switch (game.status) {
@@ -155,13 +164,13 @@ export class MemberService {
         vanityurl: url
       }
     }).pipe(take(1),
-    map((response: any) => {
-      if (response?.response?.success == "1") {
-        return response?.response?.steamid;
-      }
+      map((response: any) => {
+        if (response?.response?.success == "1") {
+          return response?.response?.steamid;
+        }
 
-      // TODO: toast
-      throw new Error("profile not found");
-    }))
+        // TODO: toast
+        throw new Error("profile not found");
+      }))
   }
 }
