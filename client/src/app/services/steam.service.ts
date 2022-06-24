@@ -81,7 +81,6 @@ export class SteamService {
         throw new Error("steam success: false")
       }
 
-      console.log(response[`${appId}`]?.data?.header_image);
       return response[`${appId}`]?.data?.header_image;
     }));
   }
