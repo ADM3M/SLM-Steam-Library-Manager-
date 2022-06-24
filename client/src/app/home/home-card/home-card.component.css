@@ -75,7 +75,7 @@
     width: 8rem;
     height: 8rem;
     overflow: hidden;
-    filter: blur(2px) brightness(30%);
+    filter: blur(2px) brightness(35%);
     transition: .3s;
 }
 
