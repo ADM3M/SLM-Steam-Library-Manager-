@@ -1,3 +1,19 @@
+a span {
+    color: rgba(0, 0, 0, 0.434);
+    transition: .2s;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a span:hover {
+    transition: .2s;
+    color: black;
+}
+
+span:nth-child(10) {
+    color: rgba(255, 0, 0, 0.434) !important;
+}
+
 .empty {
     padding-top: 5rem !important;
 }
@@ -10,16 +26,31 @@
 .container-fluid {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     width: 98%;
-    height: 70%;
     background: rgba(197, 197, 197, 0.322);
+}
+
+.upper {
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.upper .divider {
+    width: 1px;
+    border-left: 2px dashed rgba(95, 95, 95, 0.707);
+    border-radius: 50%;
 }
 
 .urlForm {
     display: flex;
     align-items: center;
-    width: 40%;
+    justify-content: space-around;
+    width: 350px;
+    white-space: no-wrap;
 }
 
 .urlForm input {
@@ -27,11 +58,45 @@
 }
 
 .urlForm form {
-    width: 40%;
+    width: 70%;
 }
 
 .btn_back {
     cursor: pointer;
     font-weight: 400;
-    text-decoration: underline;
+    border: 1px solid rgba(95, 95, 95, 0.707);
+    padding-right: 7px;
+    padding-left: 7px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 3px;
+    transition: .3s;
+}
+
+.btn_back:hover {
+    transform: .3s;
+    background-color: rgba(49, 49, 49, 0.8);
+    color: white;
+}
+
+.summary {
+    width: 90%;
+}
+
+.last_games {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 300px;
+
+    /* border-top: 1px dashed rgba(95, 95, 95, 0.707);
+    border-bottom: 1px dashed rgba(95, 95, 95, 0.707); */
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.last_games h4 {
+    color: rgba(0, 0, 0, 0.663);
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { forkJoin, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -12,7 +12,8 @@ import { SteamService } from '../services/steam.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent implements OnInit {
   summary: IUserSummary;
@@ -29,6 +30,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.initPlayerSummary();
+    // TODO: отобразить последние 10 добавленных игр
   }
 
   public initPlayerSummary(): void {

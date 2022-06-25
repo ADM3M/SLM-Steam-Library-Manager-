@@ -153,6 +153,12 @@ export class MemberService {
         }
       });
 
+      const lastItems = [];
+      for (let i = games.length - 1; i >= games.length - 10; i--) {
+        lastItems.push(games[i]);
+      }
+
+      userSum.lastGames = lastItems;
       return userSum;
     }));
   }
