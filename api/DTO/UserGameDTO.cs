@@ -16,4 +16,6 @@ public class UserGameDTO
     public string? ImageUrl { get; set; }
 
     public string? IconUrl { get; set; }
+
+    public DateTime dateTime { get; set; }
 }

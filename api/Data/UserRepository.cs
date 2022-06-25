@@ -33,12 +33,15 @@ public class UserRepository : IUserRepository
             .Where(u => u.UserId == userId)
             .AsQueryable();
 
-        if (dp.Search is not null && dp.Search.Length > 0)
+        if (dp.PageNumber != -1)
         {
-            query = query.Where(g => EF.Functions.Like(g.Game.Name, $"%{dp.Search}%"));
+            if (dp.Search is not null && dp.Search.Length > 0)
+            {
+                query = query.Where(g => EF.Functions.Like(g.Game.Name, $"%{dp.Search}%"));
+            }
+
+            query = query.OrderSwitch(dp); //Extension method
         }
-        
-        query = query.OrderSwitch(dp); //Extension method
 
         return PagedList.Create(
             query.ProjectTo<UserGameDTO>(_mapper.ConfigurationProvider).AsNoTracking().ToList(), dp);

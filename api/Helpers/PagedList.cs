@@ -26,6 +26,7 @@ public class PagedList : List<UserGameDTO>
 
         if (dp.PageNumber == -1)
         {
+            source = source.OrderBy(o => o.dateTime);
             var count = source.Count();
             return new PagedList(source, count, -1, count);
         }
