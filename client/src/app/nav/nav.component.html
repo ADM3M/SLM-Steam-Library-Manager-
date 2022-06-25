@@ -1,14 +1,14 @@
 <header class="container-fluid d-flex align-items-center justify-content-between">
 
     <div class="left ml-5">
-        <form (submit)="fetchDbGamesWithParams(1)">
+        <form class="mr-2" (submit)="fetchDbGamesWithParams(1)">
             <input name="s" placeholder="Search games" type="text" [typeahead]="this.gamesName"
                 [typeaheadScrollable]="true" [typeaheadMultipleSearch]="true" [typeaheadSingleWords]="true"
                 [(ngModel)]="this.memberService.displayModel.search">
-            <i (click)="resetInput()" class="fas fa-times" tooltip="reset input" [delay]="500"></i>
+            <i [style.display]="" (click)="resetInput()" class="fas fa-times" tooltip="reset input" [delay]="500"></i>
         </form>
         <div class="dropdown" dropdown [insideClick]="true">
-            <i dropdownToggle class="ml-2 fas fa-sort-alpha-down" tooltip="filters" [delay]="500"></i>
+            <i dropdownToggle class="fas fa-sort-alpha-down" tooltip="filters" [delay]="500"></i>
             <div id="filter-dropdown" class="mt-2 dropdown-menu" *dropdownMenu>
 
                 <div class="filters">

@@ -1,5 +1,8 @@
+import { IGameObj } from "./gameObj";
+
 export interface IUserSummary {
-    total: number
+    lastGames: IGameObj[];
+    total: number;
     notSet: number;
     inProgress: number;
     completed: number;
