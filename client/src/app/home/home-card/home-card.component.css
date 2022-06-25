@@ -6,7 +6,7 @@
     border-radius: 0;
     width: 300px;
     height: 150px;
-    opacity: 85%;
+    opacity: 90%;
     animation: cardAppear .3s ease-in-out;
     transition: .2s;
 }
@@ -22,7 +22,6 @@
 
 .card:hover {
     opacity: 100%;
-    /* background: linear-gradient(to right hsla(0, 0%, 75%, 0.585), hsla(0, 0%, 87%, 0.585)); */
     background: linear-gradient(hsla(0, 100%, 50%, 0.585)rgba(215, 215, 8, 0.585));
     transform: scale(105%);
     transition-duration: .2s;

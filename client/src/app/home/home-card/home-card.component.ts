@@ -14,14 +14,14 @@ import { GameState } from '../../enums/gameState';
 export class HomeCardComponent implements OnInit {
   @Input() gameData: IGameObj = {
     appId: 0, iconUrl: "", gameId: 0, name: "",
-    imageUrl: "", status: GameState.NotSet, userPlayTime: 0
+    imageUrl: "", status: GameState.NotSet, userPlayTime: 0, dateTime: ""
   }
 
   public imgStyles: any;
   public imgBlurStyles: any;
   public thumbStyles: any;
   public menuHide = true;
-  public imgScaled = false;
+  public imgScaled = true;
 
   constructor(private readonly memberService: MemberService,
     private readonly steamService: SteamService) { }
@@ -59,7 +59,7 @@ export class HomeCardComponent implements OnInit {
         this.gameData.imageUrl = imgUrl;
         this.memberService.updateGame(this.gameData).subscribe();
         // TODO: toasts
-      }, err => {});
+      }, err => { });
   }
 
   private InitializeStyles(): void {

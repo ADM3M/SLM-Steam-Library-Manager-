@@ -1,7 +1,7 @@
 <div (dblclick)="ChangeStatus(2)" class="card">
     <div class="thumbnail" [ngStyle]="thumbStyles"></div>
     <div class="card-body mx-auto d-flex">
-        <div class="img-box" (click)="imgScaled = !imgScaled">
+        <div class="img-box" (mouseover)="imgScaled = false" (click)="imgScaled = !imgScaled">
             <div class="img-container">
                 <div class="img" [ngStyle]="imgStyles" [class.scaled_img]="imgScaled"></div>
             </div>
