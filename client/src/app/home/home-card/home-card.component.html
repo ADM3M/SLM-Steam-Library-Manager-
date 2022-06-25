@@ -20,8 +20,10 @@
             </div>
 
             <div class="info" [class.blr]="!menuHide">
-                <h5 [ngStyle]="{'font-size.rem' : getFontSizeByLength(gameData.name.length)}" class="title mb-1">
-                    {{gameData?.name}}</h5>
+                <a (click)="openSteamPage()">
+                    <h5 [ngStyle]="{'font-size.rem' : getFontSizeByLength(gameData.name.length)}" class="title mb-1">
+                        {{gameData?.name}}</h5>
+                </a>
                 <p (click)="menuHide = !menuHide" class="status">status: {{getEnumName()}}</p>
                 <p class="playTime">played total: {{gameData?.userPlayTime}}h</p>
             </div>

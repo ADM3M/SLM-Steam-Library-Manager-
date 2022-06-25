@@ -154,3 +154,8 @@
     transition: .2s;
     background-color: rgba(27, 27, 27, 0.5);
 }
+
+.info a {
+    text-decoration: none;
+    color: black;
+}

@@ -32,6 +32,10 @@ export class HomeCardComponent implements OnInit {
     this.InitializeStyles();
   }
 
+  public openSteamPage(): void {
+    window.open(`https://store.steampowered.com/app/${this.gameData.appId}/${this.gameData.name.replace(" ", "_")}`, "_blank");
+  }
+
   public scaleImage(): void {
     const imgContainer = document.querySelector(".img-container");
     const img = document.querySelector(".img-container .img");
