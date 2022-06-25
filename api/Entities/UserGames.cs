@@ -17,6 +17,8 @@ public class UserGames
     public double UserPlayTime { get; set; }
 
     public GameStatus Status { get; set; }
+
+    public DateTime dateTime { get; set; } = DateTime.UtcNow;
     
     public int UserId { get; set; }
 
