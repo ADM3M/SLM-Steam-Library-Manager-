@@ -28,13 +28,13 @@ public class AccountRepository : IAccountRepository
         var newUser = _mapper.Map<Users>(userAuthDataDto);
 
         var result = await _userManager.CreateAsync(newUser, userAuthDataDto.Password);
+        if (!result.Succeeded) return null;
 
-        if (!result.Succeeded)
-        {
-            return null;
-        }
+        var roleResult = await _userManager.AddToRoleAsync(newUser, "member");
+        if (!roleResult.Succeeded) return null;
 
-        var token = _tokenService.CreateToken(newUser);
+
+        var token = await _tokenService.CreateToken(newUser);
 
         var accountDto = _mapper.Map<AccountDTO>(userAuthDataDto);
         accountDto.Token = token;
@@ -61,7 +61,7 @@ public class AccountRepository : IAccountRepository
         }
 
         var userDto = _mapper.Map<AccountDTO>(user);
-        userDto.Token = _tokenService.CreateToken(user);
+        userDto.Token = await _tokenService.CreateToken(user);
 
         return userDto;
     }
