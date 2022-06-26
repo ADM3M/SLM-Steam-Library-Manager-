@@ -1,5 +1,8 @@
 using System.Text;
+using api.Data;
+using api.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace api.Extensions;
@@ -8,6 +11,17 @@ public static class AppIdentityServicesExtension
 {
     public static IServiceCollection AddIdentityServices(this IServiceCollection services, ConfigurationManager config)
     {
+        services.AddIdentityCore<Users>(opt =>
+            {
+                opt.Password.RequireDigit = true;
+                opt.Password.RequireNonAlphanumeric = false;
+            })
+            .AddRoles<AppRole>()
+            .AddRoleManager<RoleManager<AppRole>>()
+            .AddRoleValidator<RoleValidator<AppRole>>()
+            .AddSignInManager<SignInManager<Users>>()
+            .AddEntityFrameworkStores<DataContext>();
+        
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
             {
