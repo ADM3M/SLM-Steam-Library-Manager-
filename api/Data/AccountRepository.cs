@@ -37,8 +37,7 @@ public class AccountRepository : IAccountRepository
 
     public async Task<AccountDTO> LoginUser(UserAuthDataDTO userAuthDataDto)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userAuthDataDto.UserName
-            && u.Password == userAuthDataDto.Password);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userAuthDataDto.UserName);
 
         if (user is null)
         {
