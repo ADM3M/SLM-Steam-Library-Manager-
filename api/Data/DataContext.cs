@@ -1,15 +1,16 @@
 using api.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Data;
 
-public class DataContext : DbContext
+public class DataContext : IdentityDbContext<Users, AppRole, int, IdentityUserClaim<int>,
+    AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
 {
     public DataContext() {}
     
     public DataContext(DbContextOptions options) : base(options) {}
-
-    public DbSet<Users> Users { get; set; }
 
     public DbSet<Games> Games { get; set; }
 
@@ -34,5 +35,17 @@ public class DataContext : DbContext
             .WithMany(g => g.collection)
             .HasForeignKey(f => f.GameId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Users>()
+            .HasMany(ur => ur.UserRoles)
+            .WithOne(u => u.User)
+            .HasForeignKey(ur => ur.UserId)
+            .IsRequired();
+
+        modelBuilder.Entity<AppRole>()
+            .HasMany(ar => ar.UserRoles)
+            .WithOne(r => r.Role)
+            .HasForeignKey(f => f.RoleId)
+            .IsRequired();
     }
 }
