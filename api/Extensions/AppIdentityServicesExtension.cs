@@ -14,7 +14,7 @@ public static class AppIdentityServicesExtension
         services.AddIdentityCore<Users>(opt =>
             {
                 opt.Password.RequiredLength = 4;
-                opt.Password.RequireUppercase = false;
+                opt.Password.RequireLowercase = false;
                 opt.Password.RequireUppercase = false;
                 opt.Password.RequireNonAlphanumeric = false;
             })
