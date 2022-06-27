@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AccountService } from 'src/app/services/account.service';
 
@@ -20,16 +21,21 @@ export class RegisterLoginModalComponent implements OnInit {
 
   constructor(public readonly bsModalRef: BsModalRef,
     private readonly accService: AccountService,
-    private readonly fb: FormBuilder) { }
+    private readonly fb: FormBuilder,
+    private readonly router: Router) { }
 
   ngOnInit() {
   }
 
   public loginUser(): void {
-    this.accService.login(this.reactiveForm?.value).subscribe();
+    this.accService.login(this.reactiveForm?.value).subscribe(() => {
+      this.router.navigateByUrl("");
+    });
   }
 
   public registerUser(): void {
-    this.accService.register(this.reactiveForm?.value).subscribe();
+    this.accService.register(this.reactiveForm?.value).subscribe(() => {
+      this.router.navigateByUrl("");
+    });
   }
 }

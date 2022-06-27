@@ -1,6 +1,6 @@
 <header class="container-fluid d-flex align-items-center justify-content-between">
 
-    <div class="left ml-5">
+    <div class="left ml-5" *ngIf="accService.currentUser$ | async">
         <form class="mr-2" (submit)="fetchDbGamesWithParams(1)">
             <input name="s" placeholder="Search games" type="text" [typeahead]="this.gamesName"
                 [typeaheadScrollable]="true" [typeaheadMultipleSearch]="true" [typeaheadSingleWords]="true"
@@ -63,6 +63,7 @@
                     <img [src]="user?.photoUrl || './assets/unknownImg.jpg'" alt="steamAv">
                 </div>
                 <div class="dropdown-menu" *dropdownMenu>
+                    <a routerLink="/admin" class="dropdown-item">Admin</a>
                     <a routerLink="/profile" class="dropdown-item">Edit profile</a>
                     <a (click)="logOut()" class="dropdown-item">Logout</a>
                 </div>

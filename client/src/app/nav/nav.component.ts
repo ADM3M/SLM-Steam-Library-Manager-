@@ -163,6 +163,7 @@ export class NavComponent implements OnInit {
     this.accService.logout();
     this.memberService.userGamesSource.next(undefined);
     this.memberService.pagination.totalItems = 0;
-    console.log(this.memberService.pagination);
+    this.memberService.memberCache.clear();
+    this.router.navigateByUrl("/crutch");
   }
 }
