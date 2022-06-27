@@ -1,0 +1,8 @@
+div.empty {
+    padding-top: 5rem !important;
+}
+
+table {
+    width: 60%;
+    background-color: rgba(196, 196, 196, 0.278);
+}

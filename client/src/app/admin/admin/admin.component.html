@@ -1,1 +1,21 @@
-<p>admin works!</p>
+<div class="empty"></div>
+<div class="wrapper d-flex flex-column align-items-center">
+    <table class="table table-hover" >
+        <tr>
+            <th style="width: 40%">Message</th>
+            <th style="width: 20%">From</th>
+            <th style="width: 20%"></th>
+        </tr>
+        <tr>
+            <td>message content</td>
+            <td>
+                <div style="padding: 0;">
+                    <strong>Sender name</strong>
+                </div>
+            </td>
+            <td>
+                <div (click)="$event.stopPropagation()" class="btn btn-outline-danger">Delete</div>
+            </td>
+        </tr>
+    </table>
+</div>

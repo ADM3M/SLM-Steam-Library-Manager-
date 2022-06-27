@@ -26,10 +26,6 @@ try
     var roleManager = serviceProvider.GetRequiredService<RoleManager<AppRole>>();
     await context.Database.MigrateAsync();
     Seed.SeedData(context, roleManager, userManager);
-    
-    var games = await context.Games.ToListAsync();
-    var serializedData = JsonSerializer.Serialize(games);
-    await File.WriteAllTextAsync(Directory.GetCurrentDirectory() + @"\games.txt", serializedData);
 }
 catch (Exception ex)
 {
