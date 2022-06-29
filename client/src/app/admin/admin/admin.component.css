@@ -2,7 +2,26 @@ div.empty {
     padding-top: 5rem !important;
 }
 
-table {
+.wrapper {
     width: 60%;
     background-color: rgba(196, 196, 196, 0.278);
+}
+
+.input button {
+    padding: 1px
+}
+
+.update_photo_container input {
+    width: 80px;
+}
+
+img {
+    width: 8rem;
+}
+
+.img {
+    height: 8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

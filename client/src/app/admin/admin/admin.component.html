@@ -1,21 +1,29 @@
 <div class="empty"></div>
-<div class="wrapper d-flex flex-column align-items-center">
-    <table class="table table-hover" >
-        <tr>
-            <th style="width: 40%">Message</th>
-            <th style="width: 20%">From</th>
-            <th style="width: 20%"></th>
-        </tr>
-        <tr>
-            <td>message content</td>
-            <td>
-                <div style="padding: 0;">
-                    <strong>Sender name</strong>
+<div class="wrapper mx-auto d-flex flex-column align-items-center">
+    <h3>Update app photo</h3>
+    <div class="update_photo_container d-flex flex-column align-items-center">
+
+        <div class="input d-flex mt-3 mb-3">
+            <input class="form-control" type="text" placeholder="gameId" [(ngModel)]="appId">
+            <button [disabled]="appId.length === 0" (click)="GetGameInfo()" class="btn btn-dark">submit</button>
+        </div>
+
+        <div *ngIf="oldGameEnt && newGameImg" class="update_photo_images d-flex flex-column ">
+            <div class="update_photo_images__inner d-flex">
+                <div class="update_photo_images__image mr-3">
+                    <div class="img">
+                        <img [src]="oldGameEnt?.imageUrl || './assets/unknownImg.jpg'" alt="olg_img">
+                    </div>
+                    <p>old</p>
                 </div>
-            </td>
-            <td>
-                <div (click)="$event.stopPropagation()" class="btn btn-outline-danger">Delete</div>
-            </td>
-        </tr>
-    </table>
+                <div class="update_photo_images__image">
+                    <div class="img">
+                        <img [src]="newGameImg || './assets/unknownImg.jpg'" alt="new_img">
+                    </div>
+                    <p>new</p>
+                </div>
+            </div>
+            <button (click)="updateAppPhoto()" class="btn btn-outline-success">Update</button>
+        </div>
+    </div>
 </div>
