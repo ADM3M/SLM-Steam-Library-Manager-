@@ -20,7 +20,8 @@ public static class AppServicesExtension
             .AddScoped<IAccountRepository, AccountRepository>()
             .AddAutoMapper(typeof(AutomapperProfile).Assembly)
             .AddScoped<IUserRepository, UserRepository>()
-            .AddScoped<IGamesRepository, GamesRepository>();
+            .AddScoped<IGamesRepository, GamesRepository>()
+            .AddScoped<IMessageRepository, MessageRepository>();
 
         return services;
     }
