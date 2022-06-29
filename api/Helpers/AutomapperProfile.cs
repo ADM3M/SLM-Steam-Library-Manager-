@@ -22,6 +22,12 @@ public class AutomapperProfile : Profile
 
         CreateMap<SteamGameDTO, Games>()
             .ForMember(dest => dest.IconUrl, opt => opt.MapFrom(src => src.Img_icon_url));
+        
+        CreateMap<Messages, MessageDTO>()
+            .ForMember(dest => dest.SenderPhotoUrl, opt => opt.MapFrom(src => 
+                src.Sender.PhotoUrl))
+            .ForMember(dest => dest.RecipientPhotoUrl, opt => opt.MapFrom(src => 
+                src.Recipient.PhotoUrl));
 
     }
 }
