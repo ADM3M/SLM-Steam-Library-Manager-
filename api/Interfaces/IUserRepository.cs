@@ -6,7 +6,9 @@ namespace api.Interfaces;
 
 public interface IUserRepository
 {
-    Task<Users> GetUserById(int userId);
+    Task<Users> GetUserByIdAsync(int userId);
+
+    Task<Users> GetUserByUsernameAsync(string username);
     
     Task<PagedList> GetUserGames(int userId, DisplayParams dp);
 
