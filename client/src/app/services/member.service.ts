@@ -23,8 +23,8 @@ export class MemberService {
   public pagination: IPagination = { currentPage: 0, itemsPerPage: 0, totalItems: 0, totalPages: 0 }
   public games$ = this.userGamesSource.asObservable();
   public isFetchNeeded = false;
+  public memberCache = new Map<string, Observable<IGameObj[]>>();
   private baseUrl = environment.baseUrl;
-  private memberCache = new Map<string, Observable<IGameObj[]>>();
 
   public displayModel = {
     filters: {

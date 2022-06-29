@@ -1,0 +1,29 @@
+<div class="empty"></div>
+<div class="wrapper mx-auto d-flex flex-column align-items-center">
+    <h3>Update app photo</h3>
+    <div class="update_photo_container d-flex flex-column align-items-center">
+
+        <div class="input d-flex mt-3 mb-3">
+            <input class="form-control" type="text" placeholder="gameId" [(ngModel)]="appId">
+            <button [disabled]="appId.length === 0" (click)="GetGameInfo()" class="btn btn-dark">submit</button>
+        </div>
+
+        <div *ngIf="oldGameEnt && newGameImg" class="update_photo_images d-flex flex-column ">
+            <div class="update_photo_images__inner d-flex">
+                <div class="update_photo_images__image mr-3">
+                    <div class="img">
+                        <img [src]="oldGameEnt?.imageUrl || './assets/unknownImg.jpg'" alt="olg_img">
+                    </div>
+                    <p>old</p>
+                </div>
+                <div class="update_photo_images__image">
+                    <div class="img">
+                        <img [src]="newGameImg || './assets/unknownImg.jpg'" alt="new_img">
+                    </div>
+                    <p>new</p>
+                </div>
+            </div>
+            <button (click)="updateAppPhoto()" class="btn btn-outline-success">Update</button>
+        </div>
+    </div>
+</div>

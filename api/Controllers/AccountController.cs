@@ -1,32 +1,30 @@
-using api.Data;
 using api.DTO;
 using api.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers;
 
 public class AccountController : BaseController
 {
     private readonly IAccountRepository _accountRepository;
-    private readonly DataContext _context;
 
-    public AccountController(ITokenService tokenService, IMapper mapper, IAccountRepository accountRepository, DataContext context)
+    public AccountController(ITokenService tokenService, IMapper mapper, IAccountRepository accountRepository)
     {
         _accountRepository = accountRepository;
-        _context = context;
     }
 
     [HttpPost("register")]
     public async Task<ActionResult<AccountDTO>> Register([FromBody]UserAuthDataDTO userAuthDataDto)
     {
-        if (await _context.Users.AnyAsync(u => u.UserName == userAuthDataDto.UserName))
+        var result = await _accountRepository.CreateUserAsync(userAuthDataDto);
+
+        if (result is null)
         {
             return BadRequest("username is taken");
         }
-        
-        return await _accountRepository.CreateUserAsync(userAuthDataDto);
+
+        return result;
     }
 
     [HttpPost("login")]

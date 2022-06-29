@@ -21,6 +21,9 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { ProfileComponent } from './profile/profile.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AdminComponent } from './admin/admin/admin.component';
+import { CrutchComponent } from './crutch/crutch.component';
+import { HasRoleDirective } from './directives/has-role.directive';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { AppRoutingModule } from './app-routing.module';
     NavComponent,
     RegisterLoginModalComponent,
     ProfileComponent,
+    AdminComponent,
+    CrutchComponent,
+    HasRoleDirective,
   ],
   imports: [
     AppRoutingModule,

@@ -21,7 +21,7 @@
         <div class="last_games">
             <h4>Last added games</h4>
             <div *ngFor="let game of summary?.lastGames" class="last_games__item">
-                <a (click)="this.memberService.displayModel.search = game.name"><span>{{game.name}}</span></a>
+                <a (click)="this.memberService.displayModel.search = game.name"><span>{{game?.name}}</span></a>
             </div>
         </div>
     </div>

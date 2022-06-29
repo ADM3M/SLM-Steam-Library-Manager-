@@ -1,6 +1,5 @@
 using api.DTO;
 using api.Entities;
-using api.Extensions;
 using api.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +16,7 @@ public class GamesController : BaseController
         _gamesRepository = gamesRepository;
     }
 
+    [Authorize(Policy = "requireAdmin")]
     [HttpPost("addGames")]
     public async Task<ActionResult<List<SteamGameDTO>>> AddGame (List<SteamGameDTO> steamGame)
     {

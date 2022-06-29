@@ -8,5 +8,5 @@ public interface IAccountRepository
 
     Task<AccountDTO> LoginUser(UserAuthDataDTO userAuthDataDto);
 
-    Task<int> DeleteUserAsync(int userId);
+    Task<bool> DeleteUserAsync(int userId);
 }
