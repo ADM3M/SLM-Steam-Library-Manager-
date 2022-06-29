@@ -32,6 +32,11 @@ public static class AppIdentityServicesExtension
                 ValidateIssuer = false,
                 ValidateAudience = false,
             });
+
+        services.AddAuthorization(opt =>
+        {
+            opt.AddPolicy("requireAdmin", policy => policy.RequireRole("admin"));
+        });
         
         return services;
     }
