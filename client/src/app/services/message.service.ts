@@ -24,4 +24,19 @@ export class MessageService {
   public getMessageThread(username: string): Observable<IMessage[]> {
     return this.http.get<IMessage[]>(this.baseUrl + "thread/" + username);
   }
+
+  public sendMessage(username: string, content: string): Observable<IMessage> {
+      return this.http.post<IMessage>(this.baseUrl, {
+        "recipientName": username,
+        content
+      });
+  }
+
+  public deleteMessage(messageId: number): Observable<any> {
+    return this.http.delete(this.baseUrl, {
+      params: {
+        "messageId": messageId
+      }
+    })
+  }
 }

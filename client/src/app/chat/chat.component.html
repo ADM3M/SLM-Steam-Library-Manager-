@@ -26,7 +26,7 @@
     </div>
 
     <div class="card-footer">
-        <form #messageForm="ngForm" autocomplete="off">
+        <form #messageForm="ngForm" autocomplete="off" (submit)="sendMessage(messageForm)">
             <div class="input-group">
                 <input 
                     name="messageContent"

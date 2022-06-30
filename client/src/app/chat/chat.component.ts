@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { IMessage } from '../models/message';
@@ -30,5 +31,14 @@ export class ChatComponent implements OnInit {
             this.changeDetector.markForCheck();
           })
       });
+  }
+
+  public sendMessage(form: NgForm): void {
+    this.messageService.sendMessage(this.username, this.messageContent)
+      .pipe(take(1)).subscribe((message: IMessage) => {
+        this.messages.push(message);
+        this.changeDetector.markForCheck();
+        form.reset();
+      })
   }
 }
