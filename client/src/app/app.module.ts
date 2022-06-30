@@ -10,6 +10,7 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown"
 import { TooltipModule } from 'ngx-bootstrap/tooltip'
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar'
+import { ButtonsModule } from 'ngx-bootstrap/buttons'
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,6 +25,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AdminComponent } from './admin/admin/admin.component';
 import { CrutchComponent } from './crutch/crutch.component';
 import { HasRoleDirective } from './directives/has-role.directive';
+import { MessagesComponent } from './messages/messages.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,8 @@ import { HasRoleDirective } from './directives/has-role.directive';
     AdminComponent,
     CrutchComponent,
     HasRoleDirective,
+    MessagesComponent,
+    ChatComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -48,6 +53,7 @@ import { HasRoleDirective } from './directives/has-role.directive';
     TooltipModule.forRoot(),
     TypeaheadModule.forRoot(),
     ProgressbarModule.forRoot(),
+    ButtonsModule.forRoot(),
     BsDropdownModule,
     ReactiveFormsModule,
     NgxSpinnerModule
