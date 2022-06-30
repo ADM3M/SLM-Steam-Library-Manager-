@@ -79,4 +79,24 @@ public class MessageController : BaseController
 
         return Ok(await _messageRepo.GetMessageThread(currentName:  currentUser, recipientName: username));
     }
+
+    [Authorize(Policy = "requireAdmin")]
+    [HttpDelete]
+    public async Task<ActionResult> DeleteMessage(int messageId)
+    {
+        var message = await _messageRepo.GetMessageAsync(messageId);
+
+        if (message is null)
+        {
+            return BadRequest("message doesn't exists");
+        }
+        
+        _messageRepo.DeleteMessage(message);
+        if (await _messageRepo.SaveAllAsync())
+        {
+            return Ok();
+        }
+
+        return BadRequest("something gone wrong while deleting message");
+    }
 }

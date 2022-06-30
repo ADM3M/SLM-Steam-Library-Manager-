@@ -29,7 +29,7 @@ public class MessageRepository : IMessageRepository
         _context.Messages.Remove(message);
     }
 
-    public async Task<Messages> GetMessage(int id)
+    public async Task<Messages> GetMessageAsync(int id)
     {
         return await _context.Messages.FindAsync(id);
     }

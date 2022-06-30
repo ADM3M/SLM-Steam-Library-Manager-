@@ -11,7 +11,7 @@ public interface IMessageRepository
 
     void DeleteMessage(Messages message);
 
-    Task<Messages> GetMessage(int id);
+    Task<Messages> GetMessageAsync(int id);
 
     Task<List<MessageDTO>> GetMessagesForUser(MessageParams messageParams);
 
