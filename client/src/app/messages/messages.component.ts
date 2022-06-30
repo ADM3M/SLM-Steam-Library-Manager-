@@ -29,4 +29,13 @@ export class MessagesComponent implements OnInit {
       });
   }
 
+  public deleteMessage(id: number): void {
+    this.messageService.deleteMessage(id).pipe(take(1))
+      .subscribe(() => {
+        this.messages = this.messages.filter((m => m.id != id));
+        this.changeDetector.markForCheck();
+        // TODO: toast
+      })
+  }
+
 }

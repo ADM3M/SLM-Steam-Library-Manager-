@@ -3,10 +3,10 @@
 <div class="wrapper mx-auto mt-3">
     <div class="mb-4">
         <div class="btn-group" btnRadioGroup [(ngModel)]="container">
-            <button btnRadio="Inbox" class="btn btn-dark" (click)="loadMessages()"><i
-                    class="fa fa-envelope"></i> Inbox</button>
-            <button btnRadio="Outbox" class="btn btn-dark" (click)="loadMessages()"><i
-                    class="fa fa-envelope-open"></i> Outbox</button>
+            <button btnRadio="Inbox" class="btn btn-dark" (click)="loadMessages()"><i class="fa fa-envelope"></i>
+                Inbox</button>
+            <button btnRadio="Outbox" class="btn btn-dark" (click)="loadMessages()"><i class="fa fa-envelope-open"></i>
+                Outbox</button>
         </div>
     </div>
 
@@ -26,20 +26,22 @@
             <tr *ngFor="let message of messages">
                 <td>{{message.content}}</td>
                 <td>
-                    <div style="padding: 0;" *ngIf="container === 'Outbox'">
-                        <img src="{{message?.recipientPhotoUrl}}"
-                            class="img-circle rounded-circle mr-2" alt="{{message.recipientName}}">
-                        <strong>{{message.senderName | titlecase}}</strong>
+                    <div style="padding: 0;" *ngIf="container === 'Outbox'" routerLink="/chat"
+                        [queryParams]="{'username' : message.recipientName}">
+                        <img src="{{message?.recipientPhotoUrl}}" class="img-circle rounded-circle mr-2"
+                            alt="{{message.recipientName}}">
+                        <strong>{{message.recipientName | titlecase}}</strong>
                     </div>
-                    <div style="padding: 0;" *ngIf="container !== 'Outbox'">
-                        <img src="{{message?.senderPhotoUrl}}"
-                            class="img-circle rounded-circle mr-2" alt="{{message.senderName}}">
+                    <div style="padding: 0;" *ngIf="container !== 'Outbox'" routerLink="/chat"
+                        [queryParams]="{'username' : message.senderName}">
+                        <img src="{{message?.senderPhotoUrl}}" class="img-circle rounded-circle mr-2"
+                            alt="{{message.senderName}}">
                         <strong>{{message.senderName | titlecase}}</strong>
                     </div>
                 </td>
                 <td>{{message.messageSent}}</td>
                 <td>
-                    <div class="btn btn-outline-danger">Delete</div>
+                    <div class="btn btn-outline-danger" (click)="deleteMessage(message.id)" >Delete</div>
                 </td>
             </tr>
         </table>
