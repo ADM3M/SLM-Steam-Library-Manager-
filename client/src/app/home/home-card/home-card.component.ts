@@ -58,8 +58,7 @@ export class HomeCardComponent implements OnInit {
       .subscribe((imgUrl: string) => {
         this.gameData.imageUrl = imgUrl;
         this.memberService.updateGame(this.gameData).subscribe();
-        // TODO: toasts
-      }, err => { });
+      });
   }
 
   private InitializeStyles(): void {
