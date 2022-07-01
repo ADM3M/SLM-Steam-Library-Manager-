@@ -41,7 +41,7 @@ public class MessageController : BaseController
             return NotFound();
         }
 
-        var message = new Messages()
+        var message = new Messages
         {
             Sender = sender,
             Recipient = recipient,
@@ -84,7 +84,7 @@ public class MessageController : BaseController
     [HttpDelete]
     public async Task<ActionResult> DeleteMessage(int messageId)
     {
-        var message = await _messageRepo.GetMessageAsync(messageId);
+        var message = await _messageRepo.GetMessage(messageId);
 
         if (message is null)
         {
