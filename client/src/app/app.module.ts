@@ -6,11 +6,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { BsDropdownModule } from "ngx-bootstrap/dropdown"
-import { TooltipModule } from 'ngx-bootstrap/tooltip'
-import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
-import { ProgressbarModule } from 'ngx-bootstrap/progressbar'
-import { ButtonsModule } from 'ngx-bootstrap/buttons'
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,6 +28,7 @@ import { CrutchComponent } from './crutch/crutch.component';
 import { HasRoleDirective } from './directives/has-role.directive';
 import { MessagesComponent } from './messages/messages.component';
 import { ChatComponent } from './chat/chat.component';
+import { ErrorsInterceptor } from './interceptors/errors.interceptor';
 
 @NgModule({
   declarations: [
@@ -56,11 +58,15 @@ import { ChatComponent } from './chat/chat.component';
     ButtonsModule.forRoot(),
     BsDropdownModule,
     ReactiveFormsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ToastrModule.forRoot({
+      positionClass: "toast-bottom-right"
+    }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorsInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
