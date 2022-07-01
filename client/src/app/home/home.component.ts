@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ISteamGame } from '../models/steamGame';
@@ -18,7 +19,8 @@ export class HomeComponent implements OnInit {
   constructor(public readonly accService: AccountService,
     public readonly steamService: SteamService,
     public readonly memberService: MemberService,
-    private readonly changeDetectorRef: ChangeDetectorRef) { }
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.onUserLogin();
@@ -81,17 +83,15 @@ export class HomeComponent implements OnInit {
             });
 
           }
-          else {
-            // TODO: print toast
-            console.log('all games are up to date');
-            return;
-          }
 
           this.memberService.addGames(gamesToAdd).pipe(take(1)).subscribe((newGames) => {
+            this.toastr.success(`fetched ${newGames.length} games`);
             this.getGamesFromBd();
           });
         })
-      })).pipe(take(1)).subscribe();
+      })).pipe(take(1)).subscribe(() => {}, err => {
+        this.toastr.error("error while fetching games");
+      });
   }
 
   public loadButtonDisplay(): boolean {
