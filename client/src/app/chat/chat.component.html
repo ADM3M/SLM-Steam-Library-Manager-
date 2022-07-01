@@ -2,11 +2,15 @@
 <span class="ml-3 btn_back" routerLink="/">back</span>
 <div class="card mt-2">
     <div class="card-body">
+        <div *ngIf="(messageService.messageThread$ | async)?.length === 0">
+            Contact with administrator using textbox bellow
+        </div>
         <ul #scrollMe
             style="overflow: scroll; height: 500px; overflow-x: hidden;" 
             [scrollTop]="scrollMe.scrollHeight"
-            class="chat">
-                <li *ngFor="let message of messages">
+            class="chat"
+            *ngIf="(messageService.messageThread$ | async)!.length > 0" >
+                <li *ngFor="let message of (messageService.messageThread$ | async)">
                     <span class="chat-image float-left">
                         <img src="{{message.senderPhotoUrl || './assets/unknownImg.jpg'}}" 
                             alt="{{message.senderName}}" class="rounded-circle mr-3">
