@@ -18,6 +18,10 @@ public class DataContext : IdentityDbContext<Users, AppRole, int, IdentityUserCl
 
     public DbSet<UserGames> UserGames { get; set; }
 
+    public DbSet<Group> Groups { get; set; }
+
+    public DbSet<Connection> Connections { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
