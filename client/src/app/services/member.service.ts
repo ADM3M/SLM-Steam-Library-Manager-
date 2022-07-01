@@ -28,7 +28,7 @@ export class MemberService {
 
   public displayModel = {
     filters: {
-      notSet: true,
+      notSet: false,
       inProgress: true,
       completed: false,
       backlog: false
