@@ -90,7 +90,12 @@ export class MemberService {
     return getPaginatedResult<IGameObj[]>(this.baseUrl + "user", this.http, httpParams)
       .pipe(map((r: PaginatedResult<IGameObj[]>) => {
         this.pagination = r.pagination;
-        this.memberCache.set(this.displayParams.join() + "-" + Object.values(this.pagination).join("-"), of(r.result!));
+        if (this.pagination.totalItems !== 0) {
+          this.memberCache
+            .set(this.displayParams.join() + "-" + Object.values(this.pagination).join("-"), of(r.result!));
+            console.log(this.memberCache);
+            console.log(r.result);
+        }
         return r.result!;
       }))
   }

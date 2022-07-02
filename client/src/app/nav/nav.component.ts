@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { delay, map, take } from 'rxjs/operators';
+import { IGameObj } from '../models/gameObj';
 import { SortObj } from '../models/sortObj';
 import { AccountService } from '../services/account.service';
 import { MemberService } from '../services/member.service';

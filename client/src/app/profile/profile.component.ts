@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { forkJoin, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ISteamUser } from '../models/steamUser';
@@ -26,7 +27,8 @@ export class ProfileComponent implements OnInit {
     private readonly changeDetection: ChangeDetectorRef,
     private readonly fb: FormBuilder,
     private readonly accService: AccountService,
-    private readonly steamService: SteamService) { }
+    private readonly steamService: SteamService,
+    private readonly toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.initPlayerSummary();
@@ -91,6 +93,7 @@ export class ProfileComponent implements OnInit {
         }
 
         acc.steamId = steamId;
+        this.memberService.memberCache.clear();
 
         this.fetchSteamImage(acc).pipe(
           take(1),
@@ -103,6 +106,11 @@ export class ProfileComponent implements OnInit {
           })
         ).subscribe();
 
-      })).subscribe();
+      })).subscribe(() => { this.toastr.success("steamId updated successfully") }, (err) => {
+        this.toastr.error("Error while updating steamId")
+          .onTap.pipe(map(() => err)).subscribe((err) => {
+          console.log(err);
+        });
+      });
   }
 }
