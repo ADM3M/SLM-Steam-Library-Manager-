@@ -157,3 +157,35 @@ img {
     text-decoration: none;
     background-color: rgba(49, 49, 49, 0.8);
 }
+
+@media only screen and (max-width: 426px) {
+    html {
+        font-size: 10px;
+    }
+
+    .left input {
+        max-width: 150px;
+    }
+
+    .left {
+        margin-left: 1rem !important;
+        min-width: 183px;
+    }
+    
+    .user_info span{
+        display: none !important;
+    }
+    
+    .right .dropdown-menu {
+        margin-right: 15px;
+    }
+
+    .right button {
+        margin-right: 2px !important;
+    }
+    
+    .right .dropdown * {
+        margin-right: 10px;
+        font-size: 14px;
+    }
+}
