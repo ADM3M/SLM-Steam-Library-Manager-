@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { delay, map, take } from 'rxjs/operators';
+import { delay, filter, map, take } from 'rxjs/operators';
 import { IGameObj } from '../models/gameObj';
 import { SortObj } from '../models/sortObj';
 import { AccountService } from '../services/account.service';
@@ -50,6 +50,8 @@ export class NavComponent implements OnInit {
 
     this.memberService.displayParams.search = '';
     this.memberService.displayModel.search = '';
+    this.turnFilter("reset");
+    this.memberService.setDisplayParams();
     this.fetchDbGamesWithParams(1);
   }
 
@@ -75,6 +77,20 @@ export class NavComponent implements OnInit {
 
       case "backlog":
         filters.backlog = !filters.backlog;
+        break;
+
+      case "enable_all":
+        filters.notSet = true;
+        filters.inProgress = true;
+        filters.completed = true;
+        filters.backlog = true;
+        break;
+      
+      case "reset":
+        filters.notSet = false;
+        filters.inProgress = true;
+        filters.completed = false;
+        filters.backlog = false;
         break;
     }
 
@@ -130,6 +146,15 @@ export class NavComponent implements OnInit {
     this.switchRoute();
     this.memberService.setDisplayParams();
     this.memberService.getPaginatedUserGames(pageNumber).pipe(take(1)).subscribe(games => {
+      this.memberService.userGamesSource.next(games);
+    });
+  }
+
+  public search(): void {
+    this.switchRoute();
+    this.turnFilter("enable_all");
+    this.memberService.setDisplayParams();
+    this.memberService.getPaginatedUserGames(1).pipe(take(1)).subscribe(games => {
       this.memberService.userGamesSource.next(games);
     });
   }
