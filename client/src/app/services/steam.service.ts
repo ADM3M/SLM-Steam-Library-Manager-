@@ -78,7 +78,9 @@ export class SteamService {
       }
     }).pipe(map((response: any) => {
       if (!response[`${appId}`]?.success) {
-        throw new Error("steam success: false")
+        const err: any = new Error();
+        err["data"] = `Steam error: No data found for app: ${appId}`;
+        throw err;
       }
 
       return response[`${appId}`]?.data?.header_image;
