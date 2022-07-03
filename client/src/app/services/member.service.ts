@@ -180,7 +180,6 @@ export class MemberService {
           return response?.response?.steamid;
         }
 
-        // TODO: toast
         throw new Error("profile not found");
       }))
   }
