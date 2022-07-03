@@ -84,14 +84,14 @@ export class NavComponent implements OnInit {
         filters.inProgress = true;
         filters.completed = true;
         filters.backlog = true;
-        break;
+        return;
       
       case "reset":
         filters.notSet = false;
         filters.inProgress = true;
         filters.completed = false;
         filters.backlog = false;
-        break;
+        return;
     }
 
     this.fetchDbGamesWithParams(1);
@@ -193,5 +193,9 @@ export class NavComponent implements OnInit {
     this.memberService.pagination.totalItems = 0;
     this.memberService.memberCache.clear();
     this.router.navigateByUrl("/crutch");
+  }
+
+  public onTypeaheadSelect(event: any) {
+    this.search();
   }
 }
