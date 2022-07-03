@@ -100,3 +100,27 @@ span:nth-child(10) {
 .last_games h4 {
     color: rgba(0, 0, 0, 0.663);
 }
+
+@media only screen and (max-width: 1025px) {
+    .divider {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 426px) {
+    .upper {
+        width: 90% !important;
+    }
+
+    .summary button {
+        padding: 5px 7px;
+    }
+
+    .summary .buttons {
+        flex-direction: column;
+    }
+
+    .summary .buttons * {
+        margin-bottom: 7px;
+    }
+}

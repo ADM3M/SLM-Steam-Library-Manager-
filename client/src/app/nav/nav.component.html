@@ -4,7 +4,7 @@
         <form class="mr-2" (submit)="search()">
             <input name="s" placeholder="Search games" type="text" [typeahead]="this.gamesName"
                 [typeaheadScrollable]="true" [typeaheadMultipleSearch]="true" [typeaheadSingleWords]="true"
-                [(ngModel)]="this.memberService.displayModel.search">
+                [(ngModel)]="this.memberService.displayModel.search" (typeaheadOnSelect)="onTypeaheadSelect($event)">
             <i [style.display]="" (click)="resetInput()" class="fas fa-times" tooltip="reset input" [delay]="500"></i>
         </form>
         <div class="dropdown" dropdown [insideClick]="true">
