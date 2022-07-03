@@ -119,6 +119,8 @@ export class NavComponent implements OnInit {
     this.steamService.getUserSteamGames(steamId)
       .pipe(take(1))
       .subscribe(games => {
+        this.memberService.userGamesSource.next([]);
+        this.switchRoute();
         this.steamService.steamGamesSource.next(games);
         this.displayFetchButton(false);
       })
