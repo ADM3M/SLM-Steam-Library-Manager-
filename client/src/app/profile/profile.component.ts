@@ -107,7 +107,7 @@ export class ProfileComponent implements OnInit {
         ).subscribe();
 
       })).subscribe(() => { this.toastr.success("steamId updated successfully") }, (err) => {
-        this.toastr.error("Error while updating steamId")
+        this.toastr.error("Profile not found")
           .onTap.pipe(map(() => err)).subscribe((err) => {
           console.log(err);
         });

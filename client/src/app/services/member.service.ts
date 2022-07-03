@@ -93,8 +93,6 @@ export class MemberService {
         if (this.pagination.totalItems !== 0) {
           this.memberCache
             .set(this.displayParams.join() + "-" + Object.values(this.pagination).join("-"), of(r.result!));
-            console.log(this.memberCache);
-            console.log(r.result);
         }
         return r.result!;
       }))
