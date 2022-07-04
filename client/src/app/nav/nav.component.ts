@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
 import { delay, filter, map, take } from 'rxjs/operators';
 import { IGameObj } from '../models/gameObj';
 import { SortObj } from '../models/sortObj';
@@ -139,6 +140,9 @@ export class NavComponent implements OnInit {
         this.switchRoute();
         this.steamService.steamGamesSource.next(games);
         this.displayFetchButton(false);
+        of(true).pipe(delay(500)).subscribe(() => {
+          this.getGamesName();
+        })
       })
   }
 
