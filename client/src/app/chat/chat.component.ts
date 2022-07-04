@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { IMessage } from '../models/message';
 import { IUser } from '../models/user';
@@ -23,7 +24,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   constructor(public readonly messageService: MessageService,
     private readonly route: ActivatedRoute,
     private readonly changeDetector: ChangeDetectorRef,
-    private accService: AccountService) {
+    private accService: AccountService,
+    private readonly toastr: ToastrService) {
       this.accService.currentUser$.pipe(take(1)).subscribe((user: IUser) => {
         this.user = user;
       });
@@ -33,11 +35,11 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.resolveUserFromRoute();
+    this.getMessages();
     this.messageService.createHubConnection(this.user, this.username);
   }
 
-  private resolveUserFromRoute(): void {
+  private getMessages(): void {
     this.route.queryParams.pipe(take(1))
       .subscribe(params => {
         this.username = params?.username;
@@ -46,6 +48,8 @@ export class ChatComponent implements OnInit, OnDestroy {
           .subscribe((messages: IMessage[]) => {
             this.messages = messages;
             this.changeDetector.markForCheck();
+          }, error => {
+            this.toastr.error("error while getting messages");
           })
       });
   }

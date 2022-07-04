@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { delay, map, take } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { delay, filter, map, take } from 'rxjs/operators';
+import { IGameObj } from '../models/gameObj';
 import { SortObj } from '../models/sortObj';
 import { AccountService } from '../services/account.service';
 import { MemberService } from '../services/member.service';
@@ -49,6 +51,8 @@ export class NavComponent implements OnInit {
 
     this.memberService.displayParams.search = '';
     this.memberService.displayModel.search = '';
+    this.turnFilter("reset");
+    this.memberService.setDisplayParams();
     this.fetchDbGamesWithParams(1);
   }
 
@@ -75,6 +79,20 @@ export class NavComponent implements OnInit {
       case "backlog":
         filters.backlog = !filters.backlog;
         break;
+
+      case "enable_all":
+        filters.notSet = true;
+        filters.inProgress = true;
+        filters.completed = true;
+        filters.backlog = true;
+        return;
+      
+      case "reset":
+        filters.notSet = false;
+        filters.inProgress = true;
+        filters.completed = false;
+        filters.backlog = false;
+        return;
     }
 
     this.fetchDbGamesWithParams(1);
@@ -118,8 +136,13 @@ export class NavComponent implements OnInit {
     this.steamService.getUserSteamGames(steamId)
       .pipe(take(1))
       .subscribe(games => {
+        this.memberService.userGamesSource.next([]);
+        this.switchRoute();
         this.steamService.steamGamesSource.next(games);
         this.displayFetchButton(false);
+        of(true).pipe(delay(500)).subscribe(() => {
+          this.getGamesName();
+        })
       })
   }
 
@@ -127,6 +150,15 @@ export class NavComponent implements OnInit {
     this.switchRoute();
     this.memberService.setDisplayParams();
     this.memberService.getPaginatedUserGames(pageNumber).pipe(take(1)).subscribe(games => {
+      this.memberService.userGamesSource.next(games);
+    });
+  }
+
+  public search(): void {
+    this.switchRoute();
+    this.turnFilter("enable_all");
+    this.memberService.setDisplayParams();
+    this.memberService.getPaginatedUserGames(1).pipe(take(1)).subscribe(games => {
       this.memberService.userGamesSource.next(games);
     });
   }
@@ -165,5 +197,9 @@ export class NavComponent implements OnInit {
     this.memberService.pagination.totalItems = 0;
     this.memberService.memberCache.clear();
     this.router.navigateByUrl("/crutch");
+  }
+
+  public onTypeaheadSelect(event: any) {
+    this.search();
   }
 }

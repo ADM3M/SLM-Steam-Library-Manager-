@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { IGameObj } from '../models/gameObj';
 import { ISteamGame } from '../models/steamGame';
 import { IUser } from '../models/user';
 import { AccountService } from '../services/account.service';
@@ -18,7 +20,8 @@ export class HomeComponent implements OnInit {
   constructor(public readonly accService: AccountService,
     public readonly steamService: SteamService,
     public readonly memberService: MemberService,
-    private readonly changeDetectorRef: ChangeDetectorRef) { }
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.onUserLogin();
@@ -61,6 +64,10 @@ export class HomeComponent implements OnInit {
     forkJoin([this.memberService.games$.pipe(take(1)), this.memberService.getUserDbGames()])
       .pipe(map(([pagedGames, dbGames]) => {
         this.steamService.steamGames$.pipe(take(1)).subscribe((steamGames: ISteamGame[]) => {
+          if (steamGames.length === 0) {
+            return;
+          }
+          
           let gamesToAdd: ISteamGame[] = [];
 
           if (dbGames.length === 0) {
@@ -81,17 +88,21 @@ export class HomeComponent implements OnInit {
             });
 
           }
-          else {
-            // TODO: print toast
-            console.log('all games are up to date');
-            return;
-          }
 
           this.memberService.addGames(gamesToAdd).pipe(take(1)).subscribe((newGames) => {
-            this.getGamesFromBd();
+            this.toastr.success(`fetched ${newGames.length} games.`);
+            this.memberService.memberCache.clear();
+            this.memberService.getPaginatedUserGames(1).pipe(take(1))
+              .subscribe((games: IGameObj[]) => {
+                this.memberService.userGamesSource.next(games);
+                this.changeDetectorRef.markForCheck();
+                this.steamService.steamGamesSource.next([]);
+              })
           });
         })
-      })).pipe(take(1)).subscribe();
+      })).pipe(take(1)).subscribe(() => { }, err => {
+        this.toastr.error("error while fetching games");
+      });
   }
 
   public loadButtonDisplay(): boolean {

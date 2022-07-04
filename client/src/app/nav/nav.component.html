@@ -1,10 +1,10 @@
 <header class="container-fluid d-flex align-items-center justify-content-between">
 
     <div class="left ml-5" *ngIf="accService.currentUser$ | async">
-        <form class="mr-2" (submit)="fetchDbGamesWithParams(1)">
+        <form class="mr-2" (submit)="search()">
             <input name="s" placeholder="Search games" type="text" [typeahead]="this.gamesName"
                 [typeaheadScrollable]="true" [typeaheadMultipleSearch]="true" [typeaheadSingleWords]="true"
-                [(ngModel)]="this.memberService.displayModel.search">
+                [(ngModel)]="this.memberService.displayModel.search" (typeaheadOnSelect)="onTypeaheadSelect($event)">
             <i [style.display]="" (click)="resetInput()" class="fas fa-times" tooltip="reset input" [delay]="500"></i>
         </form>
         <div class="dropdown" dropdown [insideClick]="true">

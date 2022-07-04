@@ -1,6 +1,7 @@
 .modal-dialog {
     width: 24rem;
     user-select: none;
+    margin-top: calc(1/4 * 100vh);
 }
 
 #login.modal-body {
@@ -27,4 +28,13 @@
 
 #login .invalid-feedback {
     margin-bottom: .5rem;
+}
+
+@media only screen and (max-width: 426px) and (min-width: 375px) {
+    .modal-dialog {
+        width: 20rem;
+        user-select: none;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
 }
