@@ -1,0 +1,49 @@
+<div class="empty"></div>
+<span class="ml-3 btn_back" routerLink="/">back</span>
+<div class="card mt-2">
+    <div class="card-body">
+        <div *ngIf="(messageService.messageThread$ | async)?.length === 0">
+            Contact with administrator using textbox bellow
+        </div>
+        <ul #scrollMe
+            style="overflow: scroll; height: 500px; overflow-x: hidden;" 
+            [scrollTop]="scrollMe.scrollHeight"
+            class="chat"
+            *ngIf="(messageService.messageThread$ | async)!.length > 0" >
+                <li *ngFor="let message of (messageService.messageThread$ | async)">
+                    <span class="chat-image float-left">
+                        <img src="{{message.senderPhotoUrl || './assets/unknownImg.jpg'}}" 
+                            alt="{{message.senderName}}" class="rounded-circle mr-3">
+                    </span>
+                    <div class="chat-body">
+                        <div class="header">
+                            <small class="text-muted">
+                                <span>{{message.senderName | uppercase}} | </span>
+                                <span class=""> {{message.messageSent}}</span>
+                            </small>
+                        </div>
+
+                        <p>{{message.content}}</p>
+                    </div>
+                </li>
+            </ul>
+    </div>
+
+    <div class="card-footer">
+        <form #messageForm="ngForm" autocomplete="off" (submit)="sendMessage(messageForm)">
+            <div class="input-group">
+                <input 
+                    name="messageContent"
+                    required
+                    [(ngModel)]="messageContent"
+                    type="text" 
+                    class="form-control input-sm" 
+                    placeholder="Send a message">
+                    
+                <div class="input-group-append">
+                    <button [disabled]="!messageForm.valid" class="btn btn-primary" type="submit">Send</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

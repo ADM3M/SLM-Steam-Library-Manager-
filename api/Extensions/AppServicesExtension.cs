@@ -2,6 +2,7 @@ using api.Data;
 using api.Helpers;
 using api.Interfaces;
 using api.Services;
+using api.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Extensions;
@@ -16,11 +17,13 @@ public static class AppServicesExtension
         });
 
         services
+            .AddSingleton<PresenceTracker>()
             .AddScoped<ITokenService, TokenService>()
             .AddScoped<IAccountRepository, AccountRepository>()
             .AddAutoMapper(typeof(AutomapperProfile).Assembly)
             .AddScoped<IUserRepository, UserRepository>()
-            .AddScoped<IGamesRepository, GamesRepository>();
+            .AddScoped<IGamesRepository, GamesRepository>()
+            .AddScoped<IMessageRepository, MessageRepository>();
 
         return services;
     }

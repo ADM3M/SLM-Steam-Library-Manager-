@@ -23,9 +23,15 @@ public class UserRepository : IUserRepository
         _gameRepository = gameRepository;
     }
 
-    public async Task<Users> GetUserById(int userId)
+    public async Task<Users> GetUserByIdAsync(int userId)
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+    }
+
+    public async Task<Users> GetUserByUsernameAsync(string username)
+    {
+        return await _context.Users
+            .SingleOrDefaultAsync(user => user.UserName == username);
     }
     public async Task<PagedList> GetUserGames(int userId, DisplayParams dp)
     {
@@ -49,7 +55,7 @@ public class UserRepository : IUserRepository
 
     public async Task<Users> UpdateUserSteamId(int userId, AccountDTO accountDto)
     {
-        var user = await GetUserById(userId);
+        var user = await GetUserByIdAsync(userId);
 
         user.SteamId = accountDto.SteamId;
         user.PhotoUrl = accountDto.PhotoUrl;
@@ -73,7 +79,7 @@ public class UserRepository : IUserRepository
     
     public async Task<List<UserGameDTO>> AddGames(int userId, List<SteamGameDTO> steamGames)
     {
-        var userEnt = await GetUserById(userId);
+        var userEnt = await GetUserByIdAsync(userId);
 
         var noDbGames = GetNewGames(steamGames);
         if (noDbGames.Any())

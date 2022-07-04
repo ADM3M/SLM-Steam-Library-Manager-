@@ -4,6 +4,8 @@ using api.Entities;
 using api.Extensions;
 using api.Helpers;
 using api.Middleware;
+using api.SignalR;
+using API.SignalR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +16,7 @@ builder.Services.AddCors();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAppServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -48,8 +51,17 @@ app.UseAuthentication();
 
 app.UseHttpsRedirection();
 
+app.MapControllers();
+
+app.UseRouting();
+
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<PresenceHub>("hubs/presence");
+    endpoints.MapHub<MessageHub>("hubs/message");
+});
 
 app.Run();

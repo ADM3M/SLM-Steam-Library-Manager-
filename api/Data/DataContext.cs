@@ -14,7 +14,13 @@ public class DataContext : IdentityDbContext<Users, AppRole, int, IdentityUserCl
 
     public DbSet<Games> Games { get; set; }
 
+    public DbSet<Messages> Messages { get; set; }
+
     public DbSet<UserGames> UserGames { get; set; }
+
+    public DbSet<Group> Groups { get; set; }
+
+    public DbSet<Connection> Connections { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -47,5 +53,15 @@ public class DataContext : IdentityDbContext<Users, AppRole, int, IdentityUserCl
             .WithOne(r => r.Role)
             .HasForeignKey(f => f.RoleId)
             .IsRequired();
+        
+        modelBuilder.Entity<Messages>()
+            .HasOne(u => u.Recipient)
+            .WithMany(f => f.MessagesReceived)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Messages>()
+            .HasOne(u => u.Sender)
+            .WithMany(f => f.MessagesSent)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

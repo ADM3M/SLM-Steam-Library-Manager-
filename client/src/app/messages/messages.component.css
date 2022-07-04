@@ -1,0 +1,29 @@
+.empty {
+    height: 5rem;
+}
+
+.wrapper {
+    width: 90%;
+}
+
+.img-circle {
+    max-height: 40px;
+}
+
+.btn_back {
+    cursor: pointer;
+    font-weight: 400;
+    border: 1px solid rgba(95, 95, 95, 0.707);
+    padding-right: 7px;
+    padding-left: 7px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 3px;
+    transition: .3s;
+}
+
+.btn_back:hover {
+    transform: .3s;
+    background-color: rgba(49, 49, 49, 0.8);
+    color: white;
+}
