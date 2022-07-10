@@ -3,30 +3,23 @@ using api.Entities;
 using api.Extensions;
 using api.Interfaces;
 using API.SignalR;
-using AutoMapper;
 using Microsoft.AspNetCore.SignalR;
 
 namespace api.SignalR;
 
 public class MessageHub : Hub
 {
-    private readonly IMessageRepository _messageRepository;
-    private readonly IMapper _mapper;
-    private readonly IUserRepository _userRepository;
+    private readonly IUnitOfWork _unit;
     private readonly PresenceTracker _tracker;
     private readonly IHubContext<PresenceHub> _presenceHub;
 
-    public MessageHub(IMessageRepository messageRepository, 
-        IMapper mapper, 
-        IUserRepository userRepository,
+    public MessageHub(IUnitOfWork unit,
         PresenceTracker tracker,
         IHubContext<PresenceHub> presenceHub)
     {
-        _userRepository = userRepository;
+        _unit = unit;
         _tracker = tracker;
         _presenceHub = presenceHub;
-        _mapper = mapper;
-        _messageRepository = messageRepository;
     }
 
     public override async Task OnConnectedAsync()
@@ -39,7 +32,7 @@ public class MessageHub : Hub
 
         await Clients.Group(groupName).SendAsync("UpdatedGroup", group);
 
-        var messages = await _messageRepository
+        var messages = await _unit.MessageRepo
             .GetMessageThread(Context.User.GetUserName(), otherUser);
 
         await Clients.Caller.SendAsync("ReceiveMessageThread", messages);
@@ -61,8 +54,8 @@ public class MessageHub : Hub
             throw new HubException("You can't send messages to yourself");
         }
 
-        var sender = await _userRepository.GetUserByUsernameAsync(username);
-        var recipient = await _userRepository.GetUserByUsernameAsync(messageDTO.RecipientName);
+        var sender = await _unit.UserRepo.GetUserByUsernameAsync(username);
+        var recipient = await _unit.UserRepo.GetUserByUsernameAsync(messageDTO.RecipientName);
 
         if (recipient is null)
         {
@@ -80,7 +73,7 @@ public class MessageHub : Hub
 
         var groupName = GetGroupName(sender.UserName, recipient.UserName);
 
-        var group = await _messageRepository.GetMessageGroup(groupName);
+        var group = await _unit.MessageRepo.GetMessageGroup(groupName);
 
         if (!group.Connections.Any(x => x.UserName == recipient.UserName))
         {
@@ -92,28 +85,28 @@ public class MessageHub : Hub
             }
         }
 
-        _messageRepository.AddMessage(message);
+        _unit.MessageRepo.AddMessage(message);
 
-        if (await _messageRepository.SaveAllAsync())
+        if (await _unit.Complete())
         {
-            await Clients.Group(groupName).SendAsync("NewMessage", _mapper.Map<MessageDTO>(message));
+            await Clients.Group(groupName).SendAsync("NewMessage", _unit.Mapper.Map<MessageDTO>(message));
         }
     }
 
     private async Task<Group> AddToGroup(string groupName)
     {
-        var group = await _messageRepository.GetMessageGroup(groupName);
+        var group = await _unit.MessageRepo.GetMessageGroup(groupName);
         var connection = new Connection(Context.ConnectionId, Context.User.GetUserName());
 
         if (group is null)
         {
             group = new Group(groupName);
-            _messageRepository.AddGroup(group);
+            _unit.MessageRepo.AddGroup(group);
         }
 
         group.Connections.Add(connection);
 
-        if (await _messageRepository.SaveAllAsync())
+        if (await _unit.Complete())
         {
             return group;
         }
@@ -123,10 +116,10 @@ public class MessageHub : Hub
 
     private async Task<Group> RemoveFromMessageGroup()
     {
-        var group = await _messageRepository.GetGroupForConnection(Context.ConnectionId);
+        var group = await _unit.MessageRepo.GetGroupForConnection(Context.ConnectionId);
         var connection = group.Connections.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
-        _messageRepository.RemoveConnection(connection);
-        if (await _messageRepository.SaveAllAsync())
+        _unit.MessageRepo.RemoveConnection(connection);
+        if (await _unit.Complete())
         {
             return group;
         }

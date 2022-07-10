@@ -3,7 +3,6 @@ using api.Entities;
 using api.Extensions;
 using api.Helpers;
 using api.Interfaces;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,15 +11,11 @@ namespace api.Controllers;
 [Authorize]
 public class MessageController : BaseController
 {
-    private readonly IMessageRepository _messageRepo;
-    private readonly IUserRepository _userRepo;
-    private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unit;
 
-    public MessageController(IMessageRepository messageRepo, IUserRepository userRepo, IMapper mapper)
+    public MessageController(IUnitOfWork unit)
     {
-        _messageRepo = messageRepo;
-        _userRepo = userRepo;
-        _mapper = mapper;
+        _unit = unit;
     }
 
     [HttpPost]
@@ -33,8 +28,8 @@ public class MessageController : BaseController
             return BadRequest("You can't send messages to yourself");
         }
 
-        var sender = await _userRepo.GetUserByUsernameAsync(username);
-        var recipient = await _userRepo.GetUserByUsernameAsync(createMessageDto.RecipientName);
+        var sender = await _unit.UserRepo.GetUserByUsernameAsync(username);
+        var recipient = await _unit.UserRepo.GetUserByUsernameAsync(createMessageDto.RecipientName);
 
         if (recipient is null)
         {
@@ -50,11 +45,11 @@ public class MessageController : BaseController
             Content = createMessageDto.Content,
         };
 
-        _messageRepo.AddMessage(message);
+        _unit.MessageRepo.AddMessage(message);
 
-        if (await _messageRepo.SaveAllAsync())
+        if (await _unit.Complete())
         {
-            return Ok(_mapper.Map<MessageDTO>(message));
+            return Ok(_unit.Mapper.Map<MessageDTO>(message));
         }
 
         return BadRequest("Failed to send message");
@@ -65,7 +60,7 @@ public class MessageController : BaseController
     {
         messageParams.Name = User.GetUserName();
 
-        var messages = await _messageRepo.GetMessagesForUser(messageParams);
+        var messages = await _unit.MessageRepo.GetMessagesForUser(messageParams);
 
         return messages;
     }
@@ -77,22 +72,22 @@ public class MessageController : BaseController
 
         if (username == currentUser) return BadRequest("You can't see message thread for yourself");
 
-        return Ok(await _messageRepo.GetMessageThread(currentName:  currentUser, recipientName: username));
+        return Ok(await _unit.MessageRepo.GetMessageThread(currentUser, username));
     }
 
     [Authorize(Policy = "requireAdmin")]
     [HttpDelete]
     public async Task<ActionResult> DeleteMessage(int messageId)
     {
-        var message = await _messageRepo.GetMessage(messageId);
+        var message = await _unit.MessageRepo.GetMessage(messageId);
 
         if (message is null)
         {
             return BadRequest("message doesn't exists");
         }
         
-        _messageRepo.DeleteMessage(message);
-        if (await _messageRepo.SaveAllAsync())
+        _unit.MessageRepo.DeleteMessage(message);
+        if (await _unit.Complete())
         {
             return Ok();
         }

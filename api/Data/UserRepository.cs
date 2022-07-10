@@ -62,7 +62,6 @@ public class UserRepository : IUserRepository
 
         var userGames = await _context.UserGames.Where(ug => ug.UserId == user.Id).ToListAsync();
         _context.RemoveRange(userGames);
-        await _context.SaveChangesAsync();
 
         return user;
     }
@@ -94,8 +93,6 @@ public class UserRepository : IUserRepository
         }).ToList();
 
         await _context.UserGames.AddRangeAsync(gamesEnt);
-        
-        await _context.SaveChangesAsync();
 
         return _mapper.Map<List<UserGameDTO>>(gamesEnt);
     }
@@ -106,8 +103,6 @@ public class UserRepository : IUserRepository
             .FirstAsync(ug => ug.GameId == gameData.GameId && ug.UserId == userId);
 
         userGameEntry.Status = gameData.Status;
-
-        await _context.SaveChangesAsync();
 
         return gameData;
     }

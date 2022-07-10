@@ -20,10 +20,8 @@ public static class AppServicesExtension
             .AddSingleton<PresenceTracker>()
             .AddScoped<ITokenService, TokenService>()
             .AddScoped<IAccountRepository, AccountRepository>()
-            .AddAutoMapper(typeof(AutomapperProfile).Assembly)
-            .AddScoped<IUserRepository, UserRepository>()
-            .AddScoped<IGamesRepository, GamesRepository>()
-            .AddScoped<IMessageRepository, MessageRepository>();
+            .AddScoped<IUnitOfWork, UnitOfWork>()
+            .AddAutoMapper(typeof(AutomapperProfile).Assembly);
 
         return services;
     }

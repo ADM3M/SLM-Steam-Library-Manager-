@@ -11,18 +11,17 @@ namespace api.Controllers;
 [Authorize]
 public class UserController : BaseController
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUnitOfWork _unit;
 
-
-    public UserController(IUserRepository userRepository)
+    public UserController(IUnitOfWork unit)
     {
-        _userRepository = userRepository;
+        _unit = unit;
     }
 
     [HttpGet]
     public async Task<ActionResult<List<UserGameDTO>>> GetUserGames([FromQuery] DisplayParams dp)
     {
-        var games = await _userRepository.GetUserGames(User.GetUserId(), dp);
+        var games = await _unit.UserRepo.GetUserGames(User.GetUserId(), dp);
 
         Response.AddPaginationHeader(games.CurrentPage, games.PageSize, games.TotalCount, games.TotalPages);
         
@@ -32,25 +31,38 @@ public class UserController : BaseController
     [HttpPost("addGames")]
     public async Task<ActionResult<List<UserGameDTO>>> AddGames(List<SteamGameDTO> steamGames)
     {
-        return Ok(await _userRepository.AddGames(User.GetUserId(), steamGames));
+        var games = await _unit.UserRepo.AddGames(User.GetUserId(), steamGames);
+
+        if (await _unit.Complete()) return Ok(games);
+
+        return BadRequest("Error acquired during adding games");
     }
 
     [HttpPut("updateSteamId")]
     public async Task<ActionResult<Users>> UpdateSteamId(string steamId, string? photoUrl)
     {
-        return await _userRepository.UpdateUserSteamId(User.GetUserId(), new AccountDTO{SteamId = steamId, PhotoUrl = photoUrl});
+        var updatedAcc = await _unit.UserRepo.UpdateUserSteamId(User.GetUserId(), 
+            new AccountDTO{SteamId = steamId, PhotoUrl = photoUrl});
+        
+        if (await _unit.Complete()) return Ok(updatedAcc);
+
+        return BadRequest("Error acquired during updating steamId");
     }
 
     [HttpPut("updateGameStatus")]
     public async Task<ActionResult<UserGameDTO>> UpdateGameStatus([FromBody] UserGameDTO gameData)
     {
-        return await _userRepository.UpdateGameStatus(User.GetUserId(), gameData);
+        var game = await _unit.UserRepo.UpdateGameStatus(User.GetUserId(), gameData);
+
+        if (await _unit.Complete()) return Ok(game);
+
+        return BadRequest("Error acquired during updating game status");
     }
 
     [HttpGet("getGamesName")]
     public async Task<List<string>> GetGamesName()
     {
-        return await _userRepository.GetGamesName(User.GetUserId());
+        return await _unit.UserRepo.GetGamesName(User.GetUserId());
     }
 
 }

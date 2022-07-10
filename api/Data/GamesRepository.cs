@@ -52,8 +52,6 @@ public class GamesRepository : IGamesRepository
             game.ImageUrl = imageUrl;
         }
 
-        await _context.SaveChangesAsync();
-
         return game;
     }
     
