@@ -38,7 +38,7 @@ public class AccountRepoTests : IClassFixture<WebApplicationFactory<Program>>
     }
 
     [Fact]
-    public async Task RegisterAccount_WhenExists()
+    public async Task RegisterAccount_ThrowsBadRequest_WhenExists()
     {
         UserAuthDataDTO login = new()
         {
