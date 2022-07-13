@@ -49,7 +49,8 @@ public class UserRepoTests
         var result = this._sut.GetNewGames(new List<SteamGameDTO>(), this.DbGames);
         
         // Assert
-        result.Should().BeEmpty();
+        Assert.True(false);
+        // result.Should().BeEmpty();
     }
 
     public static IEnumerable<object[]> TestData()
