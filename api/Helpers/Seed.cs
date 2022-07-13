@@ -11,7 +11,7 @@ public class Seed
     public static async void SeedData(DataContext context, RoleManager<AppRole> roleManager,
         UserManager<Users> userManager)
     {
-        if (!await context.Games.AnyAsync())
+        if (!await context.Games.AnyAsync() && File.Exists(@"\games.txt"))
         {
             var gamesJson = await File.ReadAllTextAsync(Directory.GetCurrentDirectory() + @"\games.txt");
             var games = JsonSerializer.Deserialize<List<Games>>(gamesJson);
