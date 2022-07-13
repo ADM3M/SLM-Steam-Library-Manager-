@@ -67,10 +67,10 @@ public class UserRepository : IUserRepository
     }
     
     // Returns List with items that are new for bd.
-    private List<SteamGameDTO> GetNewGames(List<SteamGameDTO> gamesList)
+    public List<SteamGameDTO> GetNewGames(List<SteamGameDTO> gamesList, List<Games> sourceList)
     {
         var noDbGames = gamesList
-            .Where(sg => !_context.Games.Any(g => g.AppId == sg.AppId))
+            .Where(sg => !sourceList.Any(g => g.AppId == sg.AppId))
             .ToList();
         
         return noDbGames;
@@ -80,7 +80,7 @@ public class UserRepository : IUserRepository
     {
         var userEnt = await GetUserByIdAsync(userId);
 
-        var noDbGames = GetNewGames(steamGames);
+        var noDbGames = GetNewGames(steamGames, this._context.Games.ToList());
         if (noDbGames.Any())
         {
             await _gameRepository.AddGamesAsync(noDbGames);
