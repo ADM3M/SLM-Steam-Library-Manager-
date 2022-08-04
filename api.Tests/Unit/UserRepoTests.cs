@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using api.Data;
-using api.DTO;
-using api.Entities;
-using api.Interfaces;
+using api.common.DTO;
+using api.core.Entities;
+using api.infrastructure.Data;
+using api.infrastructure.Interfaces;
 using AutoMapper;
 using FluentAssertions;
 using Moq;
