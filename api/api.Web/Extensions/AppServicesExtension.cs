@@ -1,7 +1,7 @@
-using api.Data;
-using api.Helpers;
-using api.Interfaces;
-using api.Services;
+using api.Application.Helpers;
+using api.Application.Interfaces;
+using api.Application.Services;
+using api.Infrastructure.Data;
 using api.SignalR;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +13,10 @@ public static class AppServicesExtension
     {
         services.AddDbContext<DataContext>(options =>
         {
-            options.UseSqlite(config.GetConnectionString("default"));
+            options.UseSqlite(config.GetConnectionString("default"), opt =>
+            {
+                opt.MigrationsAssembly("api.Web");
+            });
         });
 
         services

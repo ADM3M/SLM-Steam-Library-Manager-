@@ -1,5 +1,5 @@
 using System.Text.Json;
-using api.Helpers;
+using api.Application.Helpers;
 
 namespace api.Extensions;
 

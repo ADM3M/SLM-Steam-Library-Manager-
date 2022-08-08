@@ -1,6 +1,6 @@
 using System.Text.Json;
-using api.Data;
-using api.Entities;
+using api.Core.Entities;
+using api.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

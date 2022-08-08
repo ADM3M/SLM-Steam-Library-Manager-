@@ -24,6 +24,5 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\api.Web\api.Web.csproj" />
-      <ProjectReference Include="..\..\api\api.Web.csproj" />
     </ItemGroup>
 </Project>

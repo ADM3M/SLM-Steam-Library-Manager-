@@ -26,7 +26,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Migrations" />
+      <ProjectReference Include="..\api.Application\api.Application.csproj" />
+      <ProjectReference Include="..\api.Infrastructure\api.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

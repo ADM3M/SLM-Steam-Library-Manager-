@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using api.Data;
+using api.Infrastructure.Data;
 
 #nullable disable
 
@@ -17,7 +17,7 @@ namespace api.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.5");
 
-            modelBuilder.Entity("api.Entities.AppRole", b =>
+            modelBuilder.Entity("api.Core.Entities.AppRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,7 +44,7 @@ namespace api.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("api.Entities.AppUserRole", b =>
+            modelBuilder.Entity("api.Core.Entities.AppUserRole", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
@@ -59,7 +59,7 @@ namespace api.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("api.Entities.Connection", b =>
+            modelBuilder.Entity("api.Core.Entities.Connection", b =>
                 {
                     b.Property<string>("ConnectionId")
                         .HasColumnType("TEXT");
@@ -78,7 +78,7 @@ namespace api.Migrations
                     b.ToTable("Connections");
                 });
 
-            modelBuilder.Entity("api.Entities.Games", b =>
+            modelBuilder.Entity("api.Core.Entities.Games", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -104,7 +104,7 @@ namespace api.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("api.Entities.Group", b =>
+            modelBuilder.Entity("api.Core.Entities.Group", b =>
                 {
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
@@ -114,7 +114,7 @@ namespace api.Migrations
                     b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity("api.Entities.Messages", b =>
+            modelBuilder.Entity("api.Core.Entities.Messages", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -153,7 +153,7 @@ namespace api.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("api.Entities.UserGames", b =>
+            modelBuilder.Entity("api.Core.Entities.UserGames", b =>
                 {
                     b.Property<int>("GameId")
                         .HasColumnType("INTEGER");
@@ -177,7 +177,7 @@ namespace api.Migrations
                     b.ToTable("UserGames");
                 });
 
-            modelBuilder.Entity("api.Entities.Users", b =>
+            modelBuilder.Entity("api.Core.Entities.Users", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -332,15 +332,15 @@ namespace api.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("api.Entities.AppUserRole", b =>
+            modelBuilder.Entity("api.Core.Entities.AppUserRole", b =>
                 {
-                    b.HasOne("api.Entities.AppRole", "Role")
+                    b.HasOne("api.Core.Entities.AppRole", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("api.Entities.Users", "User")
+                    b.HasOne("api.Core.Entities.Users", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -351,22 +351,22 @@ namespace api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("api.Entities.Connection", b =>
+            modelBuilder.Entity("api.Core.Entities.Connection", b =>
                 {
-                    b.HasOne("api.Entities.Group", null)
+                    b.HasOne("api.Core.Entities.Group", null)
                         .WithMany("Connections")
                         .HasForeignKey("GroupName");
                 });
 
-            modelBuilder.Entity("api.Entities.Messages", b =>
+            modelBuilder.Entity("api.Core.Entities.Messages", b =>
                 {
-                    b.HasOne("api.Entities.Users", "Recipient")
+                    b.HasOne("api.Core.Entities.Users", "Recipient")
                         .WithMany("MessagesReceived")
                         .HasForeignKey("RecipientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("api.Entities.Users", "Sender")
+                    b.HasOne("api.Core.Entities.Users", "Sender")
                         .WithMany("MessagesSent")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -377,15 +377,15 @@ namespace api.Migrations
                     b.Navigation("Sender");
                 });
 
-            modelBuilder.Entity("api.Entities.UserGames", b =>
+            modelBuilder.Entity("api.Core.Entities.UserGames", b =>
                 {
-                    b.HasOne("api.Entities.Games", "Game")
+                    b.HasOne("api.Core.Entities.Games", "Game")
                         .WithMany("collection")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("api.Entities.Users", "User")
+                    b.HasOne("api.Core.Entities.Users", "User")
                         .WithMany("Collection")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -398,7 +398,7 @@ namespace api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("api.Entities.AppRole", null)
+                    b.HasOne("api.Core.Entities.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -407,7 +407,7 @@ namespace api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("api.Entities.Users", null)
+                    b.HasOne("api.Core.Entities.Users", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -416,7 +416,7 @@ namespace api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("api.Entities.Users", null)
+                    b.HasOne("api.Core.Entities.Users", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -425,29 +425,29 @@ namespace api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("api.Entities.Users", null)
+                    b.HasOne("api.Core.Entities.Users", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("api.Entities.AppRole", b =>
+            modelBuilder.Entity("api.Core.Entities.AppRole", b =>
                 {
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("api.Entities.Games", b =>
+            modelBuilder.Entity("api.Core.Entities.Games", b =>
                 {
                     b.Navigation("collection");
                 });
 
-            modelBuilder.Entity("api.Entities.Group", b =>
+            modelBuilder.Entity("api.Core.Entities.Group", b =>
                 {
                     b.Navigation("Connections");
                 });
 
-            modelBuilder.Entity("api.Entities.Users", b =>
+            modelBuilder.Entity("api.Core.Entities.Users", b =>
                 {
                     b.Navigation("Collection");
 

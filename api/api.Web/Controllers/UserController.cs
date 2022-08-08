@@ -1,8 +1,8 @@
-using api.DTO;
-using api.Entities;
+using api.Application.Helpers;
+using api.Application.Interfaces;
+using api.Common.DTO;
+using api.Core.Entities;
 using api.Extensions;
-using api.Helpers;
-using api.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,7 +1,7 @@
-using api.DTO;
-using api.Entities;
+using api.Application.Interfaces;
+using api.Common.DTO;
+using api.Core.Entities;
 using api.Extensions;
-using api.Interfaces;
 using API.SignalR;
 using Microsoft.AspNetCore.SignalR;
 

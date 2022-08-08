@@ -1,5 +1,5 @@
-using api.DTO;
-using api.Interfaces;
+using api.Application.Interfaces;
+using api.Common.DTO;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 

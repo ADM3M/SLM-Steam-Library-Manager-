@@ -1,7 +1,7 @@
-using api.Data;
-using api.Entities;
+using api.Core.Entities;
 using api.Extensions;
 using api.Helpers;
+using api.Infrastructure.Data;
 using api.Middleware;
 using api.SignalR;
 using API.SignalR;
