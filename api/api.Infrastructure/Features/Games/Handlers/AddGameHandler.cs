@@ -6,16 +6,15 @@ namespace api.Infrastructure.Features.Games.Handlers;
 
 public class AddGameHandler : IRequestHandler<AddGameCommand, List<Core.Entities.Games>>
 {
+    private readonly IUnitOfWork _uow;
 
-    private readonly IGamesRepository _gamesRepo;
-
-    public AddGameHandler(IGamesRepository gamesRepo)
+    public AddGameHandler(IUnitOfWork uow)
     {
-        _gamesRepo = gamesRepo;
+        _uow = uow;
     }
 
     public async Task<List<Core.Entities.Games>> Handle(AddGameCommand request, CancellationToken cancellationToken)
     {
-        return await _gamesRepo.AddGamesAsync(request.SteamGames);
+        return await _uow.GamesRepo.AddGamesAsync(request.SteamGames);
     }
 }

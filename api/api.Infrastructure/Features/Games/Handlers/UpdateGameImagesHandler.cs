@@ -6,16 +6,16 @@ namespace api.Infrastructure.Features.Games.Handlers;
 
 public class UpdateGameImagesHandler : IRequestHandler<UpdateGameImagesCommand, Core.Entities.Games>
 {
-    private readonly IGamesRepository _gamesRepo;
+    private readonly IUnitOfWork _uow;
 
-    public UpdateGameImagesHandler(IGamesRepository gamesRepo)
+    public UpdateGameImagesHandler(IUnitOfWork uow)
     {
-        this._gamesRepo = gamesRepo;
+        _uow = uow;
     }
     
     public async Task<Core.Entities.Games> Handle(UpdateGameImagesCommand request, CancellationToken cancellationToken)
     {
-        return await _gamesRepo.UpdateGameImages(
+        return await _uow.GamesRepo.UpdateGameImages(
             request.Game.AppId, 
             request.Game.IconUrl, 
             request.Game.ImageUrl);
