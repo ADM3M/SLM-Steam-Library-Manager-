@@ -1,6 +1,8 @@
 using api.Application.Interfaces;
 using api.Common.DTO;
 using api.Core.Entities;
+using api.Infrastructure.Features.Games.Commands;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,18 +11,19 @@ namespace api.Controllers;
 [Authorize]
 public class GamesController : BaseController
 {
-    private readonly IGamesRepository _gamesRepository;
+    private readonly IMediator _mediator;
 
-    public GamesController(IGamesRepository gamesRepository)
+    public GamesController(IGamesRepository gamesRepository, IMediator mediator)
     {
-        _gamesRepository = gamesRepository;
+        _mediator = mediator;
     }
 
     [Authorize(Policy = "requireAdmin")]
     [HttpPost("addGames")]
     public async Task<ActionResult<List<SteamGameDTO>>> AddGame (List<SteamGameDTO> steamGame)
     {
-        var entry =  await _gamesRepository.AddGamesAsync(steamGame);
+        var command = new AddGameCommand(steamGame);
+        await _mediator.Send(command);
         
         return Ok(steamGame);
     }
@@ -28,6 +31,7 @@ public class GamesController : BaseController
     [HttpPut("update")]
     public async Task<ActionResult<Games>> UpdateGameImages(Games game)
     {
-        return await _gamesRepository.UpdateGameImages(game.AppId, game.IconUrl, game.ImageUrl);
+        var command = new UpdateGameImagesCommand(game);
+        return await _mediator.Send(command);
     }
 }

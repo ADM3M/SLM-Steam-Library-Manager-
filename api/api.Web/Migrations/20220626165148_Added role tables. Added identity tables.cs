@@ -52,7 +52,7 @@ namespace api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Games",
+                name: "Game",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -196,7 +196,7 @@ namespace api.Migrations
                     table.ForeignKey(
                         name: "FK_UserGames_Games_GameId",
                         column: x => x.GameId,
-                        principalTable: "Games",
+                        principalTable: "Game",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -271,7 +271,7 @@ namespace api.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Games");
+                name: "Game");
         }
     }
 }

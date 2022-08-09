@@ -79,7 +79,7 @@ namespace api.Migrations
                     b.ToTable("Connections");
                 });
 
-            modelBuilder.Entity("api.Entities.Games", b =>
+            modelBuilder.Entity("api.Entities.Game", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,7 +102,7 @@ namespace api.Migrations
 
                     b.HasAlternateKey("AppId");
 
-                    b.ToTable("Games");
+                    b.ToTable("Game");
                 });
 
             modelBuilder.Entity("api.Entities.Group", b =>
@@ -380,7 +380,7 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Entities.UserGames", b =>
                 {
-                    b.HasOne("api.Entities.Games", "Game")
+                    b.HasOne("api.Entities.Game", "Game")
                         .WithMany("collection")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -438,7 +438,7 @@ namespace api.Migrations
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("api.Entities.Games", b =>
+            modelBuilder.Entity("api.Entities.Game", b =>
                 {
                     b.Navigation("collection");
                 });
