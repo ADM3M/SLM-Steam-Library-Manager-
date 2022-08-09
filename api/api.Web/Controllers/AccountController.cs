@@ -1,6 +1,8 @@
 using api.Application.Interfaces;
 using api.Common.DTO;
-using AutoMapper;
+using api.Infrastructure.Features.Accounts.Commands;
+using api.Infrastructure.Features.Accounts.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers;
@@ -8,16 +10,19 @@ namespace api.Controllers;
 public class AccountController : BaseController
 {
     private readonly IAccountRepository _accountRepository;
+    private readonly IMediator _mediator;
 
-    public AccountController(ITokenService tokenService, IMapper mapper, IAccountRepository accountRepository)
+    public AccountController(IAccountRepository accountRepository, IMediator mediator)
     {
         _accountRepository = accountRepository;
+        _mediator = mediator;
     }
 
     [HttpPost("register")]
     public async Task<ActionResult<AccountDTO>> Register([FromBody]UserAuthDataDTO userAuthDataDto)
     {
-        var result = await _accountRepository.CreateUserAsync(userAuthDataDto);
+        var command = new RegisterUserCommand(userAuthDataDto);
+        var result = await _mediator.Send(command);
 
         if (result is null)
         {
@@ -30,13 +35,14 @@ public class AccountController : BaseController
     [HttpPost("login")]
     public async Task<ActionResult<AccountDTO>> Login([FromBody] UserAuthDataDTO userAuthDataDto)
     {
-        var user = await _accountRepository.LoginUser(userAuthDataDto);
+        var query = new LoginUserQuery(userAuthDataDto);
+        var user = await _mediator.Send(query);
+        // var user = await _accountRepository.LoginUserQuery(userAuthDataDto);
 
         if (user is null)
         {
             return BadRequest("invalid username or password");
         }
-
         
         return Ok(user);
     }

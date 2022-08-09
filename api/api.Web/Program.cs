@@ -5,6 +5,7 @@ using api.Infrastructure.Data;
 using api.Middleware;
 using api.SignalR;
 using API.SignalR;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +14,11 @@ public class Program
     public async static Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        
+
         builder.Services.AddControllers();
         builder.Services.AddCors();
         builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
         builder.Services.AddAppServices(builder.Configuration);
         builder.Services.AddIdentityServices(builder.Configuration);
         builder.Services.AddSignalR();

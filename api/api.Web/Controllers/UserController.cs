@@ -21,6 +21,7 @@ public class UserController : BaseController
     [HttpGet]
     public async Task<ActionResult<List<UserGameDTO>>> GetUserGames([FromQuery] DisplayParams dp)
     {
+        // var query = new GetUserGamesQuery(DisplayParams dp);
         var games = await _unit.UserRepo.GetUserGames(User.GetUserId(), dp);
 
         Response.AddPaginationHeader(games.CurrentPage, games.PageSize, games.TotalCount, games.TotalPages);
