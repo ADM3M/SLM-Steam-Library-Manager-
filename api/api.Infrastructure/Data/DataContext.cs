@@ -1,4 +1,3 @@
-using System.Reflection;
 using api.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -64,7 +63,5 @@ public class DataContext : IdentityDbContext<Users, AppRole, int, IdentityUserCl
             .HasOne(u => u.Sender)
             .WithMany(f => f.MessagesSent)
             .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
