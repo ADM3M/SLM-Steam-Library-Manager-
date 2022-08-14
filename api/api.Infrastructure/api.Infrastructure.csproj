@@ -20,7 +20,6 @@
     <ItemGroup>
       <Folder Include="Features\Users\Commands" />
       <Folder Include="Features\Users\Handlers" />
-      <Folder Include="Migrations" />
     </ItemGroup>
 
 </Project>
