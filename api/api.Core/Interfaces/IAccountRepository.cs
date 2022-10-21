@@ -1,6 +1,6 @@
 using api.Common.DTO;
 
-namespace api.Application.Interfaces;
+namespace api.Core.Interfaces;
 
 public interface IAccountRepository
 {
