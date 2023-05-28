@@ -1,3 +1,4 @@
+using api.Core.Interfaces;
 using AutoMapper;
 
 namespace api.Application.Interfaces;

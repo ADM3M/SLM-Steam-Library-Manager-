@@ -1,7 +1,7 @@
 using api.Common.DTO;
 using api.Core.Entities;
 
-namespace api.Application.Interfaces;
+namespace api.Core.Interfaces;
 
 public interface IGamesRepository
 {

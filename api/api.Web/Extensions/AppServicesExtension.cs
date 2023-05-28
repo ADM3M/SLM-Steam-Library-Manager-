@@ -1,6 +1,7 @@
 using api.Application.Helpers;
 using api.Application.Interfaces;
 using api.Application.Services;
+using api.Core.Interfaces;
 using api.Infrastructure.Data;
 using api.SignalR;
 using Microsoft.EntityFrameworkCore;

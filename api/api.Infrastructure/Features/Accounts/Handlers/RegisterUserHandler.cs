@@ -1,5 +1,5 @@
-using api.Application.Interfaces;
 using api.Common.DTO;
+using api.Core.Interfaces;
 using api.Infrastructure.Features.Accounts.Commands;
 using MediatR;
 

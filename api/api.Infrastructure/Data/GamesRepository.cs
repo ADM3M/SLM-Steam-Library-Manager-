@@ -1,6 +1,6 @@
-using api.Application.Interfaces;
 using api.Common.DTO;
 using api.Core.Entities;
+using api.Core.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
@@ -52,6 +52,7 @@ public class GamesRepository : IGamesRepository
             game.ImageUrl = imageUrl;
         }
 
+        await _context.SaveChangesAsync();
         return game;
     }
     

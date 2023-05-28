@@ -1,5 +1,6 @@
 using api.Common.DTO;
 using api.Core.Entities;
+using api.Core.Interfaces;
 using api.Infrastructure.Features.Games.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -31,6 +32,7 @@ public class GamesController : BaseController
     public async Task<ActionResult<Games>> UpdateGameImages(Games game)
     {
         var command = new UpdateGameImagesCommand(game);
-        return await _mediator.Send(command);
+        var updated = await _mediator.Send(command);
+        return updated;
     }
 }

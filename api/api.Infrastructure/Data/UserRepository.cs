@@ -3,6 +3,7 @@ using api.Application.Interfaces;
 using api.Common.DTO;
 using api.Common.Enums;
 using api.Core.Entities;
+using api.Core.Interfaces;
 using api.Infrastructure.Extensions;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
