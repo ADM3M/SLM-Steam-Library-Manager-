@@ -457,3 +457,5 @@ $RECYCLE.BIN/
 *.db-shm
 *.db-wal
 
+
+api/api.Web/appsettings.json

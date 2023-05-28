@@ -1,4 +1,3 @@
-using api.Application.Interfaces;
 using api.Common.DTO;
 using api.Core.Entities;
 using api.Infrastructure.Features.Games.Commands;
@@ -13,7 +12,7 @@ public class GamesController : BaseController
 {
     private readonly IMediator _mediator;
 
-    public GamesController(IGamesRepository gamesRepository, IMediator mediator)
+    public GamesController(IMediator mediator)
     {
         _mediator = mediator;
     }
